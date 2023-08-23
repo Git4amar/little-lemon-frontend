@@ -1,0 +1,41 @@
+import { extendTheme, theme as base } from "@chakra-ui/react";
+
+const theme = extendTheme({
+    breakpoints: {
+        base: "0px",
+        sm: "320px",
+        md: "740px",
+        lg: "960px",
+        xl: "1280px",
+        xxl: "1536px"
+    },
+    styles: {
+        global: {
+            body: {
+                bg: "#F6F3F0",
+                color: "#333333",
+                lineHeight: "none"
+            }
+        }
+    },
+    colors: {
+        brand: {
+            primary: {
+                green: '#495E57',
+                yellow: '#F4CE14'
+            },
+            secondary: {
+                darkSalmon: '#EE9972',
+                peachPuff: '#FBDABB',
+                brightGray: '#EDEFEE',
+                darkCharcoal: '#333333'
+            }
+        }
+    },
+    fonts: {
+        heading: `Markazi Text, ${base.fonts.heading}`,
+        body: `Karla, ${base.fonts.body}`,
+    },
+});
+
+export default theme;
