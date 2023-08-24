@@ -26,19 +26,18 @@ const ScrollIndicator = () => {
                 [".scrollIndicatorText", { visibility: "visible", letterSpacing: "0.1em", opacity: 1 }, { at: "<" }],
             ],
             {
-                // ease: [0, .89, .54, 1.24],
                 ease: [.58, -0.52, .38, 1.55],
                 duration: 0.435
             }
         );
-        SetIndicatorStateOn(!indicatorStateOn);
+        setTimeout(() => { SetIndicatorStateOn(!indicatorStateOn) }, 1305);
     }
 
     useEffect(() => {
         indicatorStateOn
             ? onStateAnimation()
             : offStateAnimation()
-    }, [indicatorStateOn])
+    })
 
     return (
         <VStack

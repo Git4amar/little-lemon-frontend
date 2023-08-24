@@ -14,30 +14,44 @@ const Hero = () => {
     const [heroPicScope, animateHeroPic] = useAnimate();
 
     const sizeHeroBg = (referenceOffset) => {
-        console.log(referenceOffset);
-        // const referenceElemToSizeHeroBg = document.getElementById("heroReservationButton");
         animateHeroBg("#heroBg", { height: referenceOffset }, {
-            ease: [.44, .44, .49, 1.14],
-            duration: 2.175
+            ease: "easeOut",
+            duration: 1.74
         });
     }
 
     const sizeHeroPic = () => {
-        console.log(heroPicScope.current.offsetWidth);
+        const viewportWidth = window.innerWidth;
+        let heroPicHeight = null;
+
+        if (viewportWidth >= 1280) {
+            heroPicHeight = heroPicScope.current.offsetWidth * (3 / 4);
+        }
+        else if (viewportWidth >= 740) {
+            heroPicHeight = heroPicScope.current.offsetWidth * (4 / 3);
+        }
+        else {
+            heroPicHeight = heroPicScope.current.offsetWidth * (9 / 16);
+        }
+
+        animateHeroPic("#heroImageFrame", { height: heroPicHeight }, {
+            ease: "easeInOut",
+            duration: 1.74
+        });
     }
 
     useEffect(() => {
         const reservationBtn = document.getElementById("heroReservationButton");
-        const heroTextDesc = document.getElementById("heroTextDesc");
+        const heroImageGI = document.getElementById("heroImageGI");
 
         heroBgScope.current && sizeHeroBg(
             window.innerWidth >= 740
                 ? reservationBtn.offsetTop + reservationBtn.offsetHeight + 40
-                : heroTextDesc.offsetTop + heroTextDesc.offsetHeight + 40
+                : heroImageGI.offsetTop + 40
         );
 
         heroPicScope.current && sizeHeroPic();
-    }, [heroBgScope.current, heroPicScope.current])
+    })
 
     const [scope, animate] = useAnimate();
 
@@ -89,7 +103,7 @@ const Hero = () => {
             {/* Scroll Indicator */}
             <Center
                 pos="absolute"
-                top={{ base: "75vh", md: "80vh" }}
+                top={{ base: "75vh", md: "80vh", xl: "88vh" }}
                 w="100vw"
             >
                 <ScrollIndicator />
@@ -196,11 +210,12 @@ const Hero = () => {
 
                 {/* Hero Pic */}
                 <GridItem
+                    id="heroImageGI"
                     ref={heroPicScope}
                     gridColumn={{ base: "1 / span 4", md: "5 / span 4", xl: "8 / span 5" }}
                     gridRow={{ base: (252 / 4) + 1, xl: (300 / 4) + 1 }}
                     pos="relative"
-                    h={466 * 3 / 4}
+                    h="max"
                 >
                     <HeroImageFrame pos="absolute" />
                     <HeroImageFrame scope={scope} />

@@ -7,7 +7,7 @@ const theme = extendTheme({
         md: "740px",
         lg: "960px",
         xl: "1280px",
-        xxl: "1536px"
+        "2xl": "1536px"
     },
     styles: {
         global: {

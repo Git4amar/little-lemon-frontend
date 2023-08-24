@@ -9,7 +9,6 @@ const HeroImageFrame = ({ scope, ...props }) => {
             id="heroImageFrame"
             as={motion.div}
             bg="transparent"
-            h="full"
             w="full"
             style={{ perspective: "800px" }}
             ref={scope}
