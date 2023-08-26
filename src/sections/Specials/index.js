@@ -4,6 +4,7 @@ import ButtonHoverable from "../../components/Buttons/ButtonHoverable";
 import SpecialsCardSmall from "./SpecialsCardSmall";
 import CardCarousel from "../../components/CardCarousel";
 import { Box, GridItem, Heading, VStack, useBreakpointValue } from "@chakra-ui/react";
+import { useRef } from "react";
 
 const Specials = () => {
 
@@ -40,10 +41,13 @@ const Specials = () => {
         },
     ]
 
+    const sectionRefForDrag = useRef(null);
+
     return (
         <Box
             h="100vh"
             overflow="hidden"
+            ref={sectionRefForDrag}
         >
             <FullScreenGridSection
                 id="specials-section"
@@ -61,7 +65,7 @@ const Specials = () => {
                         w="full"
                     >
                         <Heading
-                            as="h1"
+                            as="h2"
                             color="brand.primary.green"
                             fontSize="64px"
                             fontWeight={500}
@@ -99,11 +103,11 @@ const Specials = () => {
                 {/* Specials Card Carousel */}
                 <GridItem
                     h="max"
-                    gridRow={{ base: (212 / 4) + 1, md: (388 / 4) + 1, xl: (284 / 4) + 1 }}
+                    gridRow={{ base: (196 / 4) + 1, md: (348 / 4) + 1, xl: (284 / 4) + 1 }}
                     gridColumn={{ base: "1 / span 4", md: "1 / span 8", xl: "2 / span 11" }}
                 // overflow="scroll"
                 >
-                    <CardCarousel itemList={specialDishes} Card={SpecialsCardSmall} />
+                    <CardCarousel itemList={specialDishes} Card={SpecialsCardSmall} sectionRefForDrag={sectionRefForDrag} />
                 </GridItem>
             </FullScreenGridSection>
         </Box>

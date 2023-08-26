@@ -16,15 +16,15 @@ function App() {
   return (
     <>
       <ChakraProvider theme={theme} >
+        <Header />
         <main>
-          <Header />
           <Hero />
           <Specials />
           <Testimonials />
           <About />
           <Footer />
-          <FooterFixedNav />
         </main>
+        <FooterFixedNav />
       </ChakraProvider>
     </>
   );

@@ -72,6 +72,7 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
 
     return (
         <VStack
+            as="article"
             bg="brand.secondary.brightGray"
             boxShadow="0px 4px 4px 0px #33333380"
             borderRadius="16px"
@@ -147,6 +148,7 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
 
             {/* body stack */}
             <VStack
+                as="header"
                 w="full"
                 p={4}
                 spacing={4}
@@ -158,6 +160,7 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
                     justify="space-between"
                 >
                     <Text
+                        as="h3"
                         fontSize="18px"
                         fontWeight={700}
                         color="brand.secondary.darkCharcoal"

@@ -35,8 +35,8 @@ const Hero = () => {
         }
 
         animateHeroPic("#heroImageFrame", { height: heroPicHeight }, {
-            ease: "easeInOut",
-            duration: 1.74
+            ease: "easeOut",
+            duration: 3 * 0.435
         });
     }
 
