@@ -46,6 +46,7 @@ const Navbar = () => {
             {navMenuItems.map(item => {
                 return (
                     <NavItem
+                        as="li"
                         key={item.name}
                         href={item.href}
                         isActive={item.name === activeItem}

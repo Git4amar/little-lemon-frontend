@@ -22,6 +22,7 @@ const NavItem = ({ children, href, isActive, setActiveItem }) => {
 
         switch (event.type) {
             case "mouseover":
+            case "focus":
                 animate(mouseOverSequence, animationTransition);
                 break;
             default:
@@ -31,6 +32,7 @@ const NavItem = ({ children, href, isActive, setActiveItem }) => {
 
     const handleClick = event => {
         event.preventDefault();
+        console.log(event.type, event.target, event.key);
         setActiveItem(event.target.text);
     }
 
@@ -85,7 +87,10 @@ const NavItem = ({ children, href, isActive, setActiveItem }) => {
                         fontWeight="medium"
                         lineHeight="none"
                         fontSize="18px"
-                        href={href}>
+                        href={href}
+                        onFocus={!isActive ? handleHover : null}
+                        onBlur={!isActive ? handleHover : null}
+                    >
                         {children}
                     </LinkOverlay>
                     <Box h="full" pb={2}>

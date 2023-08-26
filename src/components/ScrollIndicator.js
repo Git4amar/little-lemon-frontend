@@ -14,7 +14,7 @@ const ScrollIndicator = () => {
                 [".scrollIndicatorText", { letterSpacing: "0.5em", opacity: 0.5 }],
                 [".scrollIndicatorArrow", { top: "-28px", fontSize: "18px", opacity: 0 }, { at: "<" }],
             ],
-            { duration: 1.74, ease: "easeInOut" }
+            { duration: 1.74, ease: "easeOut" }
         );
         SetIndicatorStateOn(!indicatorStateOn);
     }
@@ -43,6 +43,7 @@ const ScrollIndicator = () => {
         <VStack
             spacing={4}
             ref={scope}
+            color="brand.primary.green"
         >
             <Text
                 className="scrollIndicatorText"

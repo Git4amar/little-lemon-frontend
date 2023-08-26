@@ -3,30 +3,39 @@ import ButtonRegular from "./ButtonRegular";
 import { Box } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 
-const ButtonHoverable = ({ children, ...props }) => {
+const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
 
     const [scope, animate] = useAnimate();
 
     const hoverEnterSequence = [
         ["button", { color: "#495E57" }],
-        [".buttonHoverBg", { bottom: "0px" }, { at: "<" }]
+        [".buttonHoverBg", { bottom: darkBg ? "0px" : "100px" }, { at: "<" }]
     ]
 
     const hoverExitSequence = [
-        ["button", { color: "#F4CE14", border: "1px solid #F4CE14" }],
-        [".buttonHoverBg", { bottom: "100px" }, { at: "<" }],
+        ["button", { color: darkBg ? "#F4CE14" : "#495E57" }],
+        [".buttonHoverBg", { bottom: darkBg ? "100px" : "0px" }, { at: "<" }],
     ]
 
     const handleHover = async (e) => {
-        if (e.type === "mouseover") {
-            // await animate(".buttonHoverBg", { bottom: "-100px" })
+        // console.log(e.target, e.type);
+        if (e.type === "mouseenter" || e.type === "focus") {
+            !darkBg && animate("button", { border: "1px solid #495E57" })
             animate(".buttonHoverBg", { visibility: "visible" })
-            animate(hoverEnterSequence, { ease: "easeInOut", duration: 0.5 });
+            await animate(hoverEnterSequence, { ease: "easeInOut", duration: darkBg ? 0.87 : 0.435 });
+            if (!darkBg) {
+                await animate(".buttonHoverBg", { visibility: "hidden" });
+                animate(".buttonHoverBg", { bottom: "-100px" });
+            }
         }
         else {
-            await animate(hoverExitSequence, { ease: "easeInOut", duration: 0.3 });
-            await animate(".buttonHoverBg", { visibility: "hidden" })
-            animate(".buttonHoverBg", { bottom: "-100px" })
+            !darkBg && await animate(".buttonHoverBg", { visibility: "visible" })
+            await animate(hoverExitSequence, { ease: "easeInOut", duration: darkBg ? 0.435 : 0.87 });
+            !darkBg && animate("button", { border: "0px" })
+            if (darkBg) {
+                await animate(".buttonHoverBg", { visibility: "hidden" });
+                animate(".buttonHoverBg", { bottom: "-100px" });
+            }
         }
     }
 
@@ -47,32 +56,25 @@ const ButtonHoverable = ({ children, ...props }) => {
         >
             <ButtonRegular
                 as={motion.button}
-                onMouseOver={handleHover}
-                onMouseOut={handleHover}
+                onMouseEnter={handleHover}
+                onFocus={handleHover}
+                onMouseLeave={handleHover}
+                onBlur={handleHover}
                 onMouseDown={handleClick}
                 onMouseUp={handleClick}
                 w="full"
                 bg="transparent"
-                color="brand.primary.yellow"
-                border="1px"
+                color={darkBg ? "brand.primary.yellow" : "brand.primary.green"}
+                border={darkBg ? "1px" : "0px"}
                 pos="relative"
-                _active={{
-                    boxShadow: "0px 0px 0px 0px #333333",
-                    transform: "translateY(1px)",
-                    bg: "brand.secondary.brightGray",
-                    color: "brand.primary.green",
-                    border: "0px"
-                }}
                 overflow="hidden"
             >
                 {children}
                 <Box
-                    onMouseOver={e => e.stopPropagation()}
-                    onMouseOut={e => e.stopPropagation()}
                     as={motion.div}
                     className="buttonHoverBg"
                     pos="absolute"
-                    bottom="-100px"
+                    bottom={darkBg ? "-100px" : "0px"}
                     w="full"
                     h="full"
                     bg="brand.primary.yellow"
