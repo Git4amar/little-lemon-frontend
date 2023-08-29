@@ -5,7 +5,7 @@ const FullScreenGridSection = ({ children, ...props }) => {
         <>
             <SimpleGrid
                 as="section"
-                h="100vh"
+                h="full"
                 maxW="container.xl"
                 mx="auto"
                 px={{ base: "20px", md: "70px" }}

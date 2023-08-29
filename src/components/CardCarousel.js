@@ -1,8 +1,11 @@
-import { HStack, VStack, Box } from "@chakra-ui/react";
+import { HStack, VStack, Box, useBreakpointValue } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
 
-const CardCarousel = ({ Card, itemList, sectionRefForDrag }) => {
+import "./cardCarousel.css";
+import DragCursorPointer from "./DragCursorPointer";
+
+const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
 
     const [scrollScope, animateScroll] = useAnimate();
 
@@ -11,62 +14,153 @@ const CardCarousel = ({ Card, itemList, sectionRefForDrag }) => {
         animateScroll("div", { width: scrollW });
     }
 
+    const handleScroll = () => {
+        const scrollableElemLength = scrollScope.current.nextSibling.firstChild.offsetWidth - window.innerWidth;
+        const availableScrollBar = scrollScope.current.offsetWidth - 8 - scrollScope.current.firstChild.offsetWidth;
+        const scrollLeftPos = (scrollScope.current.nextSibling.scrollLeft / scrollableElemLength) * availableScrollBar;
+        setTimeout(() => {
+            animateScroll(
+                "div",
+                { left: `${scrollLeftPos}px` },
+                {
+                    ease: "easeOut"
+                }
+            )
+        }, 100);
+    }
+
+    const [dragCursorScope, animateDragCursor] = useAnimate();
+    const handleDragCursor = async (e) => {
+        const carouselElem = dragCursorScope.current.getBoundingClientRect();
+        const dragCursor = dragCursorScope.current.lastChild;
+        const cursorPos = {
+            left: e.clientX >= carouselElem.left && e.clientX <= carouselElem.right
+                ? e.clientX - carouselElem.left - (dragCursor.offsetWidth / 2)
+                : e.clientX >= carouselElem.right ? "calc(100% - 120px)" : 0,
+            top: e.clientY >= carouselElem.top && e.clientY <= carouselElem.bottom
+                ? e.clientY - carouselElem.top - (dragCursor.offsetHeight / 2)
+                : e.clientY >= carouselElem.bottom ? "calc(100% - 64px)" : 0,
+        }
+        switch (e.type) {
+            case "pointerenter":
+                await animateDragCursor(
+                    ".dragCursor",
+                    { ...cursorPos },
+                    { ease: "easeOut", duration: 0.01 }
+                );
+                animateDragCursor(".dragCursor", { visibility: "visible" });
+                break;
+            case "pointermove":
+                await animateDragCursor(".dragCursor", { visibility: "visible" });
+                setTimeout(() => {
+                    animateDragCursor(
+                        ".dragCursor",
+                        { ...cursorPos },
+                        {
+                            ease: "easeOut",
+                            duration: 0.01
+                        })
+                }, 10);
+                break;
+            case "pointerdown":
+                animateDragCursor(".dragCursorCircle", { fill: "#F4CE14" });
+                animateDragCursor(".dragCursorText", { fill: "#495E57" });
+                break;
+            case "pointerup":
+                animateDragCursor(".dragCursorCircle", { fill: "#495E57" });
+                animateDragCursor(".dragCursorText", { fill: "#EDEFEE" });
+                break;
+            default:
+                animateDragCursor(".dragCursor", { visibility: "hidden" });
+        }
+        // }
+    }
+
     useEffect(() => {
         sizeScroll();
-    })
+        // eslint-disable-next-line 
+    }, [])
 
     return (
         <VStack
             spacing={{ base: 2, md: 8 }}
-            align="start"
         >
             {/* carousel scrollbar */}
-            <VStack
-                // hideFrom="xl"
+            <HStack
+                hideFrom="xl"
                 py="2px"
                 px="4px"
                 bg="brand.primary.green"
                 w="full"
                 borderRadius="4px"
-                align="Start"
                 ref={scrollScope}
             >
                 <Box
                     as={motion.div}
                     bg="brand.primary.yellow"
                     h={1}
-                    w="40px"
                     borderRadius="2px"
+                    pos="relative"
                 />
-            </VStack>
-
-            {/* carousel cards */}
-            <HStack
-                id="temp4carousel"
-                as={motion.div}
-                w="max"
-                spacing={{ base: 4, md: 8 }}
-                cursor="grab"
-                drag="x"
-                dragConstraints={sectionRefForDrag}
-                pl={{ base: "20px", md: "70px", xl: "165px" }}
-                pe={{ base: "20px", md: "70px" }}
-                pos="relative"
-                left={{
-                    base: "-20px",
-                    md: "-70px",
-                    xl: "-165px"
-                }}
-            >
-                {itemList.map(item => <Card
-                    key={item.title}
-                    imgSrc={item.imgSrc()}
-                    title={item.title}
-                    price={`$ ${item.price}`}
-                    desc={item.desc}
-                />)}
             </HStack>
-        </VStack>
+
+            {/* card carousel frame */}
+            <Box
+                className="cardCarouselFrame"
+                w="100vw"
+                h="max"
+                overflow={{ base: "auto", xl: "visible" }}
+                pb={2}
+                onScroll={useBreakpointValue({
+                    base: handleScroll,
+                    xl: null
+                })}
+                pl="calc(calc(calc(100vw - 1280px) / 2) + 165px)"
+            >
+                {/* card stack */}
+                <HStack
+                    pl={{ base: "20px", md: "70px", xl: "0px" }}
+                    pe={{ base: "20px", md: "70px", xl: "0px" }}
+                    as={motion.div}
+                    w="max"
+                    spacing={{ base: 4, md: 8 }}
+                    drag={useBreakpointValue({
+                        base: false,
+                        xl: "x"
+                    })}
+                    dragConstraints={dragConstraintsRef}
+                    pos="relative"
+                >
+                    {itemList.map((item, index) => <Card
+                        key={item.title}
+                        cardIndex={index}
+                        {...item}
+                    />)}
+                    <Box
+                        w="full"
+                        h="85%"
+                        pos="absolute"
+                        top="0"
+                        cursor={{ base: "grab", xl: "none" }}
+                        onPointerEnter={handleDragCursor}
+                        onPointerLeave={handleDragCursor}
+                        onPointerMove={handleDragCursor}
+                        onPointerDown={handleDragCursor}
+                        onPointerUp={handleDragCursor}
+                        ref={dragCursorScope}
+                        zIndex="docked"
+                        className="draggableArea"
+                        display={{ base: "none", xl: "block" }}
+                    >
+                        <DragCursorPointer
+                            className="dragCursor"
+                            pos="absolute"
+                            initial={{ visibility: "hidden" }}
+                        />
+                    </Box>
+                </HStack>
+            </Box >
+        </VStack >
     )
 }
 

@@ -1,7 +1,8 @@
-import { AspectRatio, VStack, Image, HStack, Text, Box, Center } from "@chakra-ui/react";
+import { AspectRatio, VStack, Image, Text, Box, Center } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
-import { ReactComponent as DeliveryIcon } from "../../assets/icons/cycling.svg";
 import PressHoldGesture from "../../components/PressHoldGesture";
+import OrderDelivery from "./OrderDelivery";
+import CardHeaderDishInfo from "./CardHeaderDishInfo";
 
 const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
 
@@ -11,7 +12,8 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
             [".dishDesc", { bottom: "0px", opacity: 1 }],
             [".touchGesture", { opacity: 0 }, { at: "<" }],
             [".imageMask", { opacity: 0.8 }, { at: "<" }],
-            [".dishImage", { transform: "scale(1.1)" }, { at: "<" }]
+            [".dishImage", { transform: "scale(1.1)" }, { at: "<" }],
+            [scope.current, { boxShadow: "0" }, { at: "<" }]
         ]
 
         const imgBlurSeq = [
@@ -19,6 +21,7 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
             [".dishDesc", { bottom: "-50px" }, { at: "<" }],
             [".imageMask, .dishDesc", { opacity: 0 }, { at: "<" }],
             [".touchGesture", { opacity: 1 }, { at: "-0.2" }],
+            [scope.current, { boxShadow: "0px 4px 4px 0px #33333380" }, { at: "<" }]
         ]
 
         if (e.type === "touchstart" || e.type === "focus") {
@@ -43,33 +46,6 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
         }
     }
 
-    const handleOrderFocus = e => {
-        const enterSeq = [
-            [".deliveryStack", { gap: "32px" }],
-            [".deliveryIcon", { filter: "drop-shadow(0px 4px 2px #33333380)" }, { at: "<" }],
-        ]
-
-        const exitSeq = [
-            [".deliveryStack", { gap: "8px" }],
-            [".deliveryIcon", { filter: "drop-shadow(0px 0px 0px #33333380)" }, { at: "<" }],
-        ]
-
-
-        if (e.type === "focus" || e.type === "touchstart") {
-            animate(enterSeq, {
-                type: "spring",
-                stiffness: 600,
-                damping: 15
-            })
-        }
-        else {
-            animate(exitSeq, {
-                ease: "easeOut",
-                duration: 0.435
-            })
-        }
-    }
-
     return (
         <VStack
             as="article"
@@ -77,13 +53,11 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
             boxShadow="0px 4px 4px 0px #33333380"
             borderRadius="16px"
             overflow="hidden"
-            // w={{ base: "calc(100vw - 40px)", md: "280px" }}
             ref={scope}
         >
             {/* image frame */}
             <Box
                 pos="relative"
-                cursor="pointer"
                 onTouchStart={handleImgFocus}
                 onFocus={handleImgFocus}
                 onTouchEnd={handleImgFocus}
@@ -98,11 +72,11 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
                 >
                     <Image
                         as={motion.img}
-                        src={imgSrc}
+                        src={imgSrc()}
                         alt={`Image of ${title} special dish`}
                         objectFit="cover"
-                        initial={{ transform: "scale(1)" }}
                         className="dishImage"
+                        initial={{ transform: "scale(1)" }}
                     />
                 </AspectRatio>
                 <Center
@@ -148,64 +122,16 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
 
             {/* body stack */}
             <VStack
-                as="header"
                 w="full"
                 p={4}
                 spacing={4}
                 align="start"
             >
                 {/* dish info */}
-                <HStack
-                    w="full"
-                    justify="space-between"
-                >
-                    <Text
-                        as="h3"
-                        fontSize="18px"
-                        fontWeight={700}
-                        color="brand.secondary.darkCharcoal"
-                    >
-                        {title}
-                    </Text>
-                    <Text
-                        fontSize="20px"
-                        fontWeight={800}
-                        color="brand.primary.green"
-                    >
-                        {price}
-                    </Text>
-                </HStack>
+                <CardHeaderDishInfo title={title} price={price} />
 
                 {/* deliver order */}
-                <HStack
-                    justify="start"
-                    spacing={2}
-                    as={motion.div}
-                    cursor="pointer"
-                    onFocus={handleOrderFocus}
-                    onTouchStart={handleOrderFocus}
-                    onBlur={handleOrderFocus}
-                    onTouchEnd={handleOrderFocus}
-                    tabIndex={0}
-                    className="deliveryStack"
-                >
-                    <Text
-                        fontSize="18px"
-                        fontWeight={500}
-                        color="brand.primary.green"
-                    >
-                        Order a delivery
-                    </Text>
-                    {/* <Image
-                        as={motion.img}
-                        src={deliveryIcon}
-                        alt="delivery icon"
-                        className="deliveryIcon"
-                    /> */}
-                    <DeliveryIcon
-                        className="deliveryIcon"
-                    />
-                </HStack>
+                <OrderDelivery />
             </VStack>
         </VStack >
     )
