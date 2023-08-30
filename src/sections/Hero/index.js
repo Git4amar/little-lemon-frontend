@@ -86,6 +86,7 @@ const Hero = () => {
             pos="relative"
             zIndex="base"
             ref={heroBgScope}
+            bg="brand.secondary.brightGray"
         >
             {/* Hero Section BG */}
             <Box

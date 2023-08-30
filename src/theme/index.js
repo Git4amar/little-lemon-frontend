@@ -12,7 +12,7 @@ const theme = extendTheme({
     styles: {
         global: {
             body: {
-                bg: "#F6F3F0",
+                bg: "transparent",
                 color: "#333333",
                 lineHeight: "none"
             }

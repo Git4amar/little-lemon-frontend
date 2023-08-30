@@ -7,7 +7,7 @@ const Header = ({ ...props }) => {
             as="header"
             pos={{ md: "fixed" }}
             w="full"
-            zIndex={{ md: "docked" }}
+            zIndex={{ md: "sticky" }}
             bg="brand.secondary.brightGray"
             py={4}
             boxShadow={{ md: "0px 1px 4px 0px #333333" }}

@@ -1,14 +1,29 @@
-import { Box, GridItem, Heading, VStack, Text, HStack } from "@chakra-ui/react";
+import { Box, GridItem, Heading, VStack, useBreakpointValue } from "@chakra-ui/react";
 import FullScreenGridSection from "../FullScreenGridSection";
-import OwnerImageFrame from "./OwnerImageFrame";
+import OwnerImagesStack from "./OwnerImagesStack";
+import AboutOwnersText from "./AboutOwnersText";
+import { useEffect, useState } from "react";
+
 
 const About = () => {
+
+    const [sectionH, setSectionH] = useState("100vh");
+
+    useEffect(() => {
+        const sectionOffestTop = document.getElementById("about-section-box").offsetTop;
+        const bodyStackOffestTop = document.getElementById("about-image-stack").offsetTop;
+        const bodyStackH = document.getElementById("about-image-stack").offsetHeight;
+        const newSectionH = bodyStackOffestTop - sectionOffestTop + bodyStackH + 64;
+        setSectionH(newSectionH);
+    }, [])
+
     return (
         <Box
-            h={{ base: "175vh", md: "100vh" }}
+            id="about-section-box"
             overflow="hidden"
             bg="brand.secondary.darkSalmon"
             boxShadow="0px 4px 4px 0px #33333380"
+            h={sectionH}
         >
             <FullScreenGridSection
                 id="about-section"
@@ -62,74 +77,35 @@ const About = () => {
                     </VStack>
                 </GridItem>
 
-                {/* owner's desc */}
+                {/* owner's desc and images for base and md */}
                 <GridItem
                     h="max"
                     gridColumn={{ base: "1 / span 4", md: "1 /  span 8", xl: "2 / span 3" }}
                     gridRow={{ base: (140 / 4) + 1, md: (320 / 4) + 1, xl: (288 / 4) + 1 }}
                 >
                     <VStack
-                        w="full"
-                        pt="3px"
-                        pb="1px"
+                        spacing={{ base: 4, xl: 0 }}
+
                     >
-                        <Text
-                            w="full"
-                            fontSize="16px"
-                            fontWeight={400}
-                            lineHeight="150%"
-                            color="brand.secondary.darkCharcoal"
-                        // color="brand.secondary.brightGray"
-                        >
-                            Adrian and Mario are the proud owners of a Mediterranean restaurant located in the heart of Chicago. They specialize in Mediterranean cuisine, utilizing fresh ingredients and flavors from the Mediterranean region. Adrian and Mario have been in the restaurant business for over 10 years and have built up a loyal following of customers who appreciate their attention to detail and the quality of their food. Both Adrian and Mario are passionate about the Mediterranean cuisine and strive to bring the best flavors and ingredients to their customers. They are extremely proud of their restaurant and take great pride in providing the freshest and tastiest food to their customers.
-                        </Text>
+                        <AboutOwnersText />
+                        {useBreakpointValue({
+                            base: <OwnerImagesStack />,
+                            xl: null
+                        }, { ssr: false })}
                     </VStack>
                 </GridItem>
 
-                {/* owner images stack/group */}
-                <GridItem
-                    h="max"
-                    gridColumn={{ base: "1 / span 4", md: "1 / span 8", xl: "6 / span 7" }}
-                    gridRow={{ base: (616 / 4) + 1, md: (572 / 4) + 1, xl: (232 / 4) + 1 }}
-                >
-                    <HStack
-                        w="full"
-                        h={{
-                            base: "calc(calc(calc(100vw - 40px - 16px) / 3) * 24 / 9)",
-                            md: "calc(calc(calc(100vw - 140px - 32px) / 3) * 24 / 9)",
-                            xl: "calc(calc(calc(657px - 32px) / 3) * 24 / 9)",
-                        }}
-                        spacing={{ base: 2, md: 4 }}
-                        align="start"
+                {/* owner images stack/group for xl*/}
+                {useBreakpointValue({
+                    base: null,
+                    xl: <GridItem
+                        h="max"
+                        gridColumn={{ base: "1 / span 4", md: "1 / span 8", xl: "6 / span 7" }}
+                        gridRow={{ base: (616 / 4) + 1, md: (572 / 4) + 1, xl: (232 / 4) + 1 }}
                     >
-                        {/* image 1 */}
-                        <OwnerImageFrame
-                            src={() => require("../../assets/images/restaurant/owner-image-A.jpg")}
-                            alt={"An image of Adrian and Mario"}
-                            ratio={9 / 16}
-                            justify="end"
-                            align="65% top"
-                        />
-                        {/* image 2 */}
-                        <OwnerImageFrame
-                            src={() => require("../../assets/images/restaurant/owner-image-C.jpg")}
-                            alt={"An image of Adrian and Mario"}
-                            ratio={9 / 24}
-                            align={{ base: "47% 20px", md: "47% 40px", xl: "47% 45px" }}
-                            scale="1.2"
-                            borderRadius="0px"
-                            boxShadow="0"
-                        />
-                        {/* image 3 */}
-                        <OwnerImageFrame
-                            src={() => require("../../assets/images/restaurant/owner-image-B.jpg")}
-                            alt={"An image of Adrian and Mario"}
-                            ratio={9 / 16}
-                            align="65% top"
-                        />
-                    </HStack>
-                </GridItem>
-
+                        <OwnerImagesStack />
+                    </GridItem>
+                }, { ssr: false })}
             </FullScreenGridSection>
         </Box>
     )

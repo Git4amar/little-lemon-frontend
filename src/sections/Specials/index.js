@@ -48,6 +48,7 @@ const Specials = () => {
         <Box
             h="100vh"
             overflow="hidden"
+            bg="brand.secondary.brightGray"
         >
             <FullScreenGridSection
                 id="specials-section"
@@ -85,6 +86,7 @@ const Specials = () => {
                     gridRow={{ md: (948 / 4) + 1, xl: (188 / 4) + 1 }}
                     gridColumn={{ md: "1 / span 8", xl: "10 / span 3" }}
                     hideBelow="md"
+                    zIndex={1}
                 >
                     {useBreakpointValue({
                         base: <ButtonRegular

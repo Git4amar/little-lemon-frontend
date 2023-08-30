@@ -132,7 +132,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
                     pos="relative"
                 >
                     {itemList.map((item, index) => <Card
-                        key={item.title}
+                        key={item.title || item.reviewer}
                         cardIndex={index}
                         {...item}
                     />)}

@@ -1,5 +1,5 @@
 import './App.css';
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
 import Header from './sections/Header';
 import Hero from './sections/Hero';
 import theme from '../src/theme';
@@ -17,13 +17,17 @@ function App() {
     <>
       <ChakraProvider theme={theme} >
         <Header />
-        <main>
+        <Box
+          as="main"
+          pos="relative"
+          zIndex="docked"
+        >
           <Hero />
           <Specials />
           <Testimonials />
           <About />
-          <Footer />
-        </main>
+        </Box>
+        <Footer />
         <FooterFixedNav />
       </ChakraProvider>
     </>

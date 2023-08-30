@@ -33,7 +33,7 @@ const NavItem = ({ children, href, isActive, setActiveItem }) => {
     const handleClick = event => {
         event.preventDefault();
         console.log(event.type, event.target, event.key);
-        setActiveItem(event.target.text);
+        setActiveItem(event.target.text.toLowerCase());
     }
 
     useEffect(() => {

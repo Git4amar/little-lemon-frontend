@@ -6,32 +6,32 @@ const Navbar = () => {
 
     const [navMenuItems] = useState([
         {
-            name: "HOME",
+            name: "home",
             href: "/",
         },
         {
-            name: "ABOUT",
+            name: "about",
             href: "/about",
         },
         {
-            name: "MENU",
+            name: "menu",
             href: "/menu",
         },
         {
-            name: "RESERVATIONS",
+            name: "reservations",
             href: "/reservations",
         },
         {
-            name: "ORDER ONLINE",
+            name: "order online",
             href: "/order-online",
         },
         {
-            name: "LOG IN",
+            name: "log in",
             href: "/login",
         }
     ]);
 
-    const [activeItem, setActiveItem] = useState("HOME");
+    const [activeItem, setActiveItem] = useState("home");
 
     return (
         <Stack
@@ -46,13 +46,12 @@ const Navbar = () => {
             {navMenuItems.map(item => {
                 return (
                     <NavItem
-                        as="li"
                         key={item.name}
                         href={item.href}
                         isActive={item.name === activeItem}
                         setActiveItem={setActiveItem}
                     >
-                        {item.name}
+                        {item.name.toUpperCase()}
                     </NavItem>
                 )
             }
