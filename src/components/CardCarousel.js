@@ -45,13 +45,21 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
             case "pointerenter":
                 await animateDragCursor(
                     ".dragCursor",
-                    { ...cursorPos },
+                    { ...cursorPos, transform: "scale(0)" },
                     { ease: "easeOut", duration: 0.01 }
                 );
-                animateDragCursor(".dragCursor", { visibility: "visible" });
+                await animateDragCursor(".dragCursor", { visibility: "visible" });
+                animateDragCursor(
+                    ".dragCursor",
+                    { transform: "scale(1)" },
+                    {
+                        type: "spring",
+                        bounce: 0.6
+                    }
+                )
                 break;
             case "pointermove":
-                await animateDragCursor(".dragCursor", { visibility: "visible" });
+                // await animateDragCursor(".dragCursor", { visibility: "visible" });
                 setTimeout(() => {
                     animateDragCursor(
                         ".dragCursor",

@@ -12,8 +12,10 @@ const TestimonialCard = ({ reviewer, imgSrc, rating, review, cardIndex }) => {
         >
             <VStack
                 as="article"
-                w={{ base: "calc(100vw - 40px)", md: "280px" }}
-                h={{ base: "calc(calc(100vw - 40px) * 4 / 3)", md: "calc(280px * 4 / 3)" }}
+                // w={{ base: "calc(100vw - 40px)", md: "280px" }}
+                // h={{ base: "calc(calc(100vw - 40px) * 4 / 3)", md: "calc(280px * 4 / 3)" }}
+                w="280px"
+                h="calc(280px * 4 / 3)"
                 p={4}
                 spacing={4}
                 bg="brand.secondary.brightGray"

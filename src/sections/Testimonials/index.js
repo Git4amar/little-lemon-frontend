@@ -51,6 +51,7 @@ const Testimonials = () => {
         <Box
             h="100vh"
             overflow="hidden"
+            maxH={{ xl: "900px" }}
             bg="brand.secondary.peachPuff"
         >
             <FullScreenGridSection
@@ -77,7 +78,7 @@ const Testimonials = () => {
                             w="full"
                             textAlign={{ base: "center", md: "start" }}
                         >
-                            Testimonials
+                            Reviews
                         </Heading>
                     </VStack>
                 </GridItem>

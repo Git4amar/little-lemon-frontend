@@ -65,8 +65,8 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
                 tabIndex={0}
             >
                 <AspectRatio
-                    w={{ base: "calc(100vw - 40px)", md: "280px" }}
-                    // w="full"
+                    // w={{ base: "calc(100vw - 40px)", md: "280px" }}
+                    w="280px"
                     ratio={4 / 3}
                     overflow="hidden"
                 >

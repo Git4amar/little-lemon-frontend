@@ -21,9 +21,9 @@ const About = () => {
         <Box
             id="about-section-box"
             overflow="hidden"
-            bg="brand.secondary.darkSalmon"
+            h={{ base: sectionH, xl: "900px" }}
             boxShadow="0px 4px 4px 0px #33333380"
-            h={sectionH}
+            bg="brand.secondary.darkSalmon"
         >
             <FullScreenGridSection
                 id="about-section"

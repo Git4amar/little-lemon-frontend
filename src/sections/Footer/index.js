@@ -1,4 +1,8 @@
-import { Box, HStack, Link, VStack, Image, Text, Flex } from "@chakra-ui/react";
+import { Box, HStack, Link, VStack, Image, Text, Flex, Center, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import Lottie from "lottie-react";
+import facebookLogo from "../../assets/logo/facebook-social.json";
+import twitterLogo from "../../assets/logo/twitter-social.json";
+import { useRef } from "react";
 
 const Footer = () => {
 
@@ -28,6 +32,24 @@ const Footer = () => {
             href: "/login",
         }
     ];
+
+    const twitterLogoRef = useRef(null);
+    const facebookLogoRef = useRef(null);
+    const handleLogoAnimation = e => {
+        // eslint-disable-next-line
+        switch (e.target.dataset.linkTo) {
+            case "facebook":
+                e.type === "pointerenter"
+                    ? facebookLogoRef.current.play()
+                    : facebookLogoRef.current.stop();
+                break;
+            case "twitter":
+                e.type === "pointerenter"
+                    ? twitterLogoRef.current.play()
+                    : twitterLogoRef.current.stop();
+                break;
+        }
+    }
 
     return (
         <Box
@@ -140,6 +162,63 @@ const Footer = () => {
                     </VStack>
 
                     {/* social animation logos */}
+                    <HStack
+                        spacing={4}
+                    >
+                        {/* facebook social link and logo */}
+                        <LinkBox
+                            pos="relative"
+                        >
+                            <Lottie
+                                autoplay={false}
+                                animationData={facebookLogo}
+                                style={{ height: "96px" }}
+                                lottieRef={facebookLogoRef}
+                            />
+                            <LinkOverlay
+                                boxSize="65px"
+                                // border="1px solid white"
+                                pos="absolute"
+                                top="16px"
+                                left="17px"
+                                target="_blank"
+                                href="https://www.facebook.com/"
+                                borderRadius="8px"
+                                // visibility="hidden"
+                                onPointerEnter={handleLogoAnimation}
+                                onPointerLeave={handleLogoAnimation}
+                                data-link-to="facebook"
+                            />
+                        </LinkBox>
+                        {/* twitter social link and logo */}
+                        <LinkBox
+                            pos="relative"
+                        >
+                            <Center
+                                bg="brand.secondary.brightGray"
+                                borderRadius="8px"
+                            >
+                                <Lottie
+                                    autoplay={false}
+                                    animationData={twitterLogo}
+                                    style={{ height: "64px" }}
+                                    lottieRef={twitterLogoRef}
+                                />
+                            </Center>
+                            <LinkOverlay
+                                boxSize={16}
+                                pos="absolute"
+                                top="0px"
+                                left="0px"
+                                target="_blank"
+                                href="https://twitter.com/"
+                                // visibility="hidden"
+                                onPointerEnter={handleLogoAnimation}
+                                onPointerLeave={handleLogoAnimation}
+                                data-link-to="twitter"
+                            />
+                        </LinkBox>
+                    </HStack>
                 </Flex>
             </VStack>
         </Box>

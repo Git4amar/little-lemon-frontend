@@ -97,7 +97,6 @@ const Hero = () => {
                 bg="brand.primary.green"
                 zIndex={-1}
                 pos="absolute"
-                border="1px"
             />
             {/* Scroll Indicator */}
             <Center
