@@ -7,7 +7,6 @@ const OrderDelivery = () => {
     const [scope, animate] = useAnimate();
 
     const handleOrderFocus = e => {
-        console.log(e.target, e.type);
         const enterSeq = [
             [scope.current, { gap: "32px" }],
             [".deliveryIcon", { filter: "drop-shadow(0px 4px 2px #33333380)" }, { at: "<" }],

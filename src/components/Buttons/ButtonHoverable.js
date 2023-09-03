@@ -19,10 +19,9 @@ const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
 
     const handleHover = async (e) => {
         // console.log(e.target, e.type);
-        if (e.type === "mouseenter" || e.type === "focus") {
-            !darkBg && animate("button", { border: "1px solid #495E57" })
-            animate(".buttonHoverBg", { visibility: "visible" })
-            await animate(hoverEnterSequence, { ease: "easeInOut", duration: darkBg ? 0.87 : 0.435 });
+        if (e.type === "pointerenter" || e.type === "focus") {
+            darkBg && animate(".buttonHoverBg", { visibility: "visible" })
+            await animate(hoverEnterSequence, { ease: "easeInOut", duration: 0.435 });
             if (!darkBg) {
                 await animate(".buttonHoverBg", { visibility: "hidden" });
                 animate(".buttonHoverBg", { bottom: "-100px" });
@@ -30,8 +29,7 @@ const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
         }
         else {
             !darkBg && await animate(".buttonHoverBg", { visibility: "visible" })
-            await animate(hoverExitSequence, { ease: "easeInOut", duration: darkBg ? 0.435 : 0.87 });
-            !darkBg && animate("button", { border: "0px" })
+            await animate(hoverExitSequence, { ease: "easeInOut", duration: 0.435 });
             if (darkBg) {
                 await animate(".buttonHoverBg", { visibility: "hidden" });
                 animate(".buttonHoverBg", { bottom: "-100px" });
@@ -40,11 +38,17 @@ const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
     }
 
     const handleClick = e => {
-        if (e.type === "mousedown") {
-            animate(".buttonHoverBg", { visibility: "hidden" });
+        if (e.type === "pointerdown") {
+            animate(".buttonHoverBg", { opacity: 0 }, {
+                ease: "easeInOut",
+                duration: 1.74 / 4
+            });
         }
         else {
-            animate(".buttonHoverBg", { visibility: "visible" });
+            animate(".buttonHoverBg", { opacity: 1 }, {
+                ease: "easeInOut",
+                duration: 1.74 / 8
+            });
         }
     }
 
@@ -56,16 +60,17 @@ const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
         >
             <ButtonRegular
                 as={motion.button}
-                onMouseEnter={handleHover}
+                onPointerEnter={handleHover}
                 onFocus={handleHover}
-                onMouseLeave={handleHover}
+                onPointerLeave={handleHover}
                 onBlur={handleHover}
-                onMouseDown={handleClick}
-                onMouseUp={handleClick}
+                onPointerDown={handleClick}
+                onPointerUp={handleClick}
                 w="full"
                 bg="transparent"
                 color={darkBg ? "brand.primary.yellow" : "brand.primary.green"}
-                border={darkBg ? "1px" : "0px"}
+                // border={darkBg ? "1px" : "0px"}
+                border="1px"
                 pos="relative"
                 overflow="hidden"
             >

@@ -92,6 +92,7 @@ const Testimonials = () => {
                     gridColumn={{ base: "1 / span 4", md: "1 / span 8", xl: "1 / span 12" }}
                 >
                     <CardCarousel
+                        id="reviews-card-carousel"
                         itemList={testimonials}
                         Card={TestimonialCard}
                         dragConstraintsRef={dragConstraintsRef}

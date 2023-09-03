@@ -1,11 +1,12 @@
+import { useRef } from "react";
+import { Box, GridItem, Heading, VStack, useBreakpointValue } from "@chakra-ui/react";
 import FullScreenGridSection from "../FullScreenGridSection";
 import ButtonRegular from "../../components/Buttons/ButtonRegular";
 import ButtonHoverable from "../../components/Buttons/ButtonHoverable";
 import SpecialsCardSmall from "./SpecialsCardSmall";
 import CardCarousel from "../../components/CardCarousel";
-import { Box, GridItem, Heading, VStack, useBreakpointValue } from "@chakra-ui/react";
-import { useRef } from "react";
 import SpecialsCardRegular from "./SpecialsCardRegular";
+
 
 const Specials = () => {
 
@@ -113,6 +114,7 @@ const Specials = () => {
                     gridColumn={{ base: "1 / span 4", md: "1 / span 8", xl: "1 / span 12" }}
                 >
                     <CardCarousel
+                        id="specials-card-carousel"
                         itemList={specialDishes}
                         Card={useBreakpointValue({
                             base: SpecialsCardSmall,

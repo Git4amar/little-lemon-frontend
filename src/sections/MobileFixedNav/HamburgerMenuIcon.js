@@ -3,26 +3,20 @@ import { useAnimate } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const HamburgerMenu = () => {
+const HamburgerMenuIcon = ({ showOverlayMenu }) => {
 
     const [menuIsOpen, setMenuIsOpen] = useState(false);
+    const handleOverlayMenu = () => {
+        showOverlayMenu(!menuIsOpen);
+        setMenuIsOpen(!menuIsOpen);
+    }
+
     const [scope, animate] = useAnimate();
     const prevButtonState = useRef(false);
 
-    const quickTransition = {
-        type: "spring",
-        stiffness: 300,
-        damping: 20,
-        mass: 1
-    }
-    const bouncyTransition = {
-        type: "spring",
-        stiffness: 600,
-        damping: 15,
-        mass: 1
-    }
-    const easeInOutBack = {
-        ease: [0.9, -0.82, 0.4, 1.4]
+    const hamburgerTransition = {
+        ease: [0.9, -0.82, 0.4, 1.4],
+        duration: 0.435 * 2
     }
 
     const closeButtonAnimation = async () => {
@@ -31,39 +25,39 @@ const HamburgerMenu = () => {
             [".hamburgerBottom", { transform: "translate(0, -10px) rotate(45deg)" }, { at: "<" }],
         ]
         const sequence2 = [
-            [".hamburgerTop", { transform: "translate(0, 10px) rotate(-135deg)" }],
-            [".hamburgerCenter", { transform: "rotate(-45deg)" }, { at: "<" }],
-            [".hamburgerBottom", { transform: "translate(0, -10px) rotate(-135deg)" }, { at: "<" }],
+            [".hamburgerCenter", { transform: "rotate(-135deg)" }],
+            [".hamburgerTop", { transform: "translate(0, 10px) rotate(-45deg)" }, { at: "<" }],
+            [".hamburgerBottom", { transform: "translate(0, -10px) rotate(-45deg)" }, { at: "<" }],
         ]
         animate(document.getElementById("hamburger-menu"), {
             width: "40px",
             height: "40px",
             borderRadius: "24px",
-            boxShadow: "0px 4px 4px 0px #333333"
-        }, bouncyTransition);
-        await animate(sequence1, quickTransition);
-        await animate(sequence2, bouncyTransition);
+            boxShadow: "0px 4px 4px 0px #33333380"
+        }, hamburgerTransition);
+        await animate(sequence1, hamburgerTransition);
+        await animate(sequence2, hamburgerTransition);
         prevButtonState.current = true;
     }
 
     const hamburgerAnimation = async () => {
         const sequence1 = [
-            [".hamburgerTop", { transform: "translate(0, 10px) rotate(45deg)" }],
-            [".hamburgerCenter", { transform: "rotate(0deg)" }, { at: "<" }],
+            [".hamburgerCenter", { transform: "rotate(0deg)" }],
+            [".hamburgerTop", { transform: "translate(0, 10px) rotate(45deg)" }, { at: "<" }],
             [".hamburgerBottom", { transform: "translate(0, -10px) rotate(45deg)" }, { at: "<" }],
         ]
         const sequence2 = [
             [".hamburgerTop", { transform: "translate(0, 0px) rotate(0deg)" }],
             [".hamburgerBottom", { transform: "translate(0, 0px) rotate(0deg)" }, { at: "<" }],
         ]
-        await animate(sequence1, quickTransition);
+        await animate(sequence1, hamburgerTransition);
         animate(document.getElementById("hamburger-menu"), {
             width: "48px",
             height: "48px",
             borderRadius: "24px",
             boxShadow: "0px 0px 0px 0px #333333"
-        }, easeInOutBack);
-        await animate(sequence2, easeInOutBack);
+        }, hamburgerTransition);
+        await animate(sequence2, hamburgerTransition);
         prevButtonState.current = false;
     }
 
@@ -80,10 +74,9 @@ const HamburgerMenu = () => {
                 id="hamburger-menu"
                 as={motion.button}
                 boxSize={12}
-                // border="1px"
                 borderColor="brand.primary.yellow"
                 borderRadius={"8px"}
-                onClick={() => { setMenuIsOpen(!menuIsOpen) }}
+                onClick={handleOverlayMenu}
                 overflow="hidden"
                 bg={menuIsOpen ? "brand.primary.yellow" : "brand.primary.green"}
                 // boxShadow={"0px 4px 4px 0px #333333"}
@@ -129,4 +122,4 @@ const HamburgerMenu = () => {
     )
 }
 
-export default HamburgerMenu;
+export default HamburgerMenuIcon;

@@ -50,6 +50,12 @@ const Footer = () => {
                 break;
         }
     }
+    const handleFocus = () => {
+        window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: "smooth"
+        })
+    }
 
     return (
         <Box
@@ -97,6 +103,7 @@ const Footer = () => {
                                     key={item.name}
                                 >
                                     <Link
+                                        onFocus={handleFocus}
                                         href={item.href}
                                     >
                                         {itemTitle.join(" ")}

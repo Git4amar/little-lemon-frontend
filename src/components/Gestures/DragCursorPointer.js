@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { ReactComponent as DragCursor } from "../assets/custom-cursors/drag-cursor.svg"
+import { ReactComponent as DragCursor } from "../../assets/custom-cursors/drag-cursor.svg"
 import { motion } from "framer-motion";
 
 const DragCursorPointer = ({ ...props }) => {

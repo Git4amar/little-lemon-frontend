@@ -1,9 +1,10 @@
 import { Center, VStack, Image } from '@chakra-ui/react';
-import Navbar from './Navbar';
+import Navbar from '../../components/Navigation/Navbar';
 
-const Header = ({ ...props }) => {
+const DesktopHeader = ({ ...props }) => {
     return (
         <Center
+            id="desktop-header"
             as="header"
             pos={{ md: "fixed" }}
             w="full"
@@ -15,19 +16,26 @@ const Header = ({ ...props }) => {
             {...props}
         >
             <VStack
-                spacing={2}
+                spacing={4}
                 maxW="container.xl"
                 w="full"
             >
                 <Image
-                    h={16}
+                    h="72px"
                     src={require("../../assets/logo/logo_v1.png")}
                     alt="Little Lemon logo"
                 />
-                <Navbar />
+                <Navbar
+                    w="full"
+                    spacing={{ xl: 16 }}
+                    direction="row"
+                    justify={{ md: "space-between", xl: "center" }}
+                    px={{ base: "20px", md: "70px" }}
+                    py={0.5}
+                />
             </VStack>
         </Center >
     )
 }
 
-export default Header;
+export default DesktopHeader;

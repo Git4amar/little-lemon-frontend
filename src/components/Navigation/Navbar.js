@@ -2,7 +2,7 @@ import { Stack } from "@chakra-ui/react";
 import NavItem from "./NavItem";
 import { useState } from 'react';
 
-const Navbar = () => {
+const Navbar = ({ darkBg = false, ...props }) => {
 
     const [navMenuItems] = useState([
         {
@@ -35,13 +35,8 @@ const Navbar = () => {
 
     return (
         <Stack
-            w="full"
             as="nav"
-            spacing={{ xl: 16 }}
-            direction="row" hideBelow="md"
-            justify={{ md: "space-between", xl: "center" }}
-            px={{ base: "20px", md: "70px" }}
-            py={0.5}
+            {...props}
         >
             {navMenuItems.map(item => {
                 return (
@@ -50,6 +45,7 @@ const Navbar = () => {
                         href={item.href}
                         isActive={item.name === activeItem}
                         setActiveItem={setActiveItem}
+                        darkBg={darkBg}
                     >
                         {item.name.toUpperCase()}
                     </NavItem>

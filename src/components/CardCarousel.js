@@ -3,9 +3,9 @@ import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
 
 import "./cardCarousel.css";
-import DragCursorPointer from "./DragCursorPointer";
+import DragCursorPointer from "./Gestures/DragCursorPointer";
 
-const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
+const CardCarousel = ({ Card, itemList, dragConstraintsRef, ...props }) => {
 
     const [scrollScope, animateScroll] = useAnimate();
 
@@ -18,7 +18,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
         const scrollableElemLength = scrollScope.current.nextSibling.firstChild.offsetWidth - window.innerWidth;
         const availableScrollBar = scrollScope.current.offsetWidth - 8 - scrollScope.current.firstChild.offsetWidth;
         const scrollLeftPos = (scrollScope.current.nextSibling.scrollLeft / scrollableElemLength) * availableScrollBar;
-        setTimeout(() => {
+        window.requestAnimationFrame(() => {
             animateScroll(
                 "div",
                 { left: `${scrollLeftPos}px` },
@@ -26,7 +26,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
                     ease: "easeOut"
                 }
             )
-        }, 100);
+        });
     }
 
     const [dragCursorScope, animateDragCursor] = useAnimate();
@@ -54,13 +54,13 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
                     { transform: "scale(1)" },
                     {
                         type: "spring",
-                        bounce: 0.6
+                        bounce: 0.7
                     }
                 )
                 break;
             case "pointermove":
                 // await animateDragCursor(".dragCursor", { visibility: "visible" });
-                setTimeout(() => {
+                window.requestAnimationFrame(() => {
                     animateDragCursor(
                         ".dragCursor",
                         { ...cursorPos },
@@ -68,7 +68,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
                             ease: "easeOut",
                             duration: 0.01
                         })
-                }, 10);
+                });
                 break;
             case "pointerdown":
                 animateDragCursor(".dragCursorCircle", { fill: "#F4CE14" });
@@ -92,6 +92,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
     return (
         <VStack
             spacing={{ base: 2, md: 8 }}
+            {...props}
         >
             {/* carousel scrollbar */}
             <HStack
@@ -127,6 +128,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef }) => {
             >
                 {/* card stack */}
                 <HStack
+                    align="start"
                     pl={{ base: "20px", md: "70px", xl: "0px" }}
                     pe={{ base: "20px", md: "70px", xl: "0px" }}
                     as={motion.div}

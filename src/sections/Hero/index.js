@@ -1,4 +1,4 @@
-import ScrollIndicator from "../../components/ScrollIndicator";
+import ScrollIndicator from "../../components/Gestures/ScrollIndicator";
 import FullScreenGridSection from "../FullScreenGridSection";
 import ButtonRegular from "../../components/Buttons/ButtonRegular"
 import ButtonHoverable from "../../components/Buttons/ButtonHoverable";

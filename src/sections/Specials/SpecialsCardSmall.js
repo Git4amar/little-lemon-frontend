@@ -1,6 +1,6 @@
 import { AspectRatio, VStack, Image, Text, Box, Center } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
-import PressHoldGesture from "../../components/PressHoldGesture";
+import PressHoldGesture from "../../components/Gestures/PressHoldGesture";
 import OrderDelivery from "./OrderDelivery";
 import CardHeaderDishInfo from "./CardHeaderDishInfo";
 
