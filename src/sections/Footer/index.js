@@ -1,8 +1,10 @@
 import { Box, HStack, Link, VStack, Image, Text, Flex, Center, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { useRef } from "react";
 import Lottie from "lottie-react";
 import facebookLogo from "../../assets/logo/facebook-social.json";
 import twitterLogo from "../../assets/logo/twitter-social.json";
-import { useRef } from "react";
+import convertToTitleCase from "../../util/convertToTitleCase";
+
 
 const Footer = () => {
 
@@ -92,25 +94,21 @@ const Footer = () => {
                         align="start"
                     >
                         {/* conver nav items to title case and render */}
-                        {navItems.map(item => {
-                            const words = item.name.split(" ");
-                            const itemTitle = words.map(word => word[0].toUpperCase() + word.slice(1));
-                            return (
-                                <VStack
-                                    py="1px"
-                                    w="full"
-                                    align="start"
-                                    key={item.name}
-                                >
-                                    <Link
-                                        onFocus={handleFocus}
-                                        href={item.href}
-                                    >
-                                        {itemTitle.join(" ")}
-                                    </Link>
-                                </VStack>
-                            )
-                        })}
+                        {navItems.map(item => <VStack
+                            py="1px"
+                            w="full"
+                            align="start"
+                            key={item.name}
+                        >
+                            <Link
+                                onFocus={handleFocus}
+                                href={item.href}
+                            >
+                                {convertToTitleCase(item.name)}
+                            </Link>
+                        </VStack>
+
+                        )}
                     </VStack>
 
                     {/* logo */}

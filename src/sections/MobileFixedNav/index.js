@@ -72,6 +72,7 @@ const MobileFixedNav = () => {
                 spacing={{ base: 6, md: 8 }}
                 boxShadow="0px -1px 4px 0px #333333"
                 hideFrom="xl"
+                visibility="hidden"
             >
                 <ButtonRegular flexGrow={1} >Reserve your table</ButtonRegular>
                 <HamburgerMenuIcon

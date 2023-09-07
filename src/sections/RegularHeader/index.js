@@ -1,10 +1,10 @@
 import { Center, VStack, Image } from '@chakra-ui/react';
 import Navbar from '../../components/Navigation/Navbar';
 
-const DesktopHeader = ({ ...props }) => {
+const RegularHeader = ({ ...props }) => {
     return (
         <Center
-            id="desktop-header"
+            id="regular-header"
             as="header"
             pos={{ md: "fixed" }}
             w="full"
@@ -38,4 +38,4 @@ const DesktopHeader = ({ ...props }) => {
     )
 }
 
-export default DesktopHeader;
+export default RegularHeader;

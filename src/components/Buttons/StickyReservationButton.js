@@ -14,14 +14,14 @@ const StickyButton = () => {
     const stickyButtomElemRef = useRef(null);
 
     const handleStickiness = () => {
-        const desktopHeaderHeight = document.getElementById("desktop-header").offsetHeight;
+        const headerHeight = document.getElementById("regular-header").offsetHeight;
         const specialCardCarouselTop = document.getElementById("specials-card-carousel").offsetTop;
-        if (scrollY.current >= specialCardCarouselTop - desktopHeaderHeight + 16) {
+        if (scrollY.current >= specialCardCarouselTop - headerHeight + 16) {
             setPosition(prevState => {
                 return {
                     ...prevState,
                     mode: "sticky",
-                    top: stickyButtomElemRef.current.offsetWidth + desktopHeaderHeight + 16
+                    top: stickyButtomElemRef.current.offsetWidth + headerHeight + 16
                 }
             })
         }

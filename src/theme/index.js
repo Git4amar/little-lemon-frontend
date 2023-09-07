@@ -1,4 +1,5 @@
 import { extendTheme, theme as base } from "@chakra-ui/react";
+import { inputTheme } from "./input";
 
 const theme = extendTheme({
     breakpoints: {
@@ -36,6 +37,9 @@ const theme = extendTheme({
         heading: `Markazi Text, ${base.fonts.heading}`,
         body: `Karla, ${base.fonts.body}`,
     },
+    components: {
+        Input: inputTheme
+    }
 });
 
 export default theme;

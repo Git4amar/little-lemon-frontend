@@ -1,6 +1,6 @@
 import './App.css';
 import { Box, ChakraProvider } from '@chakra-ui/react';
-import DesktopHeader from './sections/DesktopHeader';
+import DesktopHeader from './sections/RegularHeader';
 import Hero from './sections/Hero';
 import theme from '../src/theme';
 import '../src/theme/styles.css';
@@ -10,14 +10,15 @@ import Testimonials from './sections/Testimonials';
 import About from './sections/About';
 import Footer from './sections/Footer'
 import MobileFixedNav from './sections/MobileFixedNav';
-import StickyButton from './components/Buttons/StickyButton';
+import StickyReservationButton from './components/Buttons/StickyReservationButton';
+import TableReservation from './sections/TableReservation.js';
 
 
 function App() {
   return (
     <>
       <ChakraProvider theme={theme} >
-        <DesktopHeader />
+        <DesktopHeader visibility="hidden" />
         <MobileFixedNav />
         <Box
           as="main"
@@ -25,10 +26,11 @@ function App() {
           zIndex="docked"
         >
           <Hero />
-          <StickyButton />
+          <StickyReservationButton />
           <Specials />
           <Testimonials />
           <About />
+          <TableReservation />
         </Box>
         <Footer />
       </ChakraProvider>
