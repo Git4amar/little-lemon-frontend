@@ -24,7 +24,7 @@ const NumberInputMobile = ({ step = 1, defaultValue = 4, min = 1, max = 16, ...p
             bg: "brand.primary.green",
             color: "brand.secondary.brightGray",
             boxShadow: "0px 0px 0px 0px #33333380",
-            transform: "translateY(4px)"
+            transform: "translateY(2px)"
         }
     }
     const numInputProps = {
