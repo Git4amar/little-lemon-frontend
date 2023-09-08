@@ -2,17 +2,24 @@ import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactComponent as ChevronIcon } from "../../../../assets/icons/chevron.svg"
 import { useAnimate, motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import OptionsStack from "./OptionsStack";
 import convertToTitleCase from "../../../../util/convertToTitleCase";
+import OptionsStack from "./OptionsStack";
+import DateSelector from "./DateSelector";
 
 
-const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", ...props }) => {
+const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDatePicker = false, ...props }) => {
 
-    const { name, defaultValue, options, ...otherProps } = props;
+    const {
+        name, defaultValue, nextAvailableDate,
+        options = ["option1", "option2", "option3", "option4"],
+        ...otherProps
+    } = props;
 
     const [scope, animate] = useAnimate();
 
     const [isOpen, setIsOpen] = useState(false);
+
+    const LeftIcon = () => leftIcon ? <Box className="leftIcon">{leftIcon}</Box> : null;
 
     const [selectedOption, setSelectedOption] = useState(defaultValue);
     const handleOptionSelection = option => {
@@ -23,22 +30,34 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", ...props })
         setIsOpen(false);
     }
 
-    const LeftIcon = () => <Box className="leftIcon">{leftIcon}</Box>
+    const dayjs = require("dayjs");
+    const today = dayjs()
+    const [selectedDate, setSelectedDate] = useState(
+        nextAvailableDate
+            ? nextAvailableDate
+            : today.format('YYYY-MM-DD')
+    );
+    const firstDatePicked = useRef(false);
+    const handleDateSelection = date => {
+        setSelectedDate(dayjs(date).format("YYYY-MM-DD"));
+        wasOpen.current = isOpen;
+        firstDatePicked.current = true;
+        setIsOpen(false);
+    }
 
     const wasOpen = useRef(false);
 
     useEffect(() => {
         animate(".select-btn-chevron path", {
+            fill: selectedOption || firstDatePicked.current
+                ? "#EDEFEE"
+                : "#495E57"
+        }, { duration: 0.01 });
+        leftIcon && animate(".leftIcon path", {
             fill: selectedOption
                 ? "#EDEFEE"
                 : "#495E57"
         }, { duration: 0.01 });
-        animate(".leftIcon path", {
-            fill: selectedOption
-                ? "#EDEFEE"
-                : "#495E57"
-        }, { duration: 0.01 });
-
         isOpen
             ? animate([
                 [".select-btn-chevron", { transform: "rotateZ(90deg)" }],
@@ -73,18 +92,27 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", ...props })
             ref={scope}
         >
             {/* form select button (hidden) */}
-            <select
-                name={name}
-                defaultValue={defaultValue}
-                style={{ display: "none" }}
-            >
-                {options.map(option => <option
-                    key={option}
-                    value={option}
+            {renderAsDatePicker
+                ? <input
+                    type="date"
+                    name={name}
+                    value={selectedDate}
+                    readOnly
+                    style={{ display: "none" }}
+                />
+                : <select
+                    name={name}
+                    defaultValue={defaultValue}
+                    style={{ display: "none" }}
                 >
-                    {option}
-                </option>)}
-            </select>
+                    {options.map(option => <option
+                        key={option}
+                        value={option}
+                    >
+                        {option}
+                    </option>)}
+                </select>
+            }
 
             {/* Rendered select button */}
             {/* selected button */}
@@ -93,8 +121,8 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", ...props })
                 as={motion.div}
                 w={{ base: "full" }}
                 justify="space-between"
-                bg={selectedOption ? "brand.primary.green" : "brand.secondary.brightGray"}
-                color={selectedOption ? "brand.secondary.brightGray" : "brand.primary.green"}
+                bg={selectedOption || firstDatePicked.current ? "brand.primary.green" : "brand.secondary.brightGray"}
+                color={selectedOption || firstDatePicked.current ? "brand.secondary.brightGray" : "brand.primary.green"}
                 borderRadius="16px"
                 px={8}
                 py={4}
@@ -112,11 +140,15 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", ...props })
                     lineHeight="none"
                 >
                     {
-                        selectedOption
-                            ? convertToTitleCase(selectedOption)
-                            : defaultValue
-                                ? convertToTitleCase(defaultValue)
-                                : placeHolder
+                        renderAsDatePicker
+                            ? selectedDate === today.format("YYYY-MM-DD")
+                                ? "Today"
+                                : dayjs(selectedDate).format("dddd, MMMM D, YYYY")
+                            : selectedOption
+                                ? convertToTitleCase(selectedOption)
+                                : defaultValue
+                                    ? convertToTitleCase(defaultValue)
+                                    : placeHolder
                     }
                 </Text>
                 {/* right icon */}
@@ -133,15 +165,25 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", ...props })
                 />
             </HStack>
             {/* select options stack */}
-            <AnimatePresence>
-                {isOpen && <OptionsStack
-                    key="selectOptionsStack"
-                    options={options}
-                    selectedOption={selectedOption}
-                    handleOptionSelection={handleOptionSelection}
-                />}
-            </AnimatePresence>
-        </VStack>
+            {renderAsDatePicker
+                ? <AnimatePresence>
+                    {isOpen && <DateSelector
+                        key="selectDateSelector"
+                        handleDateSelection={handleDateSelection}
+                        selectedDate={selectedDate}
+                        nextAvailableDate={nextAvailableDate}
+                    />}
+                </AnimatePresence>
+                : <AnimatePresence>
+                    {isOpen && <OptionsStack
+                        key="selectOptionsStack"
+                        options={options}
+                        selectedOption={selectedOption}
+                        handleOptionSelection={handleOptionSelection}
+                    />}
+                </AnimatePresence>
+            }
+        </VStack >
     )
 }
 

@@ -8,7 +8,7 @@ const outline = definePartsStyle({
         _hover: {
             borderColor: "brand.primary.yellow"
         },
-        bg: "brand.secondary.brightGray"
+        bg: "brand.secondary.brightGray",
     },
 })
 

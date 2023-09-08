@@ -87,7 +87,9 @@ const TableReservation = () => {
                 maxW="container.xl"
                 h="full"
                 // overflow="hidden"
-                border="2px"
+                overflowY="auto"
+                overflowX="hidden"
+                border="2px solid yellow"
             >
                 <HStack
                     w="max"

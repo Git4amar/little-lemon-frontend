@@ -18,8 +18,9 @@ const SelectOption = ({ children, handleOptionSelection, isSelected, ...props })
         switch (e.type) {
             case "pointerenter":
                 animate(enterSeq, {
-                    ease: "easeOut",
-                    duration: 1.74 / 4
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
                 });
                 break;
             default:
@@ -53,6 +54,8 @@ const SelectOption = ({ children, handleOptionSelection, isSelected, ...props })
             <Text
                 pos="relative"
                 zIndex="hide"
+                fontWeight={500}
+                fontSize="18px"
             >
                 {children}
             </Text>

@@ -1,4 +1,4 @@
-import { Button, HStack, useNumberInput } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Stack, useNumberInput } from "@chakra-ui/react";
 import InputBox from "./InputBox";
 
 const NumberInputMobile = ({ step = 1, defaultValue = 4, min = 1, max = 16, ...props }) => {
@@ -43,7 +43,10 @@ const NumberInputMobile = ({ step = 1, defaultValue = 4, min = 1, max = 16, ...p
             >
                 -
             </Button>
-            <InputBox {...input} />
+            <InputBox
+                border="1px"
+                {...input}
+            />
             <Button
                 {...inc}
             >
