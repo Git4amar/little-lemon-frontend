@@ -1,5 +1,6 @@
 import { extendTheme, theme as base } from "@chakra-ui/react";
 import { inputTheme } from "./input";
+import { textareaTheme } from "./textArea";
 
 const theme = extendTheme({
     breakpoints: {
@@ -38,7 +39,8 @@ const theme = extendTheme({
         body: `Karla, ${base.fonts.body}`,
     },
     components: {
-        Input: inputTheme
+        Input: inputTheme,
+        Textarea: textareaTheme
     }
 });
 

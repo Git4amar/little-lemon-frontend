@@ -5,7 +5,7 @@ import AboutOwnersText from "./AboutOwnersText";
 import { useEffect, useState } from "react";
 
 
-const About = () => {
+const About = ({ ...props }) => {
 
     const [sectionH, setSectionH] = useState("100vh");
 
@@ -24,6 +24,7 @@ const About = () => {
             h={{ base: sectionH, xl: "900px" }}
             boxShadow="0px 4px 4px 0px #33333380"
             bg="brand.secondary.darkSalmon"
+            {...props}
         >
             <FullScreenGridSection
                 id="about-section"

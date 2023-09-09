@@ -8,7 +8,7 @@ import CardCarousel from "../../components/CardCarousel";
 import SpecialsCardRegular from "./SpecialsCardRegular";
 
 
-const Specials = () => {
+const Specials = ({ ...props }) => {
 
     const specialDishes = [
         {
@@ -51,6 +51,7 @@ const Specials = () => {
             overflow="hidden"
             maxH={{ xl: "900px" }}
             bg="brand.secondary.brightGray"
+            {...props}
         >
             <FullScreenGridSection
                 id="specials-section"

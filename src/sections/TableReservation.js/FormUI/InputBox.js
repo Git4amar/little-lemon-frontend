@@ -12,11 +12,8 @@ const InputBox = forwardRef((props, ref) => {
             type={type}
             borderRadius="16px"
             focusBorderColor="brand.primary.green"
-            _placeholder={{
-                color: "inherit",
-                opacity: 0.5
-            }}
             variant="outline"
+            border="1px"
             ref={ref}
             {...otherProps}
         />

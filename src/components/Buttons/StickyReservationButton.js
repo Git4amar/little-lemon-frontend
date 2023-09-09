@@ -3,7 +3,7 @@ import ButtonHoverable from "./ButtonHoverable";
 import { useState, useEffect, useRef } from "react";
 import { useScroll } from "framer-motion";
 
-const StickyButton = () => {
+const StickyButton = ({ ...props }) => {
 
     const { scrollY } = useScroll();
     const [position, setPosition] = useState({
@@ -59,6 +59,7 @@ const StickyButton = () => {
             w="max"
             h={0}
             hideBelow="xl"
+            {...props}
         >
             <ButtonHoverable
                 darkBg={false}

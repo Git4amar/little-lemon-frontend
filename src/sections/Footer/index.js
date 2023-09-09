@@ -6,7 +6,7 @@ import twitterLogo from "../../assets/logo/twitter-social.json";
 import convertToTitleCase from "../../util/convertToTitleCase";
 
 
-const Footer = () => {
+const Footer = ({ ...props }) => {
 
     const navItems = [
         {
@@ -65,6 +65,7 @@ const Footer = () => {
             pos="sticky"
             zIndex="base"
             bottom="0"
+            {...props}
         >
             <VStack
                 id="footer-section"

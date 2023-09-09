@@ -8,7 +8,7 @@ import { useBreakpointValue } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
 
-const Hero = () => {
+const Hero = ({ ...props }) => {
 
     const [heroBgScope, animateHeroBg] = useAnimate();
     const [heroPicScope, animateHeroPic] = useAnimate();
@@ -87,6 +87,7 @@ const Hero = () => {
             zIndex="base"
             ref={heroBgScope}
             bg="brand.secondary.brightGray"
+            {...props}
         >
             {/* Hero Section BG */}
             <Box

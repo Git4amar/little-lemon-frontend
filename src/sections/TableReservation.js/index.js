@@ -89,7 +89,6 @@ const TableReservation = () => {
                 // overflow="hidden"
                 overflowY="auto"
                 overflowX="hidden"
-                border="2px solid yellow"
             >
                 <HStack
                     w="max"

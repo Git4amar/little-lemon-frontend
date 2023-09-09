@@ -6,14 +6,12 @@ const FormStepFrame = ({ children, stepHeading, ...props }) => {
         <Box
             w={{ base: "100vw", xl: "container.xl" }}
             h={{ base: "full" }}
-            overflow="auto"
-            border="2px"
+            overflow="visible"
             {...props}
         >
             <VStack
                 w="full"
                 h="max"
-                border="2px"
                 pt={{ base: 2 }}
                 pb={{ base: 4 }}
                 px={{ base: "20px", md: "70px" }}

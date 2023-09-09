@@ -4,7 +4,7 @@ import FullScreenGridSection from "../FullScreenGridSection";
 import CardCarousel from "../../components/CardCarousel";
 import TestimonialCard from "./TestimonialCard";
 
-const Testimonials = () => {
+const Testimonials = ({ ...props }) => {
 
     const dragConstraintsRef = useRef(null);
 
@@ -53,6 +53,7 @@ const Testimonials = () => {
             overflow="hidden"
             maxH={{ xl: "900px" }}
             bg="brand.secondary.peachPuff"
+            {...props}
         >
             <FullScreenGridSection
                 id="testimonials-section"
