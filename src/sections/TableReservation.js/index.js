@@ -85,10 +85,8 @@ const TableReservation = () => {
             <Box
                 w="full"
                 maxW="container.xl"
-                h="full"
-                // overflow="hidden"
-                overflowY="auto"
-                overflowX="hidden"
+                h={{ base: "calc(100% - 111px)", md: "calc(100% - 166px)", xl: "calc(100% - 142px)" }}
+            // overflow="hidden"
             >
                 <HStack
                     w="max"
@@ -96,6 +94,7 @@ const TableReservation = () => {
                     pos="relative"
                     spacing={0}
                     left={{ base: `${-0 * 100}vw`, xl: `${-0 * 1280}px` }}
+                    align="start"
                 >
                     <FormStep1
                         stepHeading={formSteps.step1.stepHeading}

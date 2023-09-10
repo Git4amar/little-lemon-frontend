@@ -34,10 +34,9 @@ const TimeRadioInputOption = ({ children, ...props }) => {
         <Box
             as="label"
             cursor="pointer"
-            htmlFor={`time-${children}`}
             {...getLabelProps()}
         >
-            <input {...getInputProps()} {...getRadioProps()} id={`time-${children}`} />
+            <input {...getInputProps()} {...getRadioProps()} />
             <HStack
                 as={motion.div}
                 w="136px"

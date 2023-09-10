@@ -6,7 +6,8 @@ const FormStepFrame = ({ children, stepHeading, ...props }) => {
         <Box
             w={{ base: "100vw", xl: "container.xl" }}
             h={{ base: "full" }}
-            overflow="visible"
+            overflowY="auto"
+            overflowX="hidden"
             {...props}
         >
             <VStack

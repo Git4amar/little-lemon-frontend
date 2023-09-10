@@ -1,13 +1,14 @@
 import { Button, HStack, useNumberInput } from "@chakra-ui/react";
 import InputBox from "./InputBox";
+import { useEffect } from "react";
 
-const NumberInputMobile = ({ step = 1, defaultValue = 4, min = 1, max = 16, ...props }) => {
+const NumberInput = ({ step = 1, defaultValue = 4, min = 1, max = 16, helpers, ...props }) => {
 
     const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
         step: step,
         defaultValue: defaultValue,
         min: min,
-        max: max
+        max: max,
     });
 
     const numBtnProps = {
@@ -36,8 +37,15 @@ const NumberInputMobile = ({ step = 1, defaultValue = 4, min = 1, max = 16, ...p
     const inc = getIncrementButtonProps(numBtnProps);
     const dec = getDecrementButtonProps(numBtnProps);
 
+    useEffect(() => {
+        helpers.setValue(input.value);
+    }, [input.value])
+
     return (
-        <HStack>
+        <HStack
+            w="full"
+            spacing={4}
+        >
             <Button
                 {...dec}
             >
@@ -54,4 +62,4 @@ const NumberInputMobile = ({ step = 1, defaultValue = 4, min = 1, max = 16, ...p
         </HStack>
     )
 }
-export default NumberInputMobile;
+export default NumberInput;

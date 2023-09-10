@@ -1,10 +1,10 @@
-import { HStack, Text, Box } from "@chakra-ui/react"
+import { HStack, Text, Box, FormLabel } from "@chakra-ui/react"
 import { ReactComponent as HelperInfo } from "../../../assets/icons/label-helper-info.svg";
 import { ReactComponent as HoverHelperInfo } from "../../../assets/icons/label-helper-info-hover.svg";
 import { useState } from "react";
 
 
-const FieldLabel = ({ children, isRequired = false, hasHelperInfo = false, ...props }) => {
+const FieldLabel = ({ children, hasHelperInfoIcon = false }) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -20,17 +20,17 @@ const FieldLabel = ({ children, isRequired = false, hasHelperInfo = false, ...pr
 
     return (
         <HStack
-            as="label"
             spacing={2}
-            fontSize="18px"
-            fontWeight={500}
-            {...props}
         >
-            <Text>
+            <FormLabel
+                fontSize="18px"
+                fontWeight={500}
+                m={0}
+                requiredIndicator={<Text as="span" ml={1}>*</Text>}
+            >
                 {children}
-            </Text>
-            {isRequired && <Text>*</Text>}
-            {hasHelperInfo
+            </FormLabel>
+            {hasHelperInfoIcon
                 &&
                 <Box
                     cursor="pointer"

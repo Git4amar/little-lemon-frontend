@@ -1,82 +1,44 @@
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import { Button } from "@chakra-ui/react";
 import FormStepFrame from "./FormStepFrame";
-import { ReactComponent as OccasionIcon } from "../../assets/icons/occasion.svg"
-import InputBox from "./FormUI/InputBox";
-import NumberInputMobile from "./FormUI/NumberInput";
-import SelectInput from "./FormUI/SelectInput";
-import TimeSelectRadioInputGroup from "./FormUI/TimeSelectRadioInput.js";
-import RadioOptionRegular from "./FormUI/RadioOptionRegular";
-import { ReactComponent as DisabilityIcon } from "../../assets/icons/disability-accommodation-icon.svg";
-import { HStack, Textarea, useRadioGroup } from "@chakra-ui/react";
-import FieldLabel from "./FormUI/FieldLabel";
+import FormElement from "./FormUI/FormElement";
+import NumberInput from "./FormUI/NumberInput"
+// import SelectInput from "./FormUI/SelectInput";
 
 
 const FormStep1 = ({ stepHeading }) => {
-
-    const { getRadioProps, getRootProps } = useRadioGroup();
-
     return (
-        <FormStepFrame
-            stepHeading={stepHeading}
+        <Formik
+            initialValues={{
+                numOfGuests: 4
+            }}
+            validationSchema={Yup.object({
+                numOfGuests: Yup.number()
+                    .required("Required")
+                    .max(10, "Max number of 10 guests are allowed")
+                    .min(1, "Min number of 1 guest is allowed")
+            })}
+            onSubmit={values => {
+                console.log(values);
+            }}
         >
-
-            <InputBox />
-
-            <NumberInputMobile />
-
-            <SelectInput
-                leftIcon={<OccasionIcon />}
-                placeHolder="Occasion"
-                options={[
-                    "birthday",
-                    "date",
-                    "engagement",
-                    "anniversary"
-                ]}
-            />
-
-            <SelectInput
-                renderAsDatePicker={true}
-            // nextAvailableDate={"2023-09-10"}
-            />
-
-            <TimeSelectRadioInputGroup
-                name="reservationTime"
-                options={["4:00 PM", "4:30 PM", "4:15 PM", "5:00 PM", "4:45 PM"]}
-            />
-
-            <RadioOptionRegular
-                rightIcon={<DisabilityIcon />}
-            >
-                Disability Accommodation
-            </RadioOptionRegular>
-
-            <HStack
-                spacing={4}
-                {...getRootProps()}
-            >
-                {["Indoors", "Outdoors"].map(value => <RadioOptionRegular
-                    key={value}
-                    {...getRadioProps({ value })}
+            <Form>
+                <FormStepFrame
+                    stepHeading={stepHeading}
                 >
-                    {value}
-                </RadioOptionRegular>)}
-            </HStack>
-
-            <Textarea
-                color="brand.primary.green"
-                focusBorderColor="brand.primary.green"
-                borderRadius="16px"
-                border="1px"
-            />
-
-            <FieldLabel
-                hasHelperInfo={true}
-                isRequired={true}
-            >
-                Field Label
-            </FieldLabel>
-
-        </FormStepFrame>
+                    {/* num of guests */}
+                    <FormElement
+                        id="numOfGuests"
+                        name="numOfGuests"
+                        label="How many in your party?"
+                        isRequired
+                        inputComponent={inputProps => <NumberInput {...inputProps} />}
+                    />
+                </FormStepFrame>
+                <Button type="submit">Submit</Button>
+            </Form>
+        </Formik>
     )
 }
 
