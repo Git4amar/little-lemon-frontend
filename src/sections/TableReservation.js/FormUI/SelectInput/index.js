@@ -7,12 +7,15 @@ import OptionsStack from "./OptionsStack";
 import DateSelector from "./DateSelector";
 
 
-const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDatePicker = false, ...props }) => {
+const SelectInput = ({
+    leftIcon = null, placeHolder = "placeholder", renderAsDatePicker = false,
+    formikHelpers, formikMeta,
+    ...props }) => {
 
     const {
-        name, defaultValue, nextAvailableDate,
+        defaultOption, nextAvailableDate,
         options = ["option1", "option2", "option3", "option4"],
-        ...otherProps
+        ...inputFieldProps
     } = props;
 
     const [scope, animate] = useAnimate();
@@ -21,13 +24,18 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDat
 
     const LeftIcon = () => leftIcon ? <Box className="leftIcon">{leftIcon}</Box> : null;
 
-    const [selectedOption, setSelectedOption] = useState(defaultValue);
-    const handleOptionSelection = option => {
+    const [selectedOption, setSelectedOption] = useState(defaultOption);
+    const handleOptionSelection = async option => {
         const optionValue = option.target.getElementsByTagName("p")[0].innerHTML.toLowerCase();
         setSelectedOption(optionValue);
-        scope.current.getElementsByTagName("select")[0].value = optionValue;
-        wasOpen.current = isOpen;
-        setIsOpen(false);
+        formikHelpers.setTouched(true);
+        await formikHelpers.setValue(optionValue)
+            .then(errors => {
+                if (!Object.keys(errors).includes("reservationDate")) {
+                    wasOpen.current = isOpen;
+                    setIsOpen(false);
+                }
+            });
     }
 
     const dayjs = require("dayjs");
@@ -35,19 +43,28 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDat
     const [selectedDate, setSelectedDate] = useState(
         nextAvailableDate
             ? nextAvailableDate
-            : today.format('YYYY-MM-DD')
+            : inputFieldProps.value
+                ? dayjs(inputFieldProps.value).format("YYYY-MM-DD") : today.format('YYYY-MM-DD')
     );
     const firstDatePicked = useRef(false);
-    const handleDateSelection = date => {
-        setSelectedDate(dayjs(date).format("YYYY-MM-DD"));
-        wasOpen.current = isOpen;
-        firstDatePicked.current = true;
-        setIsOpen(false);
+    const handleDateSelection = async date => {
+        const newDate = dayjs(date).format("YYYY-MM-DD");
+        setSelectedDate(newDate);
+        formikHelpers.setTouched(true);
+        await formikHelpers.setValue(newDate)
+            .then(errors => {
+                if (!Object.keys(errors).includes("reservationDate")) {
+                    wasOpen.current = isOpen;
+                    firstDatePicked.current = true;
+                    setIsOpen(false);
+                }
+            });
     }
 
     const wasOpen = useRef(false);
 
     useEffect(() => {
+        // animate icons for opening and closing action of select
         animate(".select-btn-chevron path", {
             fill: selectedOption || firstDatePicked.current
                 ? "#EDEFEE"
@@ -58,6 +75,8 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDat
                 ? "#EDEFEE"
                 : "#495E57"
         }, { duration: 0.01 });
+
+        // animate opening and closing action of select
         isOpen
             ? animate([
                 [".select-btn-chevron", { transform: "rotateZ(90deg)" }],
@@ -76,13 +95,18 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDat
                 [".select-btn-chevron", { transform: "rotateZ(-90deg)" }],
                 [".rendered-select-button", {
                     boxShadow: "0px 0px 0px 0px #33333380",
-                    border: "1px solid #495E57",
+                    border: formikMeta.touched && formikMeta.error ? "1px solid #E53E3E" : "1px solid #495E57",
                     transform: "translateY(1px)"
                 }, { at: "<" }]
             ], {
                 ease: "easeOut",
                 duration: 1.74 / 4
             });
+
+        // set touched state
+        if (!isOpen && wasOpen.current && !formikMeta.touched) {
+            formikHelpers.setTouched(true);
+        }
     })
 
     return (
@@ -94,17 +118,16 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDat
             {/* form select button (hidden) */}
             {renderAsDatePicker
                 ? <input
-                    type="date"
-                    name={name}
-                    value={selectedDate}
                     readOnly
+                    {...inputFieldProps}
                     style={{ display: "none" }}
                 />
                 : <select
-                    name={name}
-                    defaultValue={defaultValue}
+                    defaultValue={defaultOption}
+                    {...inputFieldProps}
                     style={{ display: "none" }}
                 >
+                    {/* <option disabled value="">Pick a moment</option> */}
                     {options.map(option => <option
                         key={option}
                         value={option}
@@ -121,14 +144,24 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDat
                 as={motion.div}
                 w={{ base: "full" }}
                 justify="space-between"
-                bg={selectedOption || firstDatePicked.current ? "brand.primary.green" : "brand.secondary.brightGray"}
-                color={selectedOption || firstDatePicked.current ? "brand.secondary.brightGray" : "brand.primary.green"}
+                bg={
+                    selectedOption || firstDatePicked.current
+                        ? formikMeta.touched && formikMeta.error ? "brand.secondary.brightGray" : "brand.primary.green"
+                        : "brand.secondary.brightGray"
+                }
+                color={selectedOption || firstDatePicked.current
+                    ? formikMeta.touched && formikMeta.error ? "brand.primary.green" : "brand.secondary.brightGray"
+                    : "brand.primary.green"
+                }
                 borderRadius="16px"
                 px={8}
                 py={4}
                 cursor="pointer"
-                border={selectedOption ? "0px" : "1px"}
-                onClick={() => { wasOpen.current = isOpen; setIsOpen(!isOpen) }}
+                border={!renderAsDatePicker && selectedOption ? "0px" : "1px"}
+                onClick={() => {
+                    wasOpen.current = isOpen;
+                    setIsOpen(!isOpen);
+                }}
             >
                 {/* left icon */}
                 <LeftIcon className="leftIcon" />
@@ -146,8 +179,8 @@ const SelectInput = ({ leftIcon = null, placeHolder = "placeholder", renderAsDat
                                 : dayjs(selectedDate).format("dddd, MMMM D, YYYY")
                             : selectedOption
                                 ? convertToTitleCase(selectedOption)
-                                : defaultValue
-                                    ? convertToTitleCase(defaultValue)
+                                : defaultOption
+                                    ? convertToTitleCase(defaultOption)
                                     : placeHolder
                     }
                 </Text>

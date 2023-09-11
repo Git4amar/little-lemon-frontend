@@ -1,21 +1,16 @@
-import { VStack } from '@chakra-ui/react';
+import { VStack, Center, Circle } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Calendar, Application } from 'react-rainbow-components';
-
-
-const brandTheme = {
-    rainbow: {
-        palette: {
-            brand: '#495E57',
-            mainBackground: '#EDEFEE',
-        }
-    }
-}
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import './calendar.css';
+import { useEffect } from 'react';
 
 
 const DateSelector = ({ selectedDate, handleDateSelection, nextAvailableDate, ...props }) => {
 
     const dayjs = require("dayjs");
+    const minDate = nextAvailableDate ? dayjs(nextAvailableDate).toDate() : dayjs().toDate();
+    const maxDate = dayjs().add(4, "week").toDate()
 
     const calenderStack = {
         hidden: {
@@ -36,6 +31,10 @@ const DateSelector = ({ selectedDate, handleDateSelection, nextAvailableDate, ..
         }
     }
 
+    useEffect(() => {
+        // console.log(dayjs(new Date).day());
+    })
+
     return (
         <VStack
             as={motion.div}
@@ -53,19 +52,22 @@ const DateSelector = ({ selectedDate, handleDateSelection, nextAvailableDate, ..
             transformOrigin="center top"
             {...props}
         >
-            <Application
-                theme={brandTheme}
-                style={{
-                    background: "#EDEFEE",
-                }}
-            >
-                <Calendar
-                    value={dayjs(selectedDate).toDate()}
-                    onChange={handleDateSelection}
-                    minDate={nextAvailableDate ? dayjs(nextAvailableDate).toDate() : dayjs().toDate()}
-                    maxDate={dayjs().add(1, 'month').toDate()}
-                />
-            </Application>
+            <Calendar
+                defaultValue={dayjs(selectedDate).toDate()}
+                minDate={minDate}
+                maxDate={maxDate}
+                minDetail='month'
+                onChange={handleDateSelection}
+                tileContent={({ activeStartDate, date, view }) => dayjs(date).isSame(dayjs().format("YYYY-MM-DD"))
+                    ? <Circle
+                        w={1.5}
+                        h={1.5}
+                        mx="auto"
+                        mt={1}
+                        bg={dayjs(selectedDate).isSame(dayjs().format("YYYY-MM-DD")) ? "brand.secondary.brightGray" : "brand.primary.green"}
+                    />
+                    : null}
+            />
         </VStack>
     )
 }

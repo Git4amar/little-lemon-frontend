@@ -13,6 +13,7 @@ const InputBox = forwardRef((props, ref) => {
             border="1px"
             ref={ref}
             {...props}
+            type="text"
         />
     );
 })
