@@ -81,7 +81,7 @@ const TableReservation = () => {
                 </VStack>
             </VStack>
 
-            {/* Form */}
+            {/* Form  container*/}
             <Box
                 w="full"
                 maxW="container.xl"

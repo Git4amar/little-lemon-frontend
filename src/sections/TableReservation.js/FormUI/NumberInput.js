@@ -39,6 +39,7 @@ const NumberInput = ({ step = 1, defaultValue = 4, min = 1, max = 16, formikHelp
 
     useEffect(() => {
         formikHelpers.setValue(input.value);
+        // eslint-disable-next-line
     }, [input.value])
 
     return (

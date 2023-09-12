@@ -70,7 +70,11 @@ const FormStep1 = ({ stepHeading }) => {
                 console.log(values);
             }}
         >
-            <Form>
+            <Form
+                as="form"
+                id="tableReservationStep1"
+                style={{ height: "100%" }}
+            >
                 <FormStepFrame
                     stepHeading={stepHeading}
                 >
@@ -123,8 +127,8 @@ const FormStep1 = ({ stepHeading }) => {
                             type="radio"
                         />}
                     />
+                    <Button type="submit">Submit</Button>
                 </FormStepFrame>
-                <Button type="submit">Submit</Button>
             </Form>
         </Formik>
     )

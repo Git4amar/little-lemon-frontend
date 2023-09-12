@@ -1,7 +1,6 @@
 import { FormControl, FormErrorMessage, VStack } from "@chakra-ui/react";
 import FieldLabel from "./FieldLabel";
 import { useField } from "formik";
-import { useEffect } from "react";
 
 
 const FormElement = ({ inputComponent, label = "Label", isRequired, ...props }) => {
@@ -9,8 +8,6 @@ const FormElement = ({ inputComponent, label = "Label", isRequired, ...props }) 
     const { name, type } = props;
 
     const [field, meta, helpers] = useField({ name, type });
-
-    useEffect(() => { console.log(field.name, meta.touched, meta.error) });
 
     return (
         <FormControl {...props} isInvalid={meta.touched && meta.error} isRequired={isRequired}

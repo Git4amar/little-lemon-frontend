@@ -1,8 +1,7 @@
-import { HStack, VStack } from "@chakra-ui/react";
+import { HStack, VStack, Box } from "@chakra-ui/react";
 import { useRadioGroup } from "@chakra-ui/react";
 import TimeRadioInputOption from "./TimeRadioInputOption";
 import timeSortingFunction from "../../../../util/timeSortingFunction";
-import { useEffect } from "react";
 
 
 const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikHelpers, formikMeta, ...props }) => {
@@ -17,39 +16,45 @@ const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikH
         timeOptionsGroups.push(timeOptions.slice(3 * i, 3 * (i + 1)));
     }
 
-    useEffect(() => {
-        // console.log(props);
-    })
-
     return (
-        <HStack
-            spacing={{ base: 2, md: 4 }}
-            align="start"
-            {...getRootProps()}
-            {...props}
+        <Box
+            w={{ base: "100vw", xl: "full" }}
+            overflow="auto"
+            pos="relative"
+            left={{ base: "-20px", md: "-70px", xl: null }}
         >
-            {timeOptionsGroups.map(timeGroup => {
-                return (
-                    <VStack
-                        key={timeGroup.toString()}
-                        spacing={2}
-                    >
-                        {timeGroup.map(value => {
-                            return (
-                                <TimeRadioInputOption
-                                    key={value}
-                                    value={value}
-                                    {...getRadioProps({ value })}
-                                >
-                                    {value}
-                                </TimeRadioInputOption>
-                            )
-                        })}
-                    </VStack>
-                )
-            })
-            }
-        </HStack>
+            <HStack
+                w="max"
+                px={{ base: "20px", md: "70px", xl: null }}
+                pb={2}
+                spacing={{ base: 2, md: 4 }}
+                align="start"
+                {...getRootProps()}
+                {...props}
+            >
+                {timeOptionsGroups.map(timeGroup => {
+                    return (
+                        <VStack
+                            key={timeGroup.toString()}
+                            spacing={2}
+                        >
+                            {timeGroup.map(value => {
+                                return (
+                                    <TimeRadioInputOption
+                                        key={value}
+                                        value={value}
+                                        {...getRadioProps({ value })}
+                                    >
+                                        {value}
+                                    </TimeRadioInputOption>
+                                )
+                            })}
+                        </VStack>
+                    )
+                })
+                }
+            </HStack>
+        </Box>
     )
 }
 
