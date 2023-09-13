@@ -13,12 +13,13 @@ const ButtonRegular = ({ children, ...props }) => {
             fontSize="18px"
             lineHeight="none"
             size="lg"
-            boxShadow="0px 4px 4px 0px #333333"
+            boxShadow="0px 4px 4px 0px #33333380"
             _active={{
                 boxShadow: "0px 0px 0px 0px #333333",
                 transform: "translateY(1px)",
                 bg: "brand.secondary.brightGray",
             }}
+            type="button"
             {...props}
         >
             {children}

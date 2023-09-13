@@ -1,10 +1,10 @@
 import { HStack, Text, Box, FormLabel } from "@chakra-ui/react"
 import { ReactComponent as HelperInfo } from "../../../assets/icons/label-helper-info.svg";
 import { ReactComponent as HoverHelperInfo } from "../../../assets/icons/label-helper-info-hover.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
-const FieldLabel = ({ children, hasHelperInfoIcon = false }) => {
+const FieldLabel = ({ children, hasHelperInfoIcon = false, radio, checkbox }) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -23,6 +23,7 @@ const FieldLabel = ({ children, hasHelperInfoIcon = false }) => {
             spacing={2}
         >
             <FormLabel
+                as={radio || checkbox ? "legend" : "label"}
                 fontSize="18px"
                 fontWeight={500}
                 m={0}

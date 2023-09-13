@@ -5,6 +5,7 @@ const outline = defineStyle({
         borderColor: "brand.primary.yellow"
     },
     bg: "brand.secondary.brightGray",
+    borderRadius: "16px"
 })
 
 export const textareaTheme = defineStyleConfig({

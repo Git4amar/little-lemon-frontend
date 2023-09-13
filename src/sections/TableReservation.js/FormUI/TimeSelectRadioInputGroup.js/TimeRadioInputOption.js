@@ -34,10 +34,11 @@ const TimeRadioInputOption = ({ children, ...props }) => {
         <Box
             as="label"
             cursor="pointer"
-            {...getLabelProps()}
+            htmlFor={children}
         >
-            <input {...getInputProps()} {...getRadioProps()} />
+            <input {...getInputProps()} id={children} />
             <HStack
+                {...getRadioProps()}
                 as={motion.div}
                 w="136px"
                 spacing={4}
@@ -59,6 +60,7 @@ const TimeRadioInputOption = ({ children, ...props }) => {
                     fontSize="18px"
                     fontWeight={500}
                     lineHeight="none"
+                    {...getLabelProps()}
                 >
                     {children}
                 </Text>

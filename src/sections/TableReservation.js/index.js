@@ -11,23 +11,23 @@ import FormStep5 from "./FormStep5";
 
 const TableReservation = () => {
 
-    const formSteps = {
-        step1: {
+    const formSteps = [
+        {
             stepHeading: "let's set up your table"
         },
-        step2: {
+        {
             stepHeading: "customizations"
         },
-        step3: {
+        {
             stepHeading: "your details"
         },
-        step4: {
+        {
             stepHeading: "hold your reservation"
         },
-        step5: {
+        {
             stepHeading: "review and confirm"
         }
-    }
+    ]
 
     return (
         <VStack
@@ -93,23 +93,23 @@ const TableReservation = () => {
                     h={{ base: "full" }}
                     pos="relative"
                     spacing={0}
-                    left={{ base: `${-0 * 100}vw`, xl: `${-0 * 1280}px` }}
+                    left={{ base: `${-2 * 100}vw`, xl: `${-2 * 1280}px` }}
                     align="start"
                 >
                     <FormStep1
-                        stepHeading={formSteps.step1.stepHeading}
+                        stepHeading={formSteps[0].stepHeading}
                     />
                     <FormStep2
-                        stepHeading={formSteps.step2.stepHeading}
+                        stepHeading={formSteps[1].stepHeading}
                     />
                     <FormStep3
-                        stepHeading={formSteps.step3.stepHeading}
+                        stepHeading={formSteps[2].stepHeading}
                     />
                     <FormStep4
-                        stepHeading={formSteps.step4.stepHeading}
+                        stepHeading={formSteps[3].stepHeading}
                     />
                     <FormStep5
-                        stepHeading={formSteps.step5.stepHeading}
+                        stepHeading={formSteps[4].stepHeading}
                     />
                 </HStack>
             </Box>

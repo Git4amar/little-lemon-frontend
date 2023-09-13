@@ -2,11 +2,13 @@ import { HStack, VStack, Box } from "@chakra-ui/react";
 import { useRadioGroup } from "@chakra-ui/react";
 import TimeRadioInputOption from "./TimeRadioInputOption";
 import timeSortingFunction from "../../../../util/timeSortingFunction";
+import { useEffect } from "react";
 
 
 const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikHelpers, formikMeta, ...props }) => {
 
-    const { getRadioProps, getRootProps } = useRadioGroup(props);
+    const { id, name } = props;
+    const { getRadioProps, getRootProps, value } = useRadioGroup();
 
     const timeOptions = timeSortingFunction(options);
 
@@ -15,6 +17,17 @@ const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikH
     for (let i = 0; 3 * i <= timeOptions.length; i++) {
         timeOptionsGroups.push(timeOptions.slice(3 * i, 3 * (i + 1)));
     }
+
+
+    const handleRadioValue = async (value) => {
+        await formikHelpers.setValue(value);
+        formikHelpers.setTouched(true);
+    }
+
+    useEffect(() => {
+        value && handleRadioValue(value);
+        // eslint-disable-next-line
+    }, [value])
 
     return (
         <Box
@@ -29,8 +42,8 @@ const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikH
                 pb={2}
                 spacing={{ base: 2, md: 4 }}
                 align="start"
+                id={id}
                 {...getRootProps()}
-                {...props}
             >
                 {timeOptionsGroups.map(timeGroup => {
                     return (
@@ -41,9 +54,10 @@ const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikH
                             {timeGroup.map(value => {
                                 return (
                                     <TimeRadioInputOption
+                                        {...getRadioProps({ value })}
+                                        name={name}
                                         key={value}
                                         value={value}
-                                        {...getRadioProps({ value })}
                                     >
                                         {value}
                                     </TimeRadioInputOption>

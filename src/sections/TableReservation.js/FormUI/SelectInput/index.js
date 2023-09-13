@@ -1,4 +1,4 @@
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactComponent as ChevronIcon } from "../../../../assets/icons/chevron.svg"
 import { useAnimate, motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -13,7 +13,7 @@ const SelectInput = ({
     ...props }) => {
 
     const {
-        defaultOption, nextAvailableDate,
+        defaultOption = formikMeta.initialValue, nextAvailableDate,
         options = ["option1", "option2", "option3", "option4"],
         ...inputFieldProps
     } = props;
@@ -22,13 +22,9 @@ const SelectInput = ({
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const LeftIcon = () => leftIcon ? <Box className="leftIcon">{leftIcon}</Box> : null;
-
     const [selectedOption, setSelectedOption] = useState(defaultOption);
     const handleOptionSelection = async option => {
-        const optionValue = option.target.getElementsByTagName("p")[0].innerHTML.toLowerCase();
-        setSelectedOption(optionValue);
-        formikHelpers.setTouched(true);
+        const optionValue = option.target.getElementsByTagName("p")[0].innerHTML;
         await formikHelpers.setValue(optionValue)
             .then(errors => {
                 if (!Object.keys(errors).includes("reservationDate")) {
@@ -36,6 +32,8 @@ const SelectInput = ({
                     setIsOpen(false);
                 }
             });
+        formikHelpers.setTouched(true);
+        setSelectedOption(optionValue);
     }
 
     const dayjs = require("dayjs");
@@ -46,19 +44,18 @@ const SelectInput = ({
             : inputFieldProps.value
                 ? dayjs(inputFieldProps.value).format("YYYY-MM-DD") : today.format('YYYY-MM-DD')
     );
-    const firstDatePicked = useRef(false);
+
     const handleDateSelection = async date => {
         const newDate = dayjs(date).format("YYYY-MM-DD");
-        setSelectedDate(newDate);
-        formikHelpers.setTouched(true);
         await formikHelpers.setValue(newDate)
             .then(errors => {
                 if (!Object.keys(errors).includes("reservationDate")) {
                     wasOpen.current = isOpen;
-                    firstDatePicked.current = true;
                     setIsOpen(false);
                 }
             });
+        formikHelpers.setTouched(true);
+        setSelectedDate(newDate);
     }
 
     const wasOpen = useRef(false);
@@ -66,12 +63,12 @@ const SelectInput = ({
     useEffect(() => {
         // animate icons for opening and closing action of select
         animate(".select-btn-chevron path", {
-            fill: selectedOption || firstDatePicked.current
+            fill: formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
                 ? "#EDEFEE"
                 : "#495E57"
         }, { duration: 0.01 });
         leftIcon && animate(".leftIcon path", {
-            fill: selectedOption
+            fill: formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
                 ? "#EDEFEE"
                 : "#495E57"
         }, { duration: 0.01 });
@@ -106,8 +103,8 @@ const SelectInput = ({
         // set touched state
         if (!isOpen && wasOpen.current && !formikMeta.touched) {
             formikHelpers.setTouched(true);
-        }
-    })
+        };
+    }, [formikMeta.touched, formikMeta.error, formikMeta.value, isOpen])
 
     return (
         <VStack
@@ -123,11 +120,10 @@ const SelectInput = ({
                     style={{ display: "none" }}
                 />
                 : <select
-                    defaultValue={defaultOption}
                     {...inputFieldProps}
                     style={{ display: "none" }}
                 >
-                    {/* <option disabled value="">Pick a moment</option> */}
+                    <option disabled value="">Pick an option</option>
                     {options.map(option => <option
                         key={option}
                         value={option}
@@ -144,15 +140,10 @@ const SelectInput = ({
                 as={motion.div}
                 w={{ base: "full" }}
                 justify="space-between"
-                bg={
-                    selectedOption || firstDatePicked.current
-                        ? formikMeta.touched && formikMeta.error ? "brand.secondary.brightGray" : "brand.primary.green"
-                        : "brand.secondary.brightGray"
-                }
-                color={selectedOption || firstDatePicked.current
-                    ? formikMeta.touched && formikMeta.error ? "brand.primary.green" : "brand.secondary.brightGray"
-                    : "brand.primary.green"
-                }
+                bg={formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
+                    ? "brand.primary.green" : "brand.secondary.brightGray"}
+                color={formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
+                    ? "brand.secondary.brightGray" : "brand.primary.green"}
                 borderRadius="16px"
                 px={8}
                 py={4}
@@ -164,7 +155,9 @@ const SelectInput = ({
                 }}
             >
                 {/* left icon */}
-                <LeftIcon className="leftIcon" />
+                {leftIcon && leftIcon({
+                    className: "leftIcon"
+                })}
 
                 {/* selected item or placeholder */}
                 <Text
@@ -198,23 +191,24 @@ const SelectInput = ({
                 />
             </HStack>
             {/* select options stack */}
-            {renderAsDatePicker
-                ? <AnimatePresence>
-                    {isOpen && <DateSelector
-                        key="selectDateSelector"
-                        handleDateSelection={handleDateSelection}
-                        selectedDate={selectedDate}
-                        nextAvailableDate={nextAvailableDate}
-                    />}
-                </AnimatePresence>
-                : <AnimatePresence>
-                    {isOpen && <OptionsStack
-                        key="selectOptionsStack"
-                        options={options}
-                        selectedOption={selectedOption}
-                        handleOptionSelection={handleOptionSelection}
-                    />}
-                </AnimatePresence>
+            {
+                renderAsDatePicker
+                    ? <AnimatePresence>
+                        {isOpen && <DateSelector
+                            key="selectDateSelector"
+                            handleDateSelection={handleDateSelection}
+                            selectedDate={selectedDate}
+                            nextAvailableDate={nextAvailableDate}
+                        />}
+                    </AnimatePresence>
+                    : <AnimatePresence>
+                        {isOpen && <OptionsStack
+                            key="selectOptionsStack"
+                            options={options}
+                            selectedOption={selectedOption}
+                            handleOptionSelection={handleOptionSelection}
+                        />}
+                    </AnimatePresence>
             }
         </VStack >
     )

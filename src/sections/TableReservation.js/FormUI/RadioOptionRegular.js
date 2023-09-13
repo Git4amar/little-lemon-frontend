@@ -1,8 +1,9 @@
 import { Circle, useRadio, HStack, Text } from "@chakra-ui/react";
 import { ReactComponent as RadioCheck } from "../../../assets/icons/radio-check.svg";
+import { useEffect } from "react";
 
 
-const RadioOptionRegular = ({ rightIcon = null, children, ...props }) => {
+const RadioOptionRegular = ({ rightIcon = null, children, formikMeta, formikHelpers, ...props }) => {
 
     const { getInputProps, getLabelProps, getRadioProps, state } = useRadio(props);
 
@@ -11,10 +12,11 @@ const RadioOptionRegular = ({ rightIcon = null, children, ...props }) => {
             as="label"
             spacing={1}
             cursor="pointer"
-            {...getLabelProps()}
+            htmlFor={children}
         >
-            <input {...getInputProps()} {...getRadioProps()} />
+            <input {...getInputProps()} id={children} />
             <Circle
+                {...getRadioProps()}
                 w={6}
                 h={6}
                 border="2px"
@@ -24,6 +26,8 @@ const RadioOptionRegular = ({ rightIcon = null, children, ...props }) => {
                 <RadioCheck />
             </Circle>
             <Text
+                // as="label"
+                {...getLabelProps()}
                 fontSize="18px"
                 fontWeight={500}
                 lineHeight="none"

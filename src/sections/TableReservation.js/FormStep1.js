@@ -1,10 +1,10 @@
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { Button } from "@chakra-ui/react";
 import FormStepFrame from "./FormStepFrame";
-import FormElement from "./FormUI/FormElement";
+import FormElementRegular from "./FormUI/FormElementRegular";
 import NumberInput from "./FormUI/NumberInput"
 import SelectInput from "./FormUI/SelectInput";
+import FormCTAButton from "./FormUI/FormCTAButton";
 import TimeSelectRadioInputGroup from "./FormUI/TimeSelectRadioInputGroup.js/index.js";
 
 
@@ -65,21 +65,23 @@ const FormStep1 = ({ stepHeading }) => {
                     .oneOf(momentOptions, "Pick a valid option"),
                 reservationTime: Yup.string()
                     .required("Required")
+                    .oneOf(timeOptions, "Pick a valid option")
             })}
             onSubmit={values => {
                 console.log(values);
             }}
         >
             <Form
-                as="form"
                 id="tableReservationStep1"
                 style={{ height: "100%" }}
+                noValidate
+            // method="post"
             >
                 <FormStepFrame
                     stepHeading={stepHeading}
                 >
                     {/* num of guests */}
-                    <FormElement
+                    <FormElementRegular
                         id="numOfGuests"
                         name="numOfGuests"
                         label="How many in your party?"
@@ -89,45 +91,50 @@ const FormStep1 = ({ stepHeading }) => {
                     />
 
                     {/* day of reservation */}
-                    <FormElement
+                    <FormElementRegular
                         id="reservationDay"
                         name="reservationDay"
                         label="When would you like to dine?"
                         isRequired
+                        type="date"
                         inputComponent={inputProps => <SelectInput
                             {...inputProps}
                             renderAsDatePicker={true}
-                            type="date"
                         />}
                     />
 
                     {/* moment of reservation */}
-                    <FormElement
+                    <FormElementRegular
                         id="reservationMoment"
                         name="reservationMoment"
                         label="Choose your moment"
                         isRequired
+                        type="select"
                         inputComponent={inputProps => <SelectInput
                             {...inputProps}
-                            type="select"
                             options={momentOptions}
                             placeHolder="Moment"
                         />}
                     />
 
                     {/* show available time */}
-                    <FormElement
-                        id="reservationTime"
+                    <FormElementRegular
                         name="reservationTime"
+                        type="radio"
+                        id="reservationTime"
                         label="Select an available time"
                         isRequired
                         inputComponent={inputProps => <TimeSelectRadioInputGroup
                             options={timeOptions}
                             {...inputProps}
-                            type="radio"
                         />}
                     />
-                    <Button type="submit">Submit</Button>
+                    <FormCTAButton
+                        primary
+                        type="submit"
+                    >
+                        Next
+                    </FormCTAButton>
                 </FormStepFrame>
             </Form>
         </Formik>
