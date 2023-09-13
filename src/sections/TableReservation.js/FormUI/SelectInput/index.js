@@ -171,9 +171,9 @@ const SelectInput = ({
                                 ? "Today"
                                 : dayjs(selectedDate).format("dddd, MMMM D, YYYY")
                             : selectedOption
-                                ? convertToTitleCase(selectedOption)
+                                ? selectedOption
                                 : defaultOption
-                                    ? convertToTitleCase(defaultOption)
+                                    ? defaultOption
                                     : placeHolder
                     }
                 </Text>

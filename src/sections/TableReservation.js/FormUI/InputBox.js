@@ -1,7 +1,7 @@
 import { Input } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
-const InputBox = forwardRef((props, ref) => {
+const InputBox = forwardRef(({ formikHelpers, formikMeta, ...props }, ref) => {
 
     return (
         <Input
@@ -12,8 +12,8 @@ const InputBox = forwardRef((props, ref) => {
             variant="outline"
             border="1px"
             ref={ref}
-            {...props}
             type="text"
+            {...props}
         />
     );
 })

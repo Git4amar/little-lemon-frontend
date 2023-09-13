@@ -16,10 +16,10 @@ const FormStep1 = ({ stepHeading }) => {
 
     // ToDo: receive available options from backend API
     const momentOptions = [
-        "breakfast",
-        "lunch",
-        "dinner",
-        "bar"
+        "Breakfast (6 a.m. to noon)",
+        "Lunch (noon to 6 p.m.)",
+        "Dinner (6 p.m. to midnight)",
+        "Bar (noon to midnight)"
     ]
 
     // ToDo: receive available times from backend API

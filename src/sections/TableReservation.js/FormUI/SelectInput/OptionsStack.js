@@ -2,7 +2,7 @@ import { VStack } from "@chakra-ui/react";
 import SelectOption from "./SelectOption";
 import { motion } from "framer-motion";
 import convertToTitleCase from "../../../../util/convertToTitleCase";
-import { useEffect } from "react";
+
 
 const OptionsStack = ({ options, handleOptionSelection, selectedOption, ...props }) => {
 
@@ -64,7 +64,7 @@ const OptionsStack = ({ options, handleOptionSelection, selectedOption, ...props
                 variants={optionItem}
                 transformOrigin="left center"
             >
-                {convertToTitleCase(option)}
+                {option}
             </SelectOption>
             )}
         </VStack>
