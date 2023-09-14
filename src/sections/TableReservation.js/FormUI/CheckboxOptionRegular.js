@@ -5,7 +5,10 @@ import { useEffect } from "react";
 
 const CheckboxOptionRegular = ({ rightIcon = null, children, formikMeta, formikHelpers, ...props }) => {
 
-    const { getInputProps, getLabelProps, getCheckboxProps, state, htmlProps } = useCheckbox(props);
+    const { getInputProps, getLabelProps, getCheckboxProps, state, htmlProps } = useCheckbox({
+        ...props,
+        defaultChecked: formikMeta.value
+    });
 
     const handleFormikValue = async value => {
         await formikHelpers.setValue(value);
@@ -14,6 +17,7 @@ const CheckboxOptionRegular = ({ rightIcon = null, children, formikMeta, formikH
 
     useEffect(() => {
         handleFormikValue(state.isChecked);
+        // eslint-disable-next-line
     }, [state.isChecked])
 
     return (

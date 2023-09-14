@@ -4,13 +4,13 @@ import { useField } from "formik";
 import { useEffect } from "react";
 
 
-const FormElementRegular = ({ inputComponent, label = "Label", isRequired, ...props }) => {
+const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHelperInfoIcon, infoFor, ...props }) => {
 
     const { name, type } = props;
 
     const [field, meta, helpers] = useField(name);
 
-    useEffect(() => { name === "additionalInfo" && console.log(name, type, field, props) });
+    // useEffect(() => { name === "easyReservationSignUp" && console.log(name, type, field, props) });
 
     return (
         <FormControl
@@ -27,6 +27,8 @@ const FormElementRegular = ({ inputComponent, label = "Label", isRequired, ...pr
                 <FieldLabel
                     radio={type === "radio"}
                     checkbox={type === "checkbox"}
+                    hasHelperInfoIcon={hasHelperInfoIcon}
+                    infoFor={infoFor}
                 >
                     {label}
                 </FieldLabel>

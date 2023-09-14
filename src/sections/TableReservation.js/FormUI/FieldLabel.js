@@ -1,10 +1,11 @@
-import { HStack, Text, Box, FormLabel } from "@chakra-ui/react"
+import { HStack, Text, Box, FormLabel, Tooltip } from "@chakra-ui/react"
 import { ReactComponent as HelperInfo } from "../../../assets/icons/label-helper-info.svg";
 import { ReactComponent as HoverHelperInfo } from "../../../assets/icons/label-helper-info-hover.svg";
+import CardHelperInfo from "./CardHelperInfo";
 import { useEffect, useState } from "react";
 
 
-const FieldLabel = ({ children, hasHelperInfoIcon = false, radio, checkbox }) => {
+const FieldLabel = ({ children, hasHelperInfoIcon = false, infoFor, radio, checkbox }) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -33,21 +34,32 @@ const FieldLabel = ({ children, hasHelperInfoIcon = false, radio, checkbox }) =>
             </FormLabel>
             {hasHelperInfoIcon
                 &&
-                <Box
-                    cursor="pointer"
-                    borderRadius="full"
-                    onPointerEnter={handleHelperInfo}
-                    onPointerLeave={handleHelperInfo}
-                    boxShadow={isHovered ? "0px 4px 4px 0px #33333380" : null}
+                <Tooltip
+                    bg="brand.secondary.brightGray"
+                    label={<CardHelperInfo
+                        infoFor={infoFor}
+                    />}
+                    p={5}
+                    borderRadius="8px"
+                    placement="auto"
                 >
-                    {
-                        isHovered
-                            ? <HoverHelperInfo />
-                            : <HelperInfo />
-                    }
-                </Box>
+                    <Box
+                        as="button"
+                        type="button"
+                        borderRadius="full"
+                        onPointerEnter={handleHelperInfo}
+                        onPointerLeave={handleHelperInfo}
+                        boxShadow={isHovered ? "0px 4px 4px 0px #33333380" : null}
+                    >
+                        {
+                            isHovered
+                                ? <HoverHelperInfo />
+                                : <HelperInfo />
+                        }
+                    </Box>
+                </Tooltip>
             }
-        </HStack>
+        </HStack >
     )
 }
 
