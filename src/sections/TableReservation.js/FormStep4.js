@@ -99,7 +99,7 @@ const FormStep4 = ({ stepHeading }) => {
                     />
                     {/* name on the card */}
                     <FormElementRegular
-                        label="Name of this card"
+                        label="Name on this card"
                         isRequired
                         name="cardHolderName"
                         id="cardHolderName"
