@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Box, HStack, Image, Text } from "@chakra-ui/react";
+import { HStack, Image, Text } from "@chakra-ui/react";
 import FormStepFrame from "./FormStepFrame";
 import FormCTAButton from "./FormUI/FormCTAButton";
 import FormElementRegular from "./FormUI/FormElementRegular";
@@ -8,16 +8,42 @@ import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
 import InputBox from "./FormUI/InputBox";
 
 
+const dayjs = require("dayjs").extend(require("dayjs/plugin/isSameOrAfter"));
+
 const FormStep4 = ({ stepHeading }) => {
     return (
         <Formik
             initialValues={{
-                easyReservationSignUp: false,
                 cardNumber: "",
-                expirationDate: "",
+                cardExpiration: "",
                 securityCode: "",
-                cardHolderName: ""
+                cardHolderName: "",
+                easyReservationSignUp: false
             }}
+            validationSchema={Yup.object({
+                cardNumber: Yup.string()
+                    .trim()
+                    .required("Required")
+                    .matches(/^\d{15,16}$/, "Please enter a valid 15 or 16 digit number without any dashes or spaces"),
+                cardExpiration: Yup.string()
+                    .trim()
+                    .required("Required")
+                    .matches(/^\d{2}\/\d{4}$/, "Please enter a valid expiration")
+                    .test(
+                        'is-valid-future-date',
+                        "The expiration is invalid as it is in the past",
+                        (value) => dayjs(value, "MM/YYYY").isSameOrAfter(dayjs(), "M")
+                    ),
+                securityCode: Yup.string()
+                    .trim()
+                    .required("Required")
+                    .matches(/^\d{3,4}$/, "Please enter a valid 3 or 4 code"),
+                cardHolderName: Yup.string()
+                    .trim()
+                    .required("Required"),
+                easyReservationSignUp: Yup.boolean()
+                    .notRequired(),
+            })}
             onSubmit={values => {
                 console.log(values)
             }}
@@ -78,13 +104,22 @@ const FormStep4 = ({ stepHeading }) => {
 
                     {/* card expiration date */}
                     <FormElementRegular
-                        label="Expiration Date (MM/YYYY)"
+                        label="Card Expiration (MM/YYYY)"
                         isRequired
-                        name="expirationDate"
-                        id="expirationDate"
+                        name="cardExpiration"
+                        id="cardExpiration"
                         hasHelperInfoIcon
-                        infoFor="card-expiration-date"
-                        inputComponent={inputProps => <InputBox {...inputProps} />}
+                        infoFor="card-expiration"
+                        inputComponent={inputProps => <InputBox
+                            {...inputProps}
+                            onChange={e => {
+                                let value = e.target.value;
+                                if (value.length === 3) {
+                                    value = value[2] === "/" ? value : value.substr(0, 2) + "/" + value[2]
+                                }
+                                inputProps.formikHelpers.setValue(value);
+                            }}
+                        />}
                     />
 
                     {/* card security code */}

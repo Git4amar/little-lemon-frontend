@@ -6,7 +6,7 @@ const CardHelperInfo = ({ infoFor, ...props }) => {
         switch (infoFor) {
             case "card-number":
                 return "A 15 or 16 digit number on front of the card"
-            case "card-expiration-date":
+            case "card-expiration":
                 return "MM/YYYY"
             case "card-holder-name":
                 return "Card holder's name, as it appears on the card"
@@ -69,7 +69,7 @@ const CardHelperInfo = ({ infoFor, ...props }) => {
                             </Text>
                             <Text
                                 w="full"
-                                color={infoFor === "card-expiration-date" && "brand.primary.yellow"}
+                                color={infoFor === "card-expiration" && "brand.primary.yellow"}
                                 textAlign="end"
                             >
                                 10/2026
