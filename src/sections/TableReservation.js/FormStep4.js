@@ -8,7 +8,10 @@ import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
 import InputBox from "./FormUI/InputBox";
 
 
-const dayjs = require("dayjs").extend(require("dayjs/plugin/isSameOrAfter"));
+const dayjs = require("dayjs")
+    .extend(require("dayjs/plugin/isSameOrAfter"))
+    .extend(require("dayjs/plugin/customParseFormat"));
+const creditCardValidator = require("credit-card-validator");
 
 const FormStep4 = ({ stepHeading }) => {
     return (
@@ -24,20 +27,59 @@ const FormStep4 = ({ stepHeading }) => {
                 cardNumber: Yup.string()
                     .trim()
                     .required("Required")
-                    .matches(/^\d{15,16}$/, "Please enter a valid 15 or 16 digit number without any dashes or spaces"),
+                    .matches(/^\d*$/, "Please enter card number without any dashes or spaces")
+                    .test(
+                        'is-valid-acountNumLength',
+                        (cardNum, context) => {
+                            return creditCardValidator.validateCard(cardNum) || context.createError({
+                                name: "cardNumber",
+                                message: creditCardValidator.getCardAccountNumLengths(cardNum) >= 0
+                                    ? `Please enter valid ${creditCardValidator.getCardAccountNumLengths(cardNum)}-digit number`
+                                    : "Please enter a valid card number"
+                            })
+                        }
+                    ),
                 cardExpiration: Yup.string()
                     .trim()
                     .required("Required")
-                    .matches(/^\d{2}\/\d{4}$/, "Please enter a valid expiration")
                     .test(
-                        'is-valid-future-date',
+                        'is-valid-future-expiration',
                         "The expiration is invalid as it is in the past",
-                        (value) => dayjs(value, "MM/YYYY").isSameOrAfter(dayjs(), "M")
+                        (value, context) => {
+                            return dayjs(value, "MM/YYYY", true).isValid()
+                                ? dayjs(value, "MM/YYYY").isSameOrAfter(dayjs(), "M")
+                                : context.createError({
+                                    path: "cardExpiration",
+                                    message: "Please enter a valid expiration"
+                                })
+                        }
                     ),
                 securityCode: Yup.string()
                     .trim()
                     .required("Required")
-                    .matches(/^\d{3,4}$/, "Please enter a valid 3 or 4 code"),
+                    .matches(/^\d*$/, "Please enter code digits only")
+                    .test(
+                        'is-valid-code',
+                        (code, context) => {
+                            const cardNum = Object.getOwnPropertyNames(context.parent).includes("cardNumber")
+                                ? context.parent.cardNumber : null;
+                            try {
+                                if (!creditCardValidator.validateCardAndSecCode(cardNum, code)) {
+                                    // eslint-disable-next-line
+                                    throw "InvalidCode";
+                                }
+                                return true;
+                            }
+                            catch (err) {
+                                return context.createError({
+                                    path: "securityCode",
+                                    message: err === "InvalidCode"
+                                        ? `Please enter valid ${creditCardValidator.getCardSecurityNumLengths(cardNum)}-digit code`
+                                        : "Please enter a card number first"
+                                })
+                            }
+                        }
+                    ),
                 cardHolderName: Yup.string()
                     .trim()
                     .required("Required"),
@@ -99,7 +141,13 @@ const FormStep4 = ({ stepHeading }) => {
                         id="cardNumber"
                         hasHelperInfoIcon
                         infoFor="card-number"
-                        inputComponent={inputProps => <InputBox {...inputProps} />}
+                        inputComponent={inputProps => <InputBox
+                            {...inputProps}
+                            onChange={e => {
+                                let value = e.target.value;
+                                inputProps.formikHelpers.setValue(value);
+                            }}
+                        />}
                     />
 
                     {/* card expiration date */}
