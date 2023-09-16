@@ -14,7 +14,7 @@ import { ReactComponent as OccasionIcon } from "../../assets/icons/occasion.svg"
 const FormStep2 = ({ stepHeading }) => {
 
     const seatingOptions = ["Indoors", "Outdoors"]
-    const occasionOptions = ["Birthday", "Date", "Engagement", "Anniversary"]
+    const occasionOptions = ["Birthday", "Date", "Engagement", "Anniversary", "other"]
 
     return (
         <Formik

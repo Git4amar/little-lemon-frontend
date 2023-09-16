@@ -93,7 +93,7 @@ const TableReservation = () => {
                     h={{ base: "full" }}
                     pos="relative"
                     spacing={0}
-                    left={{ base: `${-3 * 100}vw`, xl: `${-3 * 1280}px` }}
+                    left={{ base: `${-0 * 100}vw`, xl: `${-0 * 1280}px` }}
                     align="start"
                 >
                     <FormStep1

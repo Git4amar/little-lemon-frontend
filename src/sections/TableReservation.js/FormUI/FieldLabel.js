@@ -2,7 +2,7 @@ import { HStack, Text, Box, FormLabel, Tooltip } from "@chakra-ui/react"
 import { ReactComponent as HelperInfo } from "../../../assets/icons/label-helper-info.svg";
 import { ReactComponent as HoverHelperInfo } from "../../../assets/icons/label-helper-info-hover.svg";
 import CardHelperInfo from "./CardHelperInfo";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
 const FieldLabel = ({ children, hasHelperInfoIcon = false, infoFor, radio, checkbox }) => {

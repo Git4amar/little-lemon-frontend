@@ -19,6 +19,7 @@ const RegularRadioOptionGroup = ({
 
     useEffect(() => {
         value && handleFormikValue(value);
+        //eslint-disable-next-line
     }, [value])
 
     return (

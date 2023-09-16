@@ -34,8 +34,8 @@ const FormStep4 = ({ stepHeading }) => {
                             return creditCardValidator.validateCard(cardNum) || context.createError({
                                 name: "cardNumber",
                                 message: creditCardValidator.getCardAccountNumLengths(cardNum) >= 0
-                                    ? `Please enter valid ${creditCardValidator.getCardAccountNumLengths(cardNum)}-digit number`
-                                    : "Please enter a valid card number"
+                                    ? `Please enter a valid ${creditCardValidator.getCardAccountNumLengths(cardNum)}-digit credit card number`
+                                    : "Please enter a valid credit card number"
                             })
                         }
                     ),
@@ -50,7 +50,7 @@ const FormStep4 = ({ stepHeading }) => {
                                 ? dayjs(value, "MM/YYYY").isSameOrAfter(dayjs(), "M")
                                 : context.createError({
                                     path: "cardExpiration",
-                                    message: "Please enter a valid expiration"
+                                    message: "Please enter a 2-digit month and 4-digit year"
                                 })
                         }
                     ),
@@ -73,9 +73,9 @@ const FormStep4 = ({ stepHeading }) => {
                             catch (err) {
                                 return context.createError({
                                     path: "securityCode",
-                                    message: err === "InvalidCode"
-                                        ? `Please enter valid ${creditCardValidator.getCardSecurityNumLengths(cardNum)}-digit code`
-                                        : "Please enter a card number first"
+                                    message: err === "InvalidCode" && creditCardValidator.getCardSecurityNumLengths(cardNum) >= 0
+                                        ? `Please enter valid ${creditCardValidator.getCardSecurityNumLengths(cardNum)}-digit security code`
+                                        : "Please enter a valid credit card number first"
                                 })
                             }
                         }
@@ -129,7 +129,7 @@ const FormStep4 = ({ stepHeading }) => {
                             fontWeight={400}
                             lineHeight="150%"
                         >
-                            This is a secure 128-bit SSL Encrypted payment. You’re safe.
+                            This is a secure 128-bit SSL Encrypted payment. You're safe.
                         </Text>
                     </HStack>
 
@@ -144,7 +144,7 @@ const FormStep4 = ({ stepHeading }) => {
                         inputComponent={inputProps => <InputBox
                             {...inputProps}
                             onChange={e => {
-                                let value = e.target.value;
+                                let value = e.target.value.trim();
                                 inputProps.formikHelpers.setValue(value);
                             }}
                         />}
@@ -161,7 +161,7 @@ const FormStep4 = ({ stepHeading }) => {
                         inputComponent={inputProps => <InputBox
                             {...inputProps}
                             onChange={e => {
-                                let value = e.target.value;
+                                let value = e.target.value.trim();
                                 if (value.length === 3) {
                                     value = value[2] === "/" ? value : value.substr(0, 2) + "/" + value[2]
                                 }
@@ -178,7 +178,13 @@ const FormStep4 = ({ stepHeading }) => {
                         id="securityCode"
                         hasHelperInfoIcon
                         infoFor="card-security-code"
-                        inputComponent={inputProps => <InputBox {...inputProps} />}
+                        inputComponent={inputProps => <InputBox
+                            {...inputProps}
+                            onChange={e => {
+                                let value = e.target.value.trim();
+                                inputProps.formikHelpers.setValue(value);
+                            }}
+                        />}
                     />
                     {/* name on the card */}
                     <FormElementRegular
@@ -188,7 +194,13 @@ const FormStep4 = ({ stepHeading }) => {
                         id="cardHolderName"
                         hasHelperInfoIcon
                         infoFor="card-holder-name"
-                        inputComponent={inputProps => <InputBox {...inputProps} />}
+                        inputComponent={inputProps => <InputBox
+                            {...inputProps}
+                            onChange={e => {
+                                let value = e.target.value.trimStart();
+                                inputProps.formikHelpers.setValue(value);
+                            }}
+                        />}
                     />
 
                     {/* easy reservation checkbox */}

@@ -1,7 +1,6 @@
 import { FormControl, FormErrorMessage, VStack } from "@chakra-ui/react";
 import FieldLabel from "./FieldLabel";
 import { useField } from "formik";
-import { useEffect } from "react";
 
 
 const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHelperInfoIcon, infoFor, ...props }) => {
@@ -9,8 +8,6 @@ const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHe
     const { name, type } = props;
 
     const [field, meta, helpers] = useField(name);
-
-    // useEffect(() => { name === "easyReservationSignUp" && console.log(name, type, field, props) });
 
     return (
         <FormControl

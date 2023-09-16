@@ -2,7 +2,6 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactComponent as ChevronIcon } from "../../../../assets/icons/chevron.svg"
 import { useAnimate, motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import convertToTitleCase from "../../../../util/convertToTitleCase";
 import OptionsStack from "./OptionsStack";
 import DateSelector from "./DateSelector";
 
@@ -104,6 +103,7 @@ const SelectInput = ({
         if (!isOpen && wasOpen.current && !formikMeta.touched) {
             formikHelpers.setTouched(true);
         };
+        //eslint-disable-next-line
     }, [formikMeta.touched, formikMeta.error, formikMeta.value, isOpen])
 
     return (

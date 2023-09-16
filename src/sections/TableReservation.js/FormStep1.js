@@ -11,18 +11,18 @@ import TimeSelectRadioInputGroup from "./FormUI/TimeSelectRadioInputGroup.js/ind
 const FormStep1 = ({ stepHeading }) => {
 
     const dayjs = require("dayjs")
-    // ToDo: receive available dates from backend API
+    // simulate receive available dates from backend API
     const firstAvailableDate = dayjs(dayjs().format("YYYY-MM-DD")).toDate();
 
-    // ToDo: receive available options from backend API
+    // simulate receive available options from backend API
     const momentOptions = [
         "Breakfast (6 a.m. to noon)",
         "Lunch (noon to 6 p.m.)",
         "Dinner (6 p.m. to midnight)",
-        "Bar (noon to midnight)"
+        "Bar (4 p.m. to midnight)"
     ]
 
-    // ToDo: receive available times from backend API
+    // simulate receive available times from backend API
     const timeOptions = [
         "4:00 PM",
         "4:15 PM",
@@ -49,12 +49,13 @@ const FormStep1 = ({ stepHeading }) => {
                 numOfGuests: 4,
                 reservationDay: dayjs(firstAvailableDate).format("YYYY-MM-DD"),
                 reservationMoment: "",
-                reservationTime: ""
+                reservationTime: "",
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep1"))
             }}
             validationSchema={Yup.object({
                 numOfGuests: Yup.number()
                     .required("Required")
-                    .max(10, "Max number of 10 guests are allowed")
+                    .max(16, "Max number of 10 guests are allowed")
                     .min(1, "Min number of 1 guest is allowed"),
                 reservationDay: Yup.date()
                     .required("Required")
@@ -68,7 +69,7 @@ const FormStep1 = ({ stepHeading }) => {
                     .oneOf(timeOptions, "Pick a valid option")
             })}
             onSubmit={values => {
-                console.log(values);
+                sessionStorage.setItem("tableReservationStep1", JSON.stringify(values));
             }}
         >
             <Form
@@ -86,7 +87,6 @@ const FormStep1 = ({ stepHeading }) => {
                         name="numOfGuests"
                         label="How many in your party?"
                         isRequired
-                        type="number"
                         inputComponent={inputProps => <NumberInput {...inputProps} />}
                     />
 

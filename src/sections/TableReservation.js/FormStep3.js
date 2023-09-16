@@ -8,6 +8,8 @@ import InputBox from "./FormUI/InputBox";
 import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
 
 
+const emailValidator = require("email-validator");
+
 const FormStep3 = ({ stepHeading }) => {
     return (
         <Formik
@@ -23,7 +25,12 @@ const FormStep3 = ({ stepHeading }) => {
                 lastname: Yup.string()
                     .required("Required"),
                 email: Yup.string()
-                    .required("Required"),
+                    .required("Required")
+                    .test(
+                        'is-email-valid',
+                        "Please enter a valid email address",
+                        value => emailValidator.validate(value)
+                    ),
                 phone: Yup.string()
                     .notRequired()
             })}
@@ -86,7 +93,13 @@ const FormStep3 = ({ stepHeading }) => {
                             id="firstname"
                             type="text"
                             isRequired
-                            inputComponent={inputProps => <InputBox {...inputProps} />}
+                            inputComponent={inputProps => <InputBox
+                                {...inputProps}
+                                onChange={e => {
+                                    const val = e.target.value.trimStart();
+                                    inputProps.formikHelpers.setValue(val);
+                                }}
+                            />}
                         />
                         <FormElementRegular
                             label="Last name"
@@ -94,7 +107,13 @@ const FormStep3 = ({ stepHeading }) => {
                             id="lastname"
                             type="text"
                             isRequired
-                            inputComponent={inputProps => <InputBox {...inputProps} />}
+                            inputComponent={inputProps => <InputBox
+                                {...inputProps}
+                                onChange={e => {
+                                    const val = e.target.value.trimStart();
+                                    inputProps.formikHelpers.setValue(val);
+                                }}
+                            />}
                         />
                     </Stack>
 
@@ -110,14 +129,43 @@ const FormStep3 = ({ stepHeading }) => {
                             id="email"
                             type="text"
                             isRequired
-                            inputComponent={inputProps => <InputBox {...inputProps} />}
+                            inputComponent={inputProps => <InputBox
+                                {...inputProps}
+                                onChange={e => {
+                                    const val = e.target.value.trim();
+                                    inputProps.formikHelpers.setValue(val);
+                                }}
+                            />}
                         />
                         <FormElementRegular
-                            label="Phone"
+                            label="Phone (xxx) xxx-xxxx"
                             name="phone"
                             id="phone"
                             type="text"
-                            inputComponent={inputProps => <InputBox {...inputProps} />}
+                            inputComponent={inputProps => <InputBox
+                                {...inputProps}
+                                onChange={e => {
+                                    let val = e.target.value.trim();
+                                    switch (val.length) {
+                                        case 1:
+                                            val = val[0] === "(" ? val : "(" + val[0]
+                                            break;
+                                        case 5:
+                                            val = val[4] === ")" ? val : val.substr(0, 4) + ") " + val[4]
+                                            break;
+                                        case 6:
+                                            val = val[5] === " " ? val : val.substr(0, 5) + " " + val[5]
+                                            break;
+                                        case 10:
+                                            val = val[9] === "-" ? val : val.substr(0, 9) + "-" + val[9]
+                                            break;
+                                        default:
+                                            val = val.substr(0, 14)
+                                    }
+                                    inputProps.formikHelpers.setValue(val);
+                                }
+                                }
+                            />}
                         />
                     </Stack>
 

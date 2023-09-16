@@ -1,7 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import SelectOption from "./SelectOption";
 import { motion } from "framer-motion";
-import convertToTitleCase from "../../../../util/convertToTitleCase";
 
 
 const OptionsStack = ({ options, handleOptionSelection, selectedOption, ...props }) => {

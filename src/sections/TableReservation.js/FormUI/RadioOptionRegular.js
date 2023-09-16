@@ -1,6 +1,5 @@
 import { Circle, useRadio, HStack, Text } from "@chakra-ui/react";
 import { ReactComponent as RadioCheck } from "../../../assets/icons/radio-check.svg";
-import { useEffect } from "react";
 
 
 const RadioOptionRegular = ({ rightIcon = null, children, formikMeta, formikHelpers, ...props }) => {
