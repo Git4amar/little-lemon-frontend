@@ -62,12 +62,12 @@ const SelectInput = ({
     useEffect(() => {
         // animate icons for opening and closing action of select
         animate(".select-btn-chevron path", {
-            fill: formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
+            fill: !formikMeta.error && formikMeta.value
                 ? "#EDEFEE"
                 : "#495E57"
         }, { duration: 0.01 });
         leftIcon && animate(".leftIcon path", {
-            fill: formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
+            fill: !formikMeta.error && formikMeta.value
                 ? "#EDEFEE"
                 : "#495E57"
         }, { duration: 0.01 });
@@ -140,15 +140,15 @@ const SelectInput = ({
                 as={motion.div}
                 w={{ base: "full" }}
                 justify="space-between"
-                bg={formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
+                bg={!formikMeta.error && formikMeta.value
                     ? "brand.primary.green" : "brand.secondary.brightGray"}
-                color={formikMeta.touched && !formikMeta.error && formikMeta.value && wasOpen.current
+                color={!formikMeta.error && formikMeta.value
                     ? "brand.secondary.brightGray" : "brand.primary.green"}
                 borderRadius="16px"
                 px={8}
                 py={4}
                 cursor="pointer"
-                border={!renderAsDatePicker && selectedOption ? "0px" : "1px"}
+                border={!formikMeta.error && formikMeta.value ? "0px" : "1px"}
                 onClick={() => {
                     wasOpen.current = isOpen;
                     setIsOpen(!isOpen);

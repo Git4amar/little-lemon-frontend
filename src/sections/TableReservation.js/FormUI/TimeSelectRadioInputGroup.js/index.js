@@ -8,7 +8,9 @@ import { useEffect } from "react";
 const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikHelpers, formikMeta, ...props }) => {
 
     const { id, name } = props;
-    const { getRadioProps, getRootProps, value } = useRadioGroup();
+    const { getRadioProps, getRootProps, value } = useRadioGroup({
+        defaultValue: formikMeta.initialValue
+    });
 
     const timeOptions = timeSortingFunction(options);
 
