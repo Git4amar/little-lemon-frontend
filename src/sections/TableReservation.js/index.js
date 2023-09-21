@@ -67,7 +67,6 @@ const TableReservation = () => {
         }
         sessionStorage.setItem("formStepInProgress", formStatus.stepInProgress);
         sessionStorage.setItem("formStepsCompleted", [...formStatus.stepsCompleted].toString());
-        console.log(formStatus.stepsCompleted);
     }, [formStatus.stepInProgress])
 
     return (

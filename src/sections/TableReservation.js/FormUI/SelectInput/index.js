@@ -91,7 +91,7 @@ const SelectInput = ({
                 [".select-btn-chevron", { transform: "rotateZ(-90deg)" }],
                 [".rendered-select-button", {
                     boxShadow: "0px 0px 0px 0px #33333380",
-                    border: formikMeta.touched && formikMeta.error ? "1px solid #E53E3E" : "1px solid #495E57",
+                    border: formikMeta.touched && formikMeta.error ? "2px solid #E53E3E" : "1px solid #495E57",
                     transform: "translateY(1px)"
                 }, { at: "<" }]
             ], {
@@ -148,7 +148,9 @@ const SelectInput = ({
                 px={8}
                 py={4}
                 cursor="pointer"
-                border={!formikMeta.error && formikMeta.value ? "0px" : "1px"}
+                // border={!formikMeta.error && formikMeta.value ? "0px" : "1px"}
+                border={formikMeta.touched && formikMeta.error ? "2px" : "1px"}
+                borderColor={formikMeta.touched && formikMeta.error ? "#E53E3E" : "#495E57"}
                 onClick={() => {
                     wasOpen.current = isOpen;
                     setIsOpen(!isOpen);
