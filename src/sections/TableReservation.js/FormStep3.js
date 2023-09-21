@@ -10,7 +10,7 @@ import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
 
 const emailValidator = require("email-validator");
 
-const FormStep3 = ({ stepHeading }) => {
+const FormStep3 = ({ stepDetails, formStatus, setFormStatus }) => {
     return (
         <Formik
             initialValues={{
@@ -45,7 +45,7 @@ const FormStep3 = ({ stepHeading }) => {
             // method="post"
             >
                 <FormStepFrame
-                    stepHeading={stepHeading}
+                    stepHeading={stepDetails.stepHeading}
                 >
                     {/* login or guest info stack */}
                     <VStack

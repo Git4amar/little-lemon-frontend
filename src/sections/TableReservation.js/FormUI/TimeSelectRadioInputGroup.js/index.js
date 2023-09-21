@@ -2,15 +2,51 @@ import { HStack, VStack, Box } from "@chakra-ui/react";
 import { useRadioGroup } from "@chakra-ui/react";
 import TimeRadioInputOption from "./TimeRadioInputOption";
 import timeSortingFunction from "../../../../util/timeSortingFunction";
-import { useEffect } from "react";
+import getAvailableTimes from "../../../../util/getAvailableTimes";
+import { useEffect, useState } from "react";
+import { useFormikContext } from "formik";
 
 
-const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikHelpers, formikMeta, ...props }) => {
+const dayjs = require("dayjs");
+
+const TimeSelectRadioInputGroup = ({ formikHelpers, formikMeta, displayDependsOn, ...props }) => {
 
     const { id, name } = props;
-    const { getRadioProps, getRootProps, value } = useRadioGroup({
+    const { getRadioProps, getRootProps, value, setValue } = useRadioGroup({
         defaultValue: formikMeta.initialValue
     });
+
+    const [options, setOptions] = useState([
+        "0:00",
+        "12:00"
+    ])
+
+    const formikContext = useFormikContext();
+
+    // simulate recieving available time optionsm from backend API
+    const reservationMomentInitialValue = formikContext.initialValues[displayDependsOn].split(" ")[0];
+    const reservationMomentValue = formikContext.values[displayDependsOn].split(" ")[0];
+    useEffect(() => {
+        if (reservationMomentValue !== reservationMomentInitialValue) {
+            formikHelpers.setValue("")
+                .then(() => {
+                    setValue("");
+                })
+        }
+        else {
+            formikHelpers.setValue(formikMeta.initialValue)
+                .then(() => {
+                    setValue(formikMeta.initialValue);
+                })
+        }
+        setOptions(getAvailableTimes(
+            reservationMomentValue,
+            reservationMomentInitialValue === reservationMomentValue
+                ? dayjs(formikMeta.initialValue, "h:mm a").format("H:mm")
+                : null
+        ));
+        // eslint-disable-next-line
+    }, [reservationMomentValue, reservationMomentInitialValue])
 
     const timeOptions = timeSortingFunction(options);
 
@@ -19,7 +55,6 @@ const TimeSelectRadioInputGroup = ({ options = ["00:00 AM", "00:00 PM"], formikH
     for (let i = 0; 3 * i <= timeOptions.length; i++) {
         timeOptionsGroups.push(timeOptions.slice(3 * i, 3 * (i + 1)));
     }
-
 
     const handleRadioValue = async (value) => {
         await formikHelpers.setValue(value);

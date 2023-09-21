@@ -13,7 +13,7 @@ const FormStepHeading = ({ children }) => {
                 stiffness: 100,
                 damping: 15
             })
-        }, 1740 / 2)
+        }, 1740)
     })
 
     return (

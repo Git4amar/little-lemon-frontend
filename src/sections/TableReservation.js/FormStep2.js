@@ -11,7 +11,7 @@ import SelectInput from "./FormUI/SelectInput";
 import { ReactComponent as OccasionIcon } from "../../assets/icons/occasion.svg";
 
 
-const FormStep2 = ({ stepHeading }) => {
+const FormStep2 = ({ stepDetails, formStatus, setFormStatus }) => {
 
     const seatingOptions = ["Indoors", "Outdoors"]
     const occasionOptions = ["Birthday", "Date", "Engagement", "Anniversary", "other"]
@@ -45,7 +45,7 @@ const FormStep2 = ({ stepHeading }) => {
             // method="post"
             >
                 <FormStepFrame
-                    stepHeading={stepHeading}
+                    stepHeading={stepDetails.stepHeading}
                 >
                     {/* disability accommodation */}
                     <FormElementRegular

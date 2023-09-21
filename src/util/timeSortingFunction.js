@@ -3,7 +3,7 @@ const timeSortingFunction = timeList => {
 
     dayjs.extend(require("dayjs/plugin/customParseFormat"));
 
-    const timeOptions = timeList.map(time => dayjs(time, "h:mm A"));
+    const timeOptions = timeList.map(time => dayjs(time, "H:mm"));
 
     const sortingFunction = (a, b) => {
         if (a.isBefore(b)) {
@@ -17,7 +17,7 @@ const timeSortingFunction = timeList => {
         }
     }
 
-    return timeOptions.sort(sortingFunction).map(time => time.format("h:mm A"));
+    return timeOptions.sort(sortingFunction).map(time => time.format("h:mm a"));
 }
 
 export default timeSortingFunction;

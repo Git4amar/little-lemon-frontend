@@ -1,9 +1,18 @@
 import { HStack, Box } from "@chakra-ui/react";
 import StepIndicator from "./StepIndicator";
 
-const FormProgressBar = () => {
 
-    const numOfSteps = [1, 2, 3, 4]
+const FormProgressBar = ({ formStatus }) => {
+
+    const numOfSteps = () => {
+        let i = 1;
+        let num = []
+        while (i <= formStatus.totalNumOfSubForms) {
+            num.push(i);
+            i++;
+        }
+        return num;
+    }
 
     return (
         <HStack
@@ -18,8 +27,11 @@ const FormProgressBar = () => {
             px={0.5}
             py={2}
         >
-            {numOfSteps.map(step => <StepIndicator
+            {numOfSteps().map(step => <StepIndicator
                 key={`stepNo-${step}`}
+                isStepInProgress={step === formStatus.stepInProgress}
+                isStepPrev={step === formStatus.previousStep}
+                isStepComplete={formStatus.stepsCompleted.has(step) && step !== formStatus.previousStep}
             >
                 {step}
             </StepIndicator>)}

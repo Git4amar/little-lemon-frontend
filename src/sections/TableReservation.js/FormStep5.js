@@ -1,10 +1,10 @@
 import FormStepFrame from "./FormStepFrame";
 
 
-const FormStep5 = ({ stepHeading }) => {
+const FormStep5 = ({ stepDetails, formStatus, setFormStatus }) => {
     return (
         <FormStepFrame
-            stepHeading={stepHeading}
+            stepHeading={stepDetails.stepHeading}
         >
 
         </FormStepFrame>

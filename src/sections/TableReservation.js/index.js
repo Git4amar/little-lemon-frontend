@@ -1,5 +1,5 @@
 import { HStack, Heading, VStack, Box } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
 import ChevronButton from "../../components/Buttons/ChevronButton";
 import FormProgressBar from "./FormProgressBar";
 import FormStep1 from "./FormStep1";
@@ -7,27 +7,68 @@ import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
+import { useEffect, useState } from "react";
 
 
 const TableReservation = () => {
 
     const formSteps = [
         {
+            stepNum: 1,
             stepHeading: "let's set up your table"
         },
         {
+            stepNum: 2,
             stepHeading: "customizations"
         },
         {
+            stepNum: 3,
             stepHeading: "your details"
         },
         {
+            stepNum: 4,
             stepHeading: "hold your reservation"
         },
         {
+            stepNum: 5,
             stepHeading: "review and confirm"
         }
     ]
+
+    const [formStatus, setFormStatus] = useState({
+        totalNumOfSubForms: 4,
+        stepInProgress: parseInt(sessionStorage.getItem("formStepInProgress")) || 1,
+        previousStep: 1,
+        stepsCompleted: sessionStorage.getItem("formStepsCompleted")
+            ? new Set([parseInt(sessionStorage.getItem("formStepsCompleted"))])
+            : new Set([])
+    });
+
+    const [formScope, animateForm] = useAnimate();
+
+    useEffect(() => {
+        const viewportWidth = window.innerWidth;
+        switch (viewportWidth <= 1280) {
+            case true:
+                animateForm(formScope.current, {
+                    left: `${-(formStatus.stepInProgress - 1) * 100}%`
+                }, {
+                    ease: "easeOut",
+                    duration: 1.74
+                });
+                break;
+            default:
+                animateForm(formScope.current, {
+                    left: -(formStatus.stepInProgress - 1) * 1280
+                }, {
+                    ease: "easeOut",
+                    duration: 1.74
+                });
+        }
+        sessionStorage.setItem("formStepInProgress", formStatus.stepInProgress);
+        sessionStorage.setItem("formStepsCompleted", [...formStatus.stepsCompleted].toString());
+        console.log(formStatus.stepsCompleted);
+    }, [formStatus.stepInProgress])
 
     return (
         <VStack
@@ -39,9 +80,9 @@ const TableReservation = () => {
             spacing={0}
             top="0"
             left="0"
-            // left="-100vw"
             bg="linear-gradient(180deg, #EDEFEE 0%, #D4E2CE 25%, #D1D0A6 50%, #DDB882 75%, #EE9972 100%);"
             zIndex="overlay"
+        // left="-100vw"
         >
             {/* Header */}
             <VStack
@@ -77,7 +118,7 @@ const TableReservation = () => {
                     </HStack>
 
                     {/* form progress bar */}
-                    <FormProgressBar />
+                    <FormProgressBar formStatus={formStatus} setFormStatus={setFormStatus} />
                 </VStack>
             </VStack>
 
@@ -89,27 +130,40 @@ const TableReservation = () => {
             // overflow="hidden"
             >
                 <HStack
+                    as={motion.div}
+                    id="reservation-form-stack"
                     w="max"
                     h={{ base: "full" }}
                     pos="relative"
                     spacing={0}
-                    left={{ base: `${-0 * 100}vw`, xl: `${-0 * 1280}px` }}
                     align="start"
+                    ref={formScope}
+                    left={{ base: `${-(formStatus.previousStep - 1) * 100}vw`, xl: `${-(formStatus.previousStep - 1) * 1280}px` }}
                 >
                     <FormStep1
-                        stepHeading={formSteps[0].stepHeading}
+                        stepDetails={formSteps[0]}
+                        formStatus={formStatus}
+                        setFormStatus={setFormStatus}
                     />
                     <FormStep2
-                        stepHeading={formSteps[1].stepHeading}
+                        stepDetails={formSteps[1]}
+                        formStatus={formStatus}
+                        setFormStatus={setFormStatus}
                     />
                     <FormStep3
-                        stepHeading={formSteps[2].stepHeading}
+                        stepDetails={formSteps[2]}
+                        formStatus={formStatus}
+                        setFormStatus={setFormStatus}
                     />
                     <FormStep4
-                        stepHeading={formSteps[3].stepHeading}
+                        stepDetails={formSteps[3]}
+                        formStatus={formStatus}
+                        setFormStatus={setFormStatus}
                     />
                     <FormStep5
-                        stepHeading={formSteps[4].stepHeading}
+                        stepDetails={formSteps[4]}
+                        formStatus={formStatus}
+                        setFormStatus={setFormStatus}
                     />
                 </HStack>
             </Box>

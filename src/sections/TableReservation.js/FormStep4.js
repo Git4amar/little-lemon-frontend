@@ -13,7 +13,7 @@ const dayjs = require("dayjs")
     .extend(require("dayjs/plugin/customParseFormat"));
 const creditCardValidator = require("credit-card-validator");
 
-const FormStep4 = ({ stepHeading }) => {
+const FormStep4 = ({ stepDetails, formStatus, setFormStatus }) => {
     return (
         <Formik
             initialValues={{
@@ -97,7 +97,7 @@ const FormStep4 = ({ stepHeading }) => {
             // method="post"
             >
                 <FormStepFrame
-                    stepHeading={stepHeading}
+                    stepHeading={stepDetails.stepHeading}
                 >
                     {/* reservation price info */}
                     <Text

@@ -1,20 +1,29 @@
 import { FormControl, FormErrorMessage, VStack } from "@chakra-ui/react";
 import FieldLabel from "./FieldLabel";
-import { useField } from "formik";
+import { useField, useFormikContext } from "formik";
 
 
-const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHelperInfoIcon, infoFor, ...props }) => {
+const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHelperInfoIcon, infoFor, displayDependsOn = null, ...props }) => {
 
-    const { name, type } = props;
+    const { name, type, id } = props;
 
     const [field, meta, helpers] = useField(name);
+
+    const formikContext = useFormikContext();
+
+    props = displayDependsOn ? { ...props, displayDependsOn: displayDependsOn } : props
 
     return (
         <FormControl
             as={(type === "radio" || type === "checkbox") && "fieldset"}
             isInvalid={meta.touched && meta.error}
             isRequired={isRequired}
-            {...props}
+            id={id}
+            name={name}
+            type={type}
+            display={displayDependsOn
+                ? !formikContext.values[displayDependsOn] || Object.keys(formikContext.errors).includes(displayDependsOn) ? "none" : "block"
+                : "block"}
         >
             <VStack
                 align="start"
@@ -37,7 +46,12 @@ const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHe
                     {
                         type === "textarea"
                             ? inputComponent({ ...field, ...props })
-                            : inputComponent({ ...field, ...props, formikHelpers: helpers, formikMeta: meta })
+                            : inputComponent({
+                                ...field,
+                                ...props,
+                                formikHelpers: helpers,
+                                formikMeta: meta,
+                            })
                     }
                     <FormErrorMessage>{meta.error}</FormErrorMessage>
                 </VStack>

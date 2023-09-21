@@ -8,7 +8,7 @@ import FormCTAButton from "./FormUI/FormCTAButton";
 import TimeSelectRadioInputGroup from "./FormUI/TimeSelectRadioInputGroup.js/index.js";
 
 
-const FormStep1 = ({ stepHeading }) => {
+const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
 
     const dayjs = require("dayjs")
     // simulate receive available dates from backend API
@@ -20,27 +20,6 @@ const FormStep1 = ({ stepHeading }) => {
         "Lunch (noon to 6 p.m.)",
         "Dinner (6 p.m. to midnight)",
         "Bar (4 p.m. to midnight)"
-    ]
-
-    // simulate receive available times from backend API
-    const timeOptions = [
-        "4:00 PM",
-        "4:15 PM",
-        "4:30 PM",
-        "4:45 PM",
-        "5:00 PM",
-        "5:15 PM",
-        "5:30 PM",
-        "5:45 PM",
-        "6:00 PM",
-        "6:15 PM",
-        "6:30 PM",
-        "6:45 PM",
-        "7:00 PM",
-        "7:15 PM",
-        "7:30 PM",
-        "7:45 PM",
-        "8:00 PM"
     ]
 
     return (
@@ -66,10 +45,17 @@ const FormStep1 = ({ stepHeading }) => {
                     .oneOf(momentOptions, "Pick a valid option"),
                 reservationTime: Yup.string()
                     .required("Required")
-                    .oneOf(timeOptions, "Pick a valid option")
             })}
             onSubmit={values => {
                 sessionStorage.setItem("tableReservationStep1", JSON.stringify(values));
+                setFormStatus(prev => {
+                    return {
+                        ...prev,
+                        stepInProgress: stepDetails.stepNum + 1,
+                        previousStep: stepDetails.stepNum,
+                        stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
+                    }
+                });
             }}
         >
             <Form
@@ -79,7 +65,7 @@ const FormStep1 = ({ stepHeading }) => {
             // method="post"
             >
                 <FormStepFrame
-                    stepHeading={stepHeading}
+                    stepHeading={stepDetails.stepHeading}
                 >
                     {/* num of guests */}
                     <FormElementRegular
@@ -125,9 +111,9 @@ const FormStep1 = ({ stepHeading }) => {
                         label="Select an available time"
                         isRequired
                         inputComponent={inputProps => <TimeSelectRadioInputGroup
-                            options={timeOptions}
                             {...inputProps}
                         />}
+                        displayDependsOn="reservationMoment"
                     />
                     <FormCTAButton
                         primary
