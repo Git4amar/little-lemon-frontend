@@ -40,7 +40,7 @@ const TableReservation = () => {
         stepInProgress: parseInt(sessionStorage.getItem("formStepInProgress")) || 1,
         previousStep: 1,
         stepsCompleted: sessionStorage.getItem("formStepsCompleted")
-            ? new Set([parseInt(sessionStorage.getItem("formStepsCompleted"))])
+            ? new Set([...sessionStorage.getItem("formStepsCompleted").split(",").map(n => parseInt(n))])
             : new Set([])
     });
 
@@ -52,22 +52,27 @@ const TableReservation = () => {
             case true:
                 animateForm(formScope.current, {
                     left: `${-(formStatus.stepInProgress - 1) * 100}%`
-                }, {
-                    ease: "easeOut",
-                    duration: 1.74
-                });
+                }, { type: "spring", stiffness: 100, damping: 15 });
                 break;
             default:
                 animateForm(formScope.current, {
                     left: -(formStatus.stepInProgress - 1) * 1280
-                }, {
-                    ease: "easeOut",
-                    duration: 1.74
-                });
+                }, { type: "spring", stiffness: 100, damping: 15 });
         }
         sessionStorage.setItem("formStepInProgress", formStatus.stepInProgress);
         sessionStorage.setItem("formStepsCompleted", [...formStatus.stepsCompleted].toString());
+        console.log(formStatus);
     }, [formStatus.stepInProgress])
+
+    const goToPreviousFormStep = triggerStep => {
+        setFormStatus(prev => {
+            return {
+                ...prev,
+                stepInProgress: triggerStep - 1,
+                previousStep: triggerStep,
+            }
+        })
+    }
 
     return (
         <VStack
@@ -148,21 +153,25 @@ const TableReservation = () => {
                         stepDetails={formSteps[1]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        goToPreviousFormStep={goToPreviousFormStep}
                     />
                     <FormStep3
                         stepDetails={formSteps[2]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        goToPreviousFormStep={goToPreviousFormStep}
                     />
                     <FormStep4
                         stepDetails={formSteps[3]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        goToPreviousFormStep={goToPreviousFormStep}
                     />
                     <FormStep5
                         stepDetails={formSteps[4]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        goToPreviousFormStep={goToPreviousFormStep}
                     />
                 </HStack>
             </Box>

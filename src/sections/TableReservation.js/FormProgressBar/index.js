@@ -31,7 +31,7 @@ const FormProgressBar = ({ formStatus }) => {
                 key={`stepNo-${step}`}
                 isStepInProgress={step === formStatus.stepInProgress}
                 isStepPrev={step === formStatus.previousStep}
-                isStepComplete={formStatus.stepsCompleted.has(step) && step !== formStatus.previousStep}
+                isStepComplete={formStatus.stepsCompleted.has(step)}
             >
                 {step}
             </StepIndicator>)}

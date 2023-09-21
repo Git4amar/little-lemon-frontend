@@ -9,41 +9,54 @@ const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev,
 
     const [scope, animate] = useAnimate();
 
+    useEffect(() => {
+        console.log(children, isStepInProgress, isStepPrev, isStepComplete);
+    })
+
     const animateIndicator = async () => {
         // for active form step
         if (isStepInProgress) {
             await animate([
-                ["img", { transform: "scale(1)" }],
-                [".indicator-top-right-lineframe", { top: "-4px" }, { at: "<" }],
-                [".indicator-bottom-left-lineframe", { bottom: "-4px" }, { at: "<" }]
+                ["img", { transform: "scale(1)", opacity: 1 }],
+                [".complete-step-bg", { transform: "scale(0)" }, { at: "<" }],
+                [".indicator-top-right-lineframe", { top: "-4px", opacity: 1 }, { at: "<" }],
+                [".indicator-bottom-left-lineframe", { bottom: "-4px", opacity: 1 }, { at: "<" }]
             ], { type: "spring", stiffness: 300, damping: 20 });
         }
-        else if (isStepPrev) {
+        else if (isStepPrev && isStepComplete) {
             await animate([
                 [".complete-step-bg", { transform: "scale(1)" }],
+                ["img", { transform: "scale(0)" }, { at: "<" }],
                 [".indicator-top-right-lineframe", { top: "0px", opacity: 0 }, { at: "<" }],
                 [".indicator-bottom-left-lineframe", { bottom: "0px", opacity: 0 }, { at: "<" }],
+            ], { type: "spring", stiffness: 300, damping: 20 });
+        }
+        else {
+            await animate([
+                ["img", { transform: "scale(0)", opacity: 0 }],
+                [".indicator-top-right-lineframe", { top: "0px" }, { at: "<" }],
+                [".indicator-bottom-left-lineframe", { bottom: "0px" }, { at: "<" }],
             ], { type: "spring", stiffness: 300, damping: 20 });
         }
     }
 
     useEffect(() => {
         animateIndicator();
-    }, [isStepInProgress, isStepPrev])
+    }, [isStepInProgress, isStepPrev, isStepComplete])
 
     return (
         <Center
             as={motion.button}
             type="button"
-            cursor={isStepComplete || isStepPrev ? "pointer" : "auto"}
-            boxShadow={isStepComplete || isStepPrev ? "0px 4px 4px 0px #33333380" : null}
+            cursor={isStepComplete && !isStepInProgress ? "pointer" : "auto"}
+            boxShadow={isStepComplete && !isStepInProgress ? "0px 4px 4px 0px #33333380" : null}
             borderRadius="8px"
             className="form-step-indicator"
             pos="relative"
             w={{ base: "32px", md: "48px" }}
             h={{ base: "30.86px", md: "46.29px" }}
             ref={scope}
-            _active={(isStepComplete || isStepPrev) && {
+            _active={(isStepComplete && !isStepInProgress) && {
                 boxShadow: "0px 0px 0px 0px #33333380",
                 transform: "translateY(1px)",
             }}
@@ -54,7 +67,7 @@ const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev,
                 fontSize={{ base: "22.857px", md: "34.286px" }}
                 fontWeight={400}
                 lineHeight="none"
-                color={isStepPrev || isStepComplete || isStepInProgress ? "brand.primary.green" : "brand.secondary.brightGray"}
+                color={isStepComplete || isStepInProgress ? "brand.primary.green" : "brand.secondary.brightGray"}
                 // textShadow="0px 4px 4px #33333340"
                 zIndex="docked"
             >
@@ -81,7 +94,6 @@ const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev,
             {/* bg Image */}
             <Image
                 as={motion.img}
-                display={isStepComplete ? "none" : "block"}
                 initial={{ transform: "scale(0)" }}
                 pos="absolute"
                 w="full"
@@ -103,7 +115,7 @@ const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev,
                 initial={{ transform: isStepComplete ? "scale(1)" : "scale(0)" }}
                 borderRadius="8px"
             />
-        </Center>
+        </Center >
     )
 }
 

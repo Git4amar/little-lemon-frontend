@@ -11,10 +11,10 @@ import SelectInput from "./FormUI/SelectInput";
 import { ReactComponent as OccasionIcon } from "../../assets/icons/occasion.svg";
 
 
-const FormStep2 = ({ stepDetails, formStatus, setFormStatus }) => {
+const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep }) => {
 
-    const seatingOptions = ["Indoors", "Outdoors"]
-    const occasionOptions = ["Birthday", "Date", "Engagement", "Anniversary", "other"]
+    const seatingOptions = ["Indoors", "Outdoors"];
+    const occasionOptions = ["Birthday", "Date", "Engagement", "Anniversary", "other"];
 
     return (
         <Formik
@@ -35,7 +35,15 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus }) => {
                     .notRequired()
             })}
             onSubmit={values => {
-                console.log(values);
+                sessionStorage.setItem("tableReservationStep2", JSON.stringify(values));
+                setFormStatus(prev => {
+                    return {
+                        ...prev,
+                        stepInProgress: stepDetails.stepNum + 1,
+                        previousStep: stepDetails.stepNum,
+                        stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
+                    }
+                });
             }}
         >
             <Form
@@ -105,6 +113,7 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus }) => {
                         spacing={4}
                     >
                         <FormCTAButton
+                            onClick={() => { goToPreviousFormStep(stepDetails.stepNum) }}
                         >
                             Previous
                         </FormCTAButton>

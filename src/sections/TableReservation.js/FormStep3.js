@@ -10,7 +10,7 @@ import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
 
 const emailValidator = require("email-validator");
 
-const FormStep3 = ({ stepDetails, formStatus, setFormStatus }) => {
+const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep }) => {
     return (
         <Formik
             initialValues={{
@@ -35,7 +35,15 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus }) => {
                     .notRequired()
             })}
             onSubmit={values => {
-                console.log(values)
+                sessionStorage.setItem("tableReservationStep3", JSON.stringify(values));
+                setFormStatus(prev => {
+                    return {
+                        ...prev,
+                        stepInProgress: stepDetails.stepNum + 1,
+                        previousStep: stepDetails.stepNum,
+                        stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
+                    }
+                });
             }}
         >
             <Form
@@ -189,6 +197,7 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus }) => {
                         spacing={4}
                     >
                         <FormCTAButton
+                            onClick={() => goToPreviousFormStep(stepDetails.stepNum)}
                         >
                             Previous
                         </FormCTAButton>

@@ -1,7 +1,9 @@
 import { VStack, Box } from "@chakra-ui/react";
 import FormStepHeading from "./FormStepHeading";
+import { useEffect } from "react";
 
 const FormStepFrame = ({ children, stepHeading, ...props }) => {
+
     return (
         <Box
             w={{ base: "100vw", xl: "container.xl" }}

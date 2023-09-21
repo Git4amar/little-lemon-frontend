@@ -7,13 +7,16 @@ const FormStepHeading = ({ children }) => {
     const [scope, animate] = useAnimate();
 
     useEffect(() => {
+        animate(".formHeadingTopLine, .formHeadingBottomLine", { transform: "scale(0)" }, {
+            duration: 0.01
+        });
         setTimeout(() => {
             animate(".formHeadingTopLine, .formHeadingBottomLine", { transform: "scale(1)" }, {
                 type: "spring",
                 stiffness: 100,
                 damping: 15
             })
-        }, 1740)
+        }, 1740 * 3 / 8);
     })
 
     return (
@@ -37,7 +40,7 @@ const FormStepHeading = ({ children }) => {
                     bg="brand.primary.green"
                     borderRadius="1px"
                     transformOrigin="left center"
-                    transform="scale(0)"
+                    initial={{ transform: "scale(0)" }}
                 />
             </VStack>
 
@@ -71,7 +74,7 @@ const FormStepHeading = ({ children }) => {
                     bg="brand.primary.green"
                     borderRadius="1px"
                     transformOrigin="right center"
-                    transform="scale(0)"
+                    initial={{ transform: "scale(0)" }}
                 />
             </VStack>
         </VStack>

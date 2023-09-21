@@ -73,8 +73,8 @@ const SelectInput = ({
         }, { duration: 0.01 });
 
         // animate opening and closing action of select
-        isOpen
-            ? animate([
+        if (isOpen) {
+            animate([
                 [".select-btn-chevron", { transform: "rotateZ(90deg)" }],
                 [".rendered-select-button", {
                     boxShadow: "0px 4px 4px 0px #33333380",
@@ -85,19 +85,26 @@ const SelectInput = ({
                 ease: "easeOut",
                 duration: 1.74 / 4
             })
-            : wasOpen.current
-            &&
+        }
+        else if (wasOpen.current) {
+            animate(".rendered-select-button", {
+                border: formikMeta.touched && formikMeta.error
+                    ? "2px solid #E53E3E"
+                    : "1px solid #495E57"
+            }, {
+                duration: 0.01
+            });
             animate([
                 [".select-btn-chevron", { transform: "rotateZ(-90deg)" }],
                 [".rendered-select-button", {
                     boxShadow: "0px 0px 0px 0px #33333380",
-                    border: formikMeta.touched && formikMeta.error ? "2px solid #E53E3E" : "1px solid #495E57",
                     transform: "translateY(1px)"
                 }, { at: "<" }]
             ], {
                 ease: "easeOut",
                 duration: 1.74 / 4
             });
+        }
 
         // set touched state
         if (!isOpen && wasOpen.current && !formikMeta.touched) {
