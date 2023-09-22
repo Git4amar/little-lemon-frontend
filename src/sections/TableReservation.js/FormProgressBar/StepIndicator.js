@@ -9,10 +9,6 @@ const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev,
 
     const [scope, animate] = useAnimate();
 
-    useEffect(() => {
-        console.log(children, isStepInProgress, isStepPrev, isStepComplete);
-    })
-
     const animateIndicator = async () => {
         // for active form step
         if (isStepInProgress) {

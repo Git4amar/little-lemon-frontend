@@ -17,6 +17,7 @@
     "email-validator": "^2.0.4",
     "formik": "^2.4.3",
     "framer-motion": "^10.15.1",
+    "libphonenumber-js": "^1.10.44",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",

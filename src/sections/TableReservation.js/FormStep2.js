@@ -22,7 +22,8 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                 disabilityAccomodation: false,
                 seatingOptions: seatingOptions[0],
                 occasions: "",
-                additionalInfo: ""
+                additionalInfo: "",
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep2"))
             }}
             validationSchema={Yup.object({
                 disabilityAccomodation: Yup.boolean()

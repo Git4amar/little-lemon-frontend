@@ -6,6 +6,7 @@ import FormCTAButton from "./FormUI/FormCTAButton";
 import FormElementRegular from "./FormUI/FormElementRegular";
 import InputBox from "./FormUI/InputBox";
 import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
+import { AsYouType, parsePhoneNumber } from "libphonenumber-js";
 
 
 const emailValidator = require("email-validator");
@@ -17,9 +18,10 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                 firstname: "",
                 lastname: "",
                 email: "",
-                phone: ""
+                phone: "",
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep3"))
             }}
-            validationSchema={Yup.object({
+            validationSchema={Yup.object().shape({
                 firstname: Yup.string()
                     .required("Required"),
                 lastname: Yup.string()
@@ -32,8 +34,31 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                         value => emailValidator.validate(value)
                     ),
                 phone: Yup.string()
-                    .notRequired()
-            })}
+                    .when("phone", val => {
+                        return val[0]
+                            ? Yup.string()
+                                .required("Required")
+                                .test(
+                                    'is-valid-phone',
+                                    "Phone Number is Invalid",
+                                    value => {
+                                        if (value) {
+                                            try {
+                                                const phoneNum = parsePhoneNumber(value, "US")
+                                                return phoneNum.isValid();
+                                            }
+                                            catch {
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                )
+                            : Yup.string()
+                                .notRequired()
+                    })
+            }, [
+                ["phone", "phone"]
+            ])}
             onSubmit={values => {
                 sessionStorage.setItem("tableReservationStep3", JSON.stringify(values));
                 setFormStatus(prev => {
@@ -146,7 +171,7 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                             />}
                         />
                         <FormElementRegular
-                            label="Phone (xxx) xxx-xxxx"
+                            label="Phone"
                             name="phone"
                             id="phone"
                             type="text"
@@ -154,25 +179,9 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                                 {...inputProps}
                                 onChange={e => {
                                     let val = e.target.value.trim();
-                                    switch (val.length) {
-                                        case 1:
-                                            val = val[0] === "(" ? val : "(" + val[0]
-                                            break;
-                                        case 5:
-                                            val = val[4] === ")" ? val : val.substr(0, 4) + ") " + val[4]
-                                            break;
-                                        case 6:
-                                            val = val[5] === " " ? val : val.substr(0, 5) + " " + val[5]
-                                            break;
-                                        case 10:
-                                            val = val[9] === "-" ? val : val.substr(0, 9) + "-" + val[9]
-                                            break;
-                                        default:
-                                            val = val.substr(0, 14)
-                                    }
-                                    inputProps.formikHelpers.setValue(val);
-                                }
-                                }
+                                    const formattedVal = val.length === 4 || val.length === 6 ? val : new AsYouType('US').input(val);
+                                    inputProps.formikHelpers.setValue(formattedVal);
+                                }}
                             />}
                         />
                     </Stack>
