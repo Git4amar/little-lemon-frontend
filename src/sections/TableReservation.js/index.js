@@ -8,6 +8,7 @@ import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
 import { useEffect, useState } from "react";
+import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
 
 
 const TableReservation = () => {
@@ -52,12 +53,20 @@ const TableReservation = () => {
             case true:
                 animateForm(formScope.current, {
                     left: `${-(formStatus.stepInProgress - 1) * 100}%`
-                }, { type: "spring", stiffness: 100, damping: 15 });
+                }, {
+                    type: "spring",
+                    stiffness: 80,
+                    damping: 20
+                });
                 break;
             default:
                 animateForm(formScope.current, {
                     left: -(formStatus.stepInProgress - 1) * 1280
-                }, { type: "spring", stiffness: 100, damping: 15 });
+                }, {
+                    type: "spring",
+                    stiffness: 80,
+                    damping: 20
+                });
         }
         sessionStorage.setItem("formStepInProgress", formStatus.stepInProgress);
         sessionStorage.setItem("formStepsCompleted", [...formStatus.stepsCompleted].toString());
@@ -79,6 +88,8 @@ const TableReservation = () => {
         })
     }
 
+    const { setIsFormOpen } = useFormOverlayHandler();
+
     return (
         <VStack
             as={motion.section}
@@ -88,10 +99,9 @@ const TableReservation = () => {
             h="100vh"
             spacing={0}
             top="0"
-            left="0"
+            left="-100vw"
             bg="linear-gradient(180deg, #EDEFEE 0%, #D4E2CE 25%, #D1D0A6 50%, #DDB882 75%, #EE9972 100%);"
             zIndex="overlay"
-        // left="-100vw"
         >
             {/* Header */}
             <VStack
@@ -123,7 +133,9 @@ const TableReservation = () => {
                             Table Reservation
                         </Heading>
                         {/* close btn */}
-                        <ChevronButton />
+                        <ChevronButton
+                            id="form-close-btn"
+                        />
                     </HStack>
 
                     {/* form progress bar */}

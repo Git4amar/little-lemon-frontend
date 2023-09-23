@@ -59,12 +59,14 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
     const [formData, setFormData] = useState(null);
 
     useEffect(() => {
-        setFormData({
-            ...JSON.parse(sessionStorage.getItem("tableReservationStep1")),
-            ...JSON.parse(sessionStorage.getItem("tableReservationStep2")),
-            ...JSON.parse(sessionStorage.getItem("tableReservationStep3")),
-            ...JSON.parse(sessionStorage.getItem("tableReservationStep4")),
-        });
+        formStatus.stepInProgress === 5
+            &&
+            setFormData({
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep1")),
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep2")),
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep3")),
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep4")),
+            });
     }, [formStatus.stepInProgress])
 
     return (

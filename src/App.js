@@ -3,7 +3,7 @@ import './App.css';
 import '../src/theme/styles.css';
 
 import theme from '../src/theme';
-import DesktopHeader from './sections/RegularHeader';
+import RegularHeader from './sections/RegularHeader';
 import Hero from './sections/Hero';
 import Specials from './sections/Specials';
 import Testimonials from './sections/Testimonials';
@@ -15,10 +15,13 @@ import TableReservation from './sections/TableReservation.js';
 
 
 function App() {
+
+
+
   return (
     <>
       <ChakraProvider theme={theme} >
-        <DesktopHeader visibility="hidden" />
+        <RegularHeader />
         <MobileFixedNav />
         <Box
           as="main"

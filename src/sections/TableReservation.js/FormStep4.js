@@ -89,14 +89,16 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
             })}
             onSubmit={values => {
                 sessionStorage.setItem("tableReservationStep4", JSON.stringify(values));
-                setFormStatus(prev => {
-                    return {
-                        ...prev,
-                        stepInProgress: stepDetails.stepNum + 1,
-                        previousStep: stepDetails.stepNum,
-                        stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
-                    }
-                });
+                !formStatus.stepsCompleted.has(stepDetails.stepNum)
+                    &&
+                    setFormStatus(prev => {
+                        return {
+                            ...prev,
+                            stepInProgress: stepDetails.stepNum + 1,
+                            previousStep: stepDetails.stepNum,
+                            stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
+                        }
+                    });
             }}
         >
             <Form

@@ -6,26 +6,31 @@ import { motion } from "framer-motion";
 
 const ChevronButton = ({
     hexColorCode,
-    filter = "drop-shadow(0px 2px 2px #33333340)",
+    filter = "drop-shadow(0px 2px 2px #33333380)",
     ...props
 }) => {
 
     const [scope, animate] = useAnimate();
 
     useEffect(() => {
+        console.log(props);
         scope.current.querySelector("path").style.fill = hexColorCode;
-        scope.current.querySelector("svg").style.filter = filter;
     })
 
     return (
         <Center
-            as={motion.div}
+            as={motion.button}
+            type="button"
             w={6}
             h={8}
             ref={scope}
             {...props}
         >
-            <ChevronSvg />
+            <ChevronSvg
+                style={{
+                    filter: filter
+                }}
+            />
         </Center>
     )
 }

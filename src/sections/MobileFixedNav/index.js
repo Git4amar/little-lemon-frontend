@@ -3,6 +3,7 @@ import HamburgerMenuIcon from './HamburgerMenuIcon';
 import ButtonRegular from '../../components/Buttons/ButtonRegular';
 import NavBar from "../../components/Navigation/Navbar"
 import { useAnimate, motion } from 'framer-motion';
+import useFormOverlayHandler from '../../util/customHooks/useFormOverlayHandler';
 
 const MobileFixedNav = () => {
 
@@ -23,6 +24,8 @@ const MobileFixedNav = () => {
                 })
         }
     }
+
+    const { setIsFormOpen } = useFormOverlayHandler();
 
     return (
         <>
@@ -62,6 +65,8 @@ const MobileFixedNav = () => {
 
             {/* bottom fixed nav */}
             <HStack
+                as={motion.div}
+                id="mobile-fixed-nav"
                 pos="fixed"
                 bottom="0"
                 w="full"
@@ -72,9 +77,11 @@ const MobileFixedNav = () => {
                 spacing={{ base: 6, md: 8 }}
                 boxShadow="0px -1px 4px 0px #333333"
                 hideFrom="xl"
-                visibility="hidden"
             >
-                <ButtonRegular flexGrow={1} >Reserve your table</ButtonRegular>
+                <ButtonRegular
+                    flexGrow={1}
+                    onClick={() => setIsFormOpen(true)}
+                >Reserve your table</ButtonRegular>
                 <HamburgerMenuIcon
                     showOverlayMenu={showOverlayMenu}
                 />

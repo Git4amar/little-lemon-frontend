@@ -1,11 +1,13 @@
 import { Center, VStack, Image } from '@chakra-ui/react';
 import Navbar from '../../components/Navigation/Navbar';
+import { motion } from "framer-motion";
+
 
 const RegularHeader = ({ ...props }) => {
     return (
         <Center
+            as={motion.header}
             id="regular-header"
-            as="header"
             pos={{ md: "fixed" }}
             w="full"
             zIndex={{ md: "sticky" }}
