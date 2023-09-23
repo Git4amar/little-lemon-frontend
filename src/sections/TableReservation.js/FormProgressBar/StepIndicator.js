@@ -5,7 +5,12 @@ import { useEffect } from "react";
 import LineFrame from "./LineFrame";
 
 
-const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev, ...props }) => {
+const StepIndicator = ({ children,
+    isStepInProgress,
+    isStepComplete,
+    isStepPrev,
+    goToPreviousFormStep,
+    ...props }) => {
 
     const [scope, animate] = useAnimate();
 
@@ -38,6 +43,7 @@ const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev,
 
     useEffect(() => {
         animateIndicator();
+        //eslint-disable-next-line
     }, [isStepInProgress, isStepPrev, isStepComplete])
 
     return (
@@ -56,6 +62,7 @@ const StepIndicator = ({ children, isStepInProgress, isStepComplete, isStepPrev,
                 boxShadow: "0px 0px 0px 0px #33333380",
                 transform: "translateY(1px)",
             }}
+            onClick={e => isStepComplete && goToPreviousFormStep(e, children)}
             {...props}
         >
             <Heading

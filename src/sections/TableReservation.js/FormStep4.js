@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { HStack, Image, Text } from "@chakra-ui/react";
+import { HStack, Heading, Image, Text } from "@chakra-ui/react";
 import FormStepFrame from "./FormStepFrame";
 import FormCTAButton from "./FormUI/FormCTAButton";
 import FormElementRegular from "./FormUI/FormElementRegular";
@@ -21,7 +21,8 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                 cardExpiration: "",
                 securityCode: "",
                 cardHolderName: "",
-                easyReservationSignUp: false
+                easyReservationSignUp: false,
+                ...JSON.parse(sessionStorage.getItem("tableReservationStep4"))
             }}
             validationSchema={Yup.object({
                 cardNumber: Yup.string()
@@ -50,7 +51,7 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                                 ? dayjs(value, "MM/YYYY").isSameOrAfter(dayjs(), "M")
                                 : context.createError({
                                     path: "cardExpiration",
-                                    message: "Please enter a 2-digit month and 4-digit year"
+                                    message: "Please enter 2-digit month and 4-digit year"
                                 })
                         }
                     ),
@@ -87,7 +88,15 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                     .notRequired(),
             })}
             onSubmit={values => {
-                console.log(values)
+                sessionStorage.setItem("tableReservationStep4", JSON.stringify(values));
+                setFormStatus(prev => {
+                    return {
+                        ...prev,
+                        stepInProgress: stepDetails.stepNum + 1,
+                        previousStep: stepDetails.stepNum,
+                        stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
+                    }
+                });
             }}
         >
             <Form
@@ -100,15 +109,14 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                     stepHeading={stepDetails.stepHeading}
                 >
                     {/* reservation price info */}
-                    <Text
+                    <Heading
                         as="h4"
-                        fontSize="18px"
-                        color="brand.primary.green"
-                        fontWeight={700}
+                        fontSize={{ base: "24px", md: "32px" }}
+                        fontWeight={400}
                         lineHeight="none"
                     >
-                        A hold of $10.00 will be placed on your card.
-                    </Text>
+                        We'll place a temporary charge of $10.00 on your card.
+                    </Heading>
                     {/* payment method secure info */}
                     <HStack
                         w="full"
@@ -221,7 +229,8 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                         spacing={4}
                     >
                         <FormCTAButton
-                            onClick={() => goToPreviousFormStep(stepDetails.stepNum)}
+                            value={stepDetails.stepNum}
+                            onClick={goToPreviousFormStep}
                         >
                             Previous
                         </FormCTAButton>
@@ -229,7 +238,7 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                             primary
                             type="submit"
                         >
-                            Next
+                            {formStatus.stepsCompleted.has(stepDetails.stepNum) ? "Make Changes" : "Next"}
                         </FormCTAButton>
                     </HStack>
                 </FormStepFrame>

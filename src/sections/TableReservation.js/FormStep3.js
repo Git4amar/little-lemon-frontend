@@ -206,7 +206,8 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                         spacing={4}
                     >
                         <FormCTAButton
-                            onClick={() => goToPreviousFormStep(stepDetails.stepNum)}
+                            value={stepDetails.stepNum}
+                            onClick={goToPreviousFormStep}
                         >
                             Previous
                         </FormCTAButton>
@@ -214,7 +215,7 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                             primary
                             type="submit"
                         >
-                            Next
+                            {formStatus.stepsCompleted.has(stepDetails.stepNum) ? "Make Changes" : "Next"}
                         </FormCTAButton>
                     </HStack>
                 </FormStepFrame>

@@ -119,7 +119,7 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
                         primary
                         type="submit"
                     >
-                        Next
+                        {formStatus.stepsCompleted.has(stepDetails.stepNum) ? "Make Changes" : "Next"}
                     </FormCTAButton>
                 </FormStepFrame>
             </Form>

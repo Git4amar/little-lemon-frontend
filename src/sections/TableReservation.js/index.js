@@ -61,15 +61,20 @@ const TableReservation = () => {
         }
         sessionStorage.setItem("formStepInProgress", formStatus.stepInProgress);
         sessionStorage.setItem("formStepsCompleted", [...formStatus.stepsCompleted].toString());
-        console.log(formStatus);
+        //eslint-disable-next-line
     }, [formStatus.stepInProgress])
 
-    const goToPreviousFormStep = triggerStep => {
+    const goToPreviousFormStep = (event, stepValue = null) => {
+        const trigger = event.target.innerHTML === "Previous"
+            ? "previousBtn"
+            : "headerBtn"
         setFormStatus(prev => {
             return {
                 ...prev,
-                stepInProgress: triggerStep - 1,
-                previousStep: triggerStep,
+                stepInProgress: trigger === "previousBtn"
+                    ? event.target.value - 1
+                    : stepValue,
+                previousStep: formStatus.stepInProgress,
             }
         })
     }
@@ -122,7 +127,7 @@ const TableReservation = () => {
                     </HStack>
 
                     {/* form progress bar */}
-                    <FormProgressBar formStatus={formStatus} setFormStatus={setFormStatus} />
+                    <FormProgressBar formStatus={formStatus} goToPreviousFormStep={goToPreviousFormStep} />
                 </VStack>
             </VStack>
 
@@ -131,7 +136,7 @@ const TableReservation = () => {
                 w="full"
                 maxW="container.xl"
                 h={{ base: "calc(100% - 111px)", md: "calc(100% - 166px)", xl: "calc(100% - 142px)" }}
-            // overflow="hidden"
+                overflow="hidden"
             >
                 <HStack
                     as={motion.div}
