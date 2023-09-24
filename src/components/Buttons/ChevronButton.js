@@ -13,7 +13,6 @@ const ChevronButton = ({
     const [scope, animate] = useAnimate();
 
     useEffect(() => {
-        console.log(props);
         scope.current.querySelector("path").style.fill = hexColorCode;
     })
 

@@ -6,13 +6,15 @@ import OptionsStack from "./OptionsStack";
 import DateSelector from "./DateSelector";
 
 
+const dayjs = require("dayjs");
+
 const SelectInput = ({
     leftIcon = null, placeHolder = "placeholder", renderAsDatePicker = false,
     formikHelpers, formikMeta,
     ...props }) => {
 
     const {
-        defaultOption = formikMeta.initialValue, nextAvailableDate,
+        nextAvailableDate,
         options = ["option1", "option2", "option3", "option4"],
         ...inputFieldProps
     } = props;
@@ -21,7 +23,7 @@ const SelectInput = ({
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const [selectedOption, setSelectedOption] = useState(defaultOption);
+    // const [selectedOption, setSelectedOption] = useState(defaultOption);
     const handleOptionSelection = async option => {
         const optionValue = option.target.getElementsByTagName("p")[0].innerHTML;
         await formikHelpers.setValue(optionValue)
@@ -32,17 +34,8 @@ const SelectInput = ({
                 }
             });
         formikHelpers.setTouched(true);
-        setSelectedOption(optionValue);
+        // setSelectedOption(optionValue);
     }
-
-    const dayjs = require("dayjs");
-    const today = dayjs()
-    const [selectedDate, setSelectedDate] = useState(
-        nextAvailableDate
-            ? nextAvailableDate
-            : inputFieldProps.value
-                ? dayjs(inputFieldProps.value).format("YYYY-MM-DD") : today.format('YYYY-MM-DD')
-    );
 
     const handleDateSelection = async date => {
         const newDate = dayjs(date).format("YYYY-MM-DD");
@@ -54,7 +47,7 @@ const SelectInput = ({
                 }
             });
         formikHelpers.setTouched(true);
-        setSelectedDate(newDate);
+        // setSelectedDate(newDate);
     }
 
     const wasOpen = useRef(false);
@@ -176,14 +169,10 @@ const SelectInput = ({
                 >
                     {
                         renderAsDatePicker
-                            ? selectedDate === today.format("YYYY-MM-DD")
+                            ? formikMeta.value === dayjs().format("YYYY-MM-DD")
                                 ? "Today"
-                                : dayjs(selectedDate).format("dddd, MMMM D, YYYY")
-                            : selectedOption
-                                ? selectedOption
-                                : defaultOption
-                                    ? defaultOption
-                                    : placeHolder
+                                : dayjs(formikMeta.value, "YYYY-MM-DD").format("dddd, MMMM D, YYYY")
+                            : formikMeta.value || placeHolder
                     }
                 </Text>
                 {/* right icon */}
@@ -206,7 +195,7 @@ const SelectInput = ({
                         {isOpen && <DateSelector
                             key="selectDateSelector"
                             handleDateSelection={handleDateSelection}
-                            selectedDate={selectedDate}
+                            selectedDate={formikMeta.value}
                             nextAvailableDate={nextAvailableDate}
                         />}
                     </AnimatePresence>
@@ -214,7 +203,7 @@ const SelectInput = ({
                         {isOpen && <OptionsStack
                             key="selectOptionsStack"
                             options={options}
-                            selectedOption={selectedOption}
+                            selectedOption={formikMeta.value}
                             handleOptionSelection={handleOptionSelection}
                         />}
                     </AnimatePresence>

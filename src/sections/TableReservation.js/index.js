@@ -8,7 +8,6 @@ import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
 import { useEffect, useState } from "react";
-import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
 
 
 const TableReservation = () => {
@@ -70,6 +69,7 @@ const TableReservation = () => {
         }
         sessionStorage.setItem("formStepInProgress", formStatus.stepInProgress);
         sessionStorage.setItem("formStepsCompleted", [...formStatus.stepsCompleted].toString());
+        // console.log(formStatus);
         //eslint-disable-next-line
     }, [formStatus.stepInProgress])
 
@@ -87,8 +87,6 @@ const TableReservation = () => {
             }
         })
     }
-
-    const { setIsFormOpen } = useFormOverlayHandler();
 
     return (
         <VStack

@@ -23,7 +23,7 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                 seatingOptions: seatingOptions[0],
                 occasions: "",
                 additionalInfo: "",
-                ...JSON.parse(sessionStorage.getItem("tableReservationStep2"))
+                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object({
                 disabilityAccomodation: Yup.boolean()
@@ -36,9 +36,8 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                     .notRequired()
             })}
             onSubmit={values => {
-                sessionStorage.setItem("tableReservationStep2", JSON.stringify(values));
-                !formStatus.stepsCompleted.has(stepDetails.stepNum)
-                    &&
+                sessionStorage.setItem(`tableReservationStep${stepDetails.stepNum}`, JSON.stringify(values));
+                if (!formStatus.stepsCompleted.has(stepDetails.stepNum)) {
                     setFormStatus(prev => {
                         return {
                             ...prev,
@@ -47,10 +46,24 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                             stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
                         }
                     });
+                }
+                else if ([...formStatus.stepsCompleted].length) {
+                    setFormStatus(prev => {
+                        return {
+                            ...prev,
+                            stepInProgress: [...formStatus.stepsCompleted].length + 1,
+                            previousStep: stepDetails.stepNum,
+                            stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
+                        }
+                    });
+                }
+            }}
+            onReset={(values, formikBag) => {
+                sessionStorage.removeItem(`tableReservationStep${stepDetails.stepNum}`);
             }}
         >
             <Form
-                id="tableReservationStep2"
+                id={`tableReservationStep${stepDetails.stepNum}`}
                 style={{ height: "100%" }}
                 noValidate
             // method="post"
@@ -125,9 +138,15 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                             primary
                             type="submit"
                         >
-                            {formStatus.stepsCompleted.has(stepDetails.stepNum) ? "Make Changes" : "Next"}
+                            {[...formStatus.stepsCompleted].length === formStatus.totalNumOfSubForms ? "Make Changes" : "Next"}
                         </FormCTAButton>
                     </HStack>
+                    <FormCTAButton
+                        type="reset"
+                        display={[...formStatus.stepsCompleted].length === formStatus.totalNumOfSubForms ? "block" : "none"}
+                    >
+                        Reset
+                    </FormCTAButton>
                 </FormStepFrame>
             </Form>
         </Formik >

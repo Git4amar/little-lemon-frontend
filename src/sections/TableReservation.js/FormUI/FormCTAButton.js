@@ -1,9 +1,14 @@
+import { useFormikContext } from "formik";
 import ButtonRegular from "../../../components/Buttons/ButtonRegular";
 
 
 const FormCTAButton = ({ primary = false, children, ...props }) => {
+
+    const { isValid } = useFormikContext();
+
     return (
         <ButtonRegular
+            isDisabled={props.type === "submit" ? !isValid : false}
             type="button"
             w="full"
             bg={primary ? "brand.primary.green" : "brand.secondary.brightGray"}

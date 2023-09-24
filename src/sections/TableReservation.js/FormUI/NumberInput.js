@@ -6,7 +6,7 @@ const NumberInput = ({ step = 1, defaultValue = 4, min = 1, max = 16, formikHelp
 
     const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
         step: step,
-        defaultValue: formikMeta.initialValue || defaultValue,
+        defaultValue: formikMeta.value || defaultValue,
         min: min,
         max: max,
     });
@@ -54,6 +54,7 @@ const NumberInput = ({ step = 1, defaultValue = 4, min = 1, max = 16, formikHelp
             </Button>
             <InputBox
                 {...input}
+            // value={formikMeta.value}
             />
             <Button
                 {...inc}

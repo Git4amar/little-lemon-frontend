@@ -8,32 +8,37 @@ const RegularRadioOptionGroup = ({
     name, formikMeta, formikHelpers,
     ...otherProps }) => {
 
-    const { getRootProps, getRadioProps, value } = useRadioGroup({
-        defaultValue: formikMeta.initialValue,
+    const { getRootProps, getRadioProps, value, setValue } = useRadioGroup({
+        defaultValue: formikMeta.value,
     });
 
-    const handleFormikValue = async value => {
+    const handleFormValue = async value => {
         await formikHelpers.setValue(value);
         formikHelpers.setTouched(true);
     }
 
     useEffect(() => {
-        value && handleFormikValue(value);
+        value && handleFormValue(value);
         //eslint-disable-next-line
     }, [value])
+
+    useEffect(() => {
+        formikMeta.value && setValue(formikMeta.value);
+        //eslint-disable-next-line
+    }, [formikMeta.value])
 
     return (
         <HStack
             spacing={4}
             {...getRootProps()}
         >
-            {options.map(value => <RadioOptionRegular
-                {...getRadioProps({ value })}
+            {options.map(val => <RadioOptionRegular
+                {...getRadioProps({ value: val })}
                 name={name}
-                key={value}
-                value={value}
+                key={val}
+                value={val}
             >
-                {value}
+                {val}
             </RadioOptionRegular>)}
         </HStack>
     )

@@ -32,6 +32,7 @@ const useFormOverlayHandler = () => {
         handleOverlay()
         document.getElementById("form-close-btn").addEventListener("click", () => setIsFormOpen(false));
         return () => document.getElementById("form-close-btn").removeEventListener("click", () => setIsFormOpen(false));
+        //eslint-disable-next-line
     }, [isFormOpen])
 
     return {

@@ -68,6 +68,7 @@ const MobileFixedNav = () => {
                 as={motion.div}
                 id="mobile-fixed-nav"
                 pos="fixed"
+                left="0"
                 bottom="0"
                 w="full"
                 py={{ base: 2, md: 8 }}

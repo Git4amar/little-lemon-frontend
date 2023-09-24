@@ -3,6 +3,7 @@ import FormCTAButton from "./FormUI/FormCTAButton";
 import FormStepFrame from "./FormStepFrame";
 import ReservationReviewItem from "./FormUI/ReservationReviewItem";
 import { useEffect, useState } from "react";
+import { Formik, Form } from "formik";
 
 
 const dayjs = require("dayjs");
@@ -70,61 +71,70 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
     }, [formStatus.stepInProgress])
 
     return (
-        <FormStepFrame
-            stepHeading={stepDetails.stepHeading}
-        >
-            {formData
-                &&
-                reviewItems.map(reviewItem => {
-                    let desc = null;
-                    if (reviewItem.item.includes("name")) {
-                        desc = formData[reviewItem.fieldName.split(",")[0].trim()] + " " + formData[reviewItem.fieldName.split(",")[1].trim()]
-                    }
-                    else if (reviewItem.item.includes("Date")) {
-                        desc = dayjs(formData[reviewItem.fieldName], "YYYY-MM-DD").format("dddd, MMMM D, YYYY")
-                    }
-                    else if (reviewItem.item.includes("Moment")) {
-                        desc = formData[reviewItem.fieldName].split(" ")[0]
-                    }
-                    else {
-                        desc = formData[reviewItem.fieldName]
-                        desc = typeof (desc) === "boolean" ? desc.toString() : desc
-                    }
-                    return desc && <ReservationReviewItem
-                        key={reviewItem.item}
-                        item={reviewItem.item}
-                        desc={desc}
-                    />
-                })
-            }
-            {/* reservation price info */}
-            <Heading
-                as="h4"
-                fontSize={{ base: "24px", md: "32px" }}
-                fontWeight={400}
-                lineHeight="150%"
+        <Formik>
+            <Form
+                id={`tableReservationStep${stepDetails.stepNum}`}
+                style={{ height: "100%" }}
+                noValidate
+            // method="post"
             >
-                We'll place a temporary charge of $10.00 on your card. <br />Click reserve to finalize.
-            </Heading>
-            {/* CTA button Stack */}
-            <HStack
-                w="full"
-                spacing={4}
-            >
-                <FormCTAButton
-                    value={stepDetails.stepNum}
-                    onClick={goToPreviousFormStep}
+                <FormStepFrame
+                    stepHeading={stepDetails.stepHeading}
                 >
-                    Previous
-                </FormCTAButton>
-                <FormCTAButton
-                    primary
-                    type="submit"
-                >
-                    Reserve
-                </FormCTAButton>
-            </HStack>
-        </FormStepFrame>
+                    {formData
+                        &&
+                        reviewItems.map(reviewItem => {
+                            let desc = null;
+                            if (reviewItem.item.includes("name")) {
+                                desc = formData[reviewItem.fieldName.split(",")[0].trim()] + " " + formData[reviewItem.fieldName.split(",")[1].trim()]
+                            }
+                            else if (reviewItem.item.includes("Date")) {
+                                desc = dayjs(formData[reviewItem.fieldName], "YYYY-MM-DD").format("dddd, MMMM D, YYYY")
+                            }
+                            else if (reviewItem.item.includes("Moment")) {
+                                desc = formData[reviewItem.fieldName].split(" ")[0]
+                            }
+                            else {
+                                desc = formData[reviewItem.fieldName]
+                                desc = typeof (desc) === "boolean" ? desc.toString() : desc
+                            }
+                            return desc && <ReservationReviewItem
+                                key={reviewItem.item}
+                                item={reviewItem.item}
+                                desc={desc}
+                            />
+                        })
+                    }
+                    {/* reservation price info */}
+                    <Heading
+                        as="h4"
+                        fontSize={{ base: "24px", md: "32px" }}
+                        fontWeight={400}
+                        lineHeight="150%"
+                    >
+                        We'll place a temporary charge of $10.00 on your card. <br />Click reserve to finalize.
+                    </Heading>
+                    {/* CTA button Stack */}
+                    <HStack
+                        w="full"
+                        spacing={4}
+                    >
+                        <FormCTAButton
+                            value={stepDetails.stepNum}
+                            onClick={goToPreviousFormStep}
+                        >
+                            Previous
+                        </FormCTAButton>
+                        <FormCTAButton
+                            primary
+                            type="submit"
+                        >
+                            Reserve
+                        </FormCTAButton>
+                    </HStack>
+                </FormStepFrame>
+            </Form>
+        </Formik>
     )
 }
 

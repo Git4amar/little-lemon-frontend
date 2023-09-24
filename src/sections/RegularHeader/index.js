@@ -15,6 +15,7 @@ const RegularHeader = ({ ...props }) => {
             py={4}
             boxShadow={{ md: "0px 1px 4px 0px #333333" }}
             hideBelow="md"
+            left="0"
             {...props}
         >
             <VStack

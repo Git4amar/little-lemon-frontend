@@ -12,7 +12,7 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
 
     const dayjs = require("dayjs")
     // simulate receive available dates from backend API
-    const firstAvailableDate = dayjs(dayjs().format("YYYY-MM-DD")).toDate();
+    const todayDate = dayjs(dayjs().format("YYYY-MM-DD")).toDate();
 
     // simulate receive available options from backend API
     const momentOptions = [
@@ -26,10 +26,10 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
         <Formik
             initialValues={{
                 numOfGuests: 4,
-                reservationDay: dayjs(firstAvailableDate).format("YYYY-MM-DD"),
+                reservationDay: dayjs(todayDate).format("YYYY-MM-DD"),
                 reservationMoment: "",
                 reservationTime: "",
-                ...JSON.parse(sessionStorage.getItem("tableReservationStep1"))
+                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object({
                 numOfGuests: Yup.number()
@@ -38,8 +38,8 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
                     .min(1, "Min number of 1 guest is allowed"),
                 reservationDay: Yup.date()
                     .required("Required")
-                    .min(dayjs(firstAvailableDate).toDate(), "Pick an available date within 4 weeks from today")
-                    .max(dayjs(firstAvailableDate).add(4, "week").toDate(), "Reservations are available within 4 weeks from today."),
+                    .min(dayjs(todayDate).toDate(), "Pick an available date within 4 weeks from today")
+                    .max(dayjs(todayDate).add(4, "week").toDate(), "Reservations are available within 4 weeks from today."),
                 reservationMoment: Yup.string()
                     .required("Required")
                     .oneOf(momentOptions, "Pick a valid option"),
@@ -47,9 +47,8 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
                     .required("Required")
             })}
             onSubmit={values => {
-                sessionStorage.setItem("tableReservationStep1", JSON.stringify(values));
-                !formStatus.stepsCompleted.has(stepDetails.stepNum)
-                    &&
+                sessionStorage.setItem(`tableReservationStep${stepDetails.stepNum}`, JSON.stringify(values));
+                if (!formStatus.stepsCompleted.has(stepDetails.stepNum)) {
                     setFormStatus(prev => {
                         return {
                             ...prev,
@@ -58,10 +57,24 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
                             stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
                         }
                     });
+                }
+                else if ([...formStatus.stepsCompleted].length) {
+                    setFormStatus(prev => {
+                        return {
+                            ...prev,
+                            stepInProgress: [...formStatus.stepsCompleted].length + 1,
+                            previousStep: stepDetails.stepNum,
+                            stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
+                        }
+                    });
+                }
+            }}
+            onReset={(values, formikBag) => {
+                sessionStorage.removeItem(`tableReservationStep${stepDetails.stepNum}`);
             }}
         >
             <Form
-                id="tableReservationStep1"
+                id={`tableReservationStep${stepDetails.stepNum}`}
                 style={{ height: "100%" }}
                 noValidate
             // method="post"
@@ -121,7 +134,13 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus }) => {
                         primary
                         type="submit"
                     >
-                        {formStatus.stepsCompleted.has(stepDetails.stepNum) ? "Make Changes" : "Next"}
+                        {[...formStatus.stepsCompleted].length === formStatus.totalNumOfSubForms ? "Make Changes" : "Next"}
+                    </FormCTAButton>
+                    <FormCTAButton
+                        type="reset"
+                        display={[...formStatus.stepsCompleted].length === formStatus.totalNumOfSubForms ? "block" : "none"}
+                    >
+                        Reset
                     </FormCTAButton>
                 </FormStepFrame>
             </Form>
