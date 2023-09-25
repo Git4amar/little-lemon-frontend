@@ -13,7 +13,7 @@ const dayjs = require("dayjs")
     .extend(require("dayjs/plugin/customParseFormat"));
 const creditCardValidator = require("credit-card-validator");
 
-const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep }) => {
+const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic }) => {
     return (
         <Formik
             initialValues={{
@@ -22,7 +22,7 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                 securityCode: "",
                 cardHolderName: "",
                 easyReservationSignUp: false,
-                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object({
                 cardNumber: Yup.string()
@@ -87,28 +87,8 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                 easyReservationSignUp: Yup.boolean()
                     .notRequired(),
             })}
-            onSubmit={values => {
-                sessionStorage.setItem(`tableReservationStep${stepDetails.stepNum}`, JSON.stringify(values));
-                if (!formStatus.stepsCompleted.has(stepDetails.stepNum)) {
-                    setFormStatus(prev => {
-                        return {
-                            ...prev,
-                            stepInProgress: stepDetails.stepNum + 1,
-                            previousStep: stepDetails.stepNum,
-                            stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
-                        }
-                    });
-                }
-                else if ([...formStatus.stepsCompleted].length) {
-                    setFormStatus(prev => {
-                        return {
-                            ...prev,
-                            stepInProgress: [...formStatus.stepsCompleted].length + 1,
-                            previousStep: stepDetails.stepNum,
-                            stepsCompleted: formStatus.stepsCompleted.add(stepDetails.stepNum)
-                        }
-                    });
-                }
+            onSubmit={(values, formikBag) => {
+                formikOnSubmitLogic(values, formikBag, stepDetails.stepNum)
             }}
             onReset={(values, formikBag) => {
                 sessionStorage.removeItem(`tableReservationStep${stepDetails.stepNum}`);
@@ -121,7 +101,9 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
             // method="post"
             >
                 <FormStepFrame
-                    stepHeading={stepDetails.stepHeading}
+                    stepDetails={stepDetails}
+                    formStatus={formStatus}
+                    setFormStatus={setFormStatus}
                 >
                     {/* reservation price info */}
                     <Heading
@@ -252,13 +234,16 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                         <FormCTAButton
                             primary
                             type="submit"
+                            formStatus={formStatus}
+                            setFormStatus={setFormStatus}
+                            stepNum={stepDetails.stepNum}
                         >
-                            {[...formStatus.stepsCompleted].length === formStatus.totalNumOfSubForms ? "Make Changes" : "Next"}
+                            {formStatus.stepsInvalid.size === 0 ? "Review" : "Next"}
                         </FormCTAButton>
                     </HStack>
                     <FormCTAButton
                         type="reset"
-                        display={[...formStatus.stepsCompleted].length === formStatus.totalNumOfSubForms ? "block" : "none"}
+                        display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
                     >
                         Reset
                     </FormCTAButton>

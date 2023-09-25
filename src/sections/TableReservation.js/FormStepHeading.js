@@ -1,8 +1,10 @@
 import { Text, VStack, Box } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
+import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
 
-const FormStepHeading = ({ children }) => {
+
+const FormStepHeading = ({ children, formStatus }) => {
 
     const [scope, animate] = useAnimate();
 
@@ -17,7 +19,7 @@ const FormStepHeading = ({ children }) => {
                 damping: 15
             })
         }, 1740 * 3 / 8);
-    })
+    }, [formStatus.stepInProgress, formStatus.isFormOpen])
 
     return (
         <VStack

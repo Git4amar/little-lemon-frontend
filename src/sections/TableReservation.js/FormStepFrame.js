@@ -1,8 +1,10 @@
 import { VStack, Box } from "@chakra-ui/react";
 import FormStepHeading from "./FormStepHeading";
+import { useFormikContext } from "formik";
+import { useEffect } from "react";
 
 
-const FormStepFrame = ({ children, stepHeading, ...props }) => {
+const FormStepFrame = ({ children, stepDetails, formStatus, setFormStatus, ...props }) => {
 
     return (
         <Box
@@ -21,8 +23,10 @@ const FormStepFrame = ({ children, stepHeading, ...props }) => {
                 spacing={{ base: 4 }}
                 align="start"
             >
-                <FormStepHeading>
-                    {stepHeading}
+                <FormStepHeading
+                    formStatus={formStatus}
+                >
+                    {stepDetails.stepHeading}
                 </FormStepHeading>
                 {children}
             </VStack>

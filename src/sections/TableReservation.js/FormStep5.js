@@ -79,7 +79,9 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
             // method="post"
             >
                 <FormStepFrame
-                    stepHeading={stepDetails.stepHeading}
+                    stepDetails={stepDetails}
+                    formStatus={formStatus}
+                    setFormStatus={setFormStatus}
                 >
                     {formData
                         &&

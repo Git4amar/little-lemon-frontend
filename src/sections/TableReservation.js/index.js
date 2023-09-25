@@ -8,6 +8,7 @@ import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
 import { useEffect, useState } from "react";
+import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
 
 
 const TableReservation = () => {
@@ -41,8 +42,30 @@ const TableReservation = () => {
         previousStep: 1,
         stepsCompleted: sessionStorage.getItem("formStepsCompleted")
             ? new Set([...sessionStorage.getItem("formStepsCompleted").split(",").map(n => parseInt(n))])
+            : new Set([]),
+        stepsInvalid: sessionStorage.getItem("formStepsInvalid")
+            ? new Set([...sessionStorage.getItem("formStepsInvalid").split(",").map(n => parseInt(n))])
             : new Set([])
     });
+
+    const formikOnSubmitLogic = (values, formikBag, stepNum) => {
+        sessionStorage.setItem(`tableReservationStep${stepNum}`, JSON.stringify(values));
+        setFormStatus(prev => {
+            formStatus.stepsInvalid.delete(stepNum);
+            return {
+                ...prev,
+                stepInProgress: formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms
+                    ? formStatus.stepsInvalid.size > 0
+                        ? formStatus.stepsInvalid.values().next().value
+                        : formStatus.totalNumOfSubForms + 1
+                    : stepNum + 1,
+                previousStep: stepNum,
+                stepsCompleted: formStatus.stepsCompleted.add(stepNum),
+                stepsInvalid: formStatus.stepsInvalid
+            }
+        });
+        formikBag.setSubmitting(false);
+    }
 
     const [formScope, animateForm] = useAnimate();
 
@@ -69,9 +92,10 @@ const TableReservation = () => {
         }
         sessionStorage.setItem("formStepInProgress", formStatus.stepInProgress);
         sessionStorage.setItem("formStepsCompleted", [...formStatus.stepsCompleted].toString());
+        sessionStorage.setItem("formStepsInvalid", [...formStatus.stepsInvalid].toString());
         // console.log(formStatus);
         //eslint-disable-next-line
-    }, [formStatus.stepInProgress])
+    }, [formStatus.stepInProgress, formStatus.stepsInvalid.size]);
 
     const goToPreviousFormStep = (event, stepValue = null) => {
         const trigger = event.target.innerHTML === "Previous"
@@ -163,23 +187,27 @@ const TableReservation = () => {
                         stepDetails={formSteps[0]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        formikOnSubmitLogic={formikOnSubmitLogic}
                     />
                     <FormStep2
                         stepDetails={formSteps[1]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
                     />
                     <FormStep3
                         stepDetails={formSteps[2]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
                     />
                     <FormStep4
                         stepDetails={formSteps[3]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
+                        formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
                     />
                     <FormStep5

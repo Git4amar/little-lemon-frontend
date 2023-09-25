@@ -16,8 +16,6 @@ import TableReservation from './sections/TableReservation.js';
 
 function App() {
 
-
-
   return (
     <>
       <ChakraProvider theme={theme} >
