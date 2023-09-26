@@ -1,7 +1,6 @@
 import { Text, VStack, Box } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
-import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
 
 
 const FormStepHeading = ({ children, formStatus }) => {

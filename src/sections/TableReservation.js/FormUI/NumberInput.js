@@ -54,7 +54,7 @@ const NumberInput = ({ step = 1, defaultValue = 4, min = 1, max = 16, formikHelp
             </Button>
             <InputBox
                 {...input}
-            // value={formikMeta.value}
+                value={formikMeta.value}
             />
             <Button
                 {...inc}

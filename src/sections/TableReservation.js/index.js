@@ -179,6 +179,7 @@ const TableReservation = ({ handleFormOverlay }) => {
                         <ChevronButton
                             id="form-close-btn"
                             onClick={handleFormOverlay}
+                            aria-label="form close button"
                         />
                     </HStack>
 
