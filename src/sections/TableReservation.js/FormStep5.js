@@ -13,47 +13,58 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
     const reviewItems = [
         {
             item: "Party size",
-            fieldName: "numOfGuests"
+            fieldName: "numOfGuests",
+            formStepNum: 1
         },
         {
             item: "Date",
-            fieldName: "reservationDay"
+            fieldName: "reservationDay",
+            formStepNum: 1
         },
         {
             item: "Moment",
-            fieldName: "reservationMoment"
+            fieldName: "reservationMoment",
+            formStepNum: 1
         },
         {
             item: "Time",
-            fieldName: "reservationTime"
+            fieldName: "reservationTime",
+            formStepNum: 1
         },
         {
             item: "Disability accomodations",
-            fieldName: "disabilityAccomodation"
+            fieldName: "disabilityAccomodation",
+            formStepNum: 2
         },
         {
             item: "Seating preference",
-            fieldName: "seatingOptions"
+            fieldName: "seatingOptions",
+            formStepNum: 2
         },
         {
             item: "Occasion",
-            fieldName: "occasion"
+            fieldName: "occasion",
+            formStepNum: 2
         },
         {
             item: "Additional info",
-            fieldName: "additionalInfo"
+            fieldName: "additionalInfo",
+            formStepNum: 2
         },
         {
             item: "Your name",
-            fieldName: "firstname, lastname"
+            fieldName: "firstname, lastname",
+            formStepNum: 3
         },
         {
             item: "Your email",
-            fieldName: "email"
+            fieldName: "email",
+            formStepNum: 3
         },
         {
             item: "Credit card",
-            fieldName: "cardNumber"
+            fieldName: "cardNumber",
+            formStepNum: 4
         },
     ]
 
@@ -104,6 +115,8 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                                 key={reviewItem.item}
                                 item={reviewItem.item}
                                 desc={desc}
+                                formStepNum={reviewItem.formStepNum}
+                                goToPreviousFormStep={goToPreviousFormStep}
                             />
                         })
                     }
@@ -129,7 +142,7 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                         </FormCTAButton>
                         <FormCTAButton
                             primary
-                            type="submit"
+                        // type="submit"
                         >
                             Reserve
                         </FormCTAButton>

@@ -99,7 +99,7 @@ const TableReservation = ({ handleFormOverlay }) => {
     const goToPreviousFormStep = (event, stepValue = null) => {
         const trigger = event.target.innerHTML === "Previous"
             ? "previousBtn"
-            : "headerBtn"
+            : "otherBtns"
         setFormStatus(prev => {
             return {
                 ...prev,
