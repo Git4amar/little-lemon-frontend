@@ -85,7 +85,6 @@ const Hero = ({ handleFormOverlay, ...props }) => {
         <Box
             h="100vh"
             pos="relative"
-            zIndex="base"
             ref={heroBgScope}
             bg="brand.secondary.brightGray"
             {...props}
@@ -97,8 +96,8 @@ const Hero = ({ handleFormOverlay, ...props }) => {
                 initial={{ height: "100vh" }}
                 w="full"
                 bg="brand.primary.green"
-                zIndex={-1}
                 pos="absolute"
+                zIndex="base"
             />
             {/* Scroll Indicator */}
             <Center
@@ -108,10 +107,11 @@ const Hero = ({ handleFormOverlay, ...props }) => {
             >
                 <ScrollIndicator />
             </Center>
-            {/* Hero Section Griod / Content */}
+            {/* Hero Section Grid / Content */}
             <FullScreenGridSection
                 id="hero-section"
-            // border="1px"
+                pos="relative"
+                zIndex="base"
             >
 
                 {/* Hero Title */}

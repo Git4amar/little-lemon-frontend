@@ -21,7 +21,6 @@ function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const handleFormOverlay = e => {
-    console.log(e.target, e.target.dataset);
     switch (e.target.dataset.actionToForm) {
       case "formOpen":
         setIsFormOpen(true);
@@ -36,37 +35,40 @@ function App() {
   return (
     <>
       <ChakraProvider theme={theme} >
-        <RegularHeader
-          // TODO
-          visibility={isFormOpen ? "hidden" : "visible"}
-        />
-        <MobileFixedNav
-          handleFormOverlay={handleFormOverlay}
-        />
         <Box
-          as="main"
           pos="relative"
           zIndex="docked"
         >
-          <Hero
+          <RegularHeader
+          // TODO
+          // visibility={isFormOpen ? "hidden" : "visible"}
+          />
+          <MobileFixedNav
             handleFormOverlay={handleFormOverlay}
           />
-          <StickyReservationButton
-            onClick={handleFormOverlay}
-            data-action-to-form="formOpen"
-          />
-          <Specials />
-          <Testimonials />
-          <About />
-          <AnimatePresence>
-            {
-              isFormOpen
-              &&
-              <TableReservation
-                handleFormOverlay={handleFormOverlay}
-              />
-            }
-          </AnimatePresence>
+          <Box
+            as="main"
+          >
+            <Hero
+              handleFormOverlay={handleFormOverlay}
+            />
+            <StickyReservationButton
+              onClick={handleFormOverlay}
+              data-action-to-form="formOpen"
+            />
+            <Specials />
+            <Testimonials />
+            <About />
+            <AnimatePresence>
+              {
+                isFormOpen
+                &&
+                <TableReservation
+                  handleFormOverlay={handleFormOverlay}
+                />
+              }
+            </AnimatePresence>
+          </Box>
         </Box>
         <Footer />
       </ChakraProvider>
