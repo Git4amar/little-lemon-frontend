@@ -9,29 +9,75 @@ import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
 import { useEffect, useState } from "react";
 
+const dayjs = require("dayjs")
+
 
 const TableReservation = ({ handleFormOverlay }) => {
 
+    const todayDate = dayjs(dayjs().format("YYYY-MM-DD")).toDate();
+    const seatingOptions = ["Indoors", "Outdoors"];
+    const occasionOptions = ["Birthday", "Date", "Engagement", "Anniversary", "other"];
+
     const formSteps = [
         {
-            stepNum: 1,
-            stepHeading: "let's set up your table"
+            stepDetails: {
+                stepNum: 1,
+                stepHeading: "let's set up your table"
+            },
+            formikInitialValues: {
+                numOfGuests: 4,
+                reservationDay: dayjs(todayDate).format("YYYY-MM-DD"),
+                reservationMoment: "",
+                reservationTime: "",
+                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+            },
         },
         {
-            stepNum: 2,
-            stepHeading: "customizations"
+            stepDetails: {
+                stepNum: 2,
+                stepHeading: "customizations"
+            },
+            formikInitialValues: {
+                disabilityAccomodation: false,
+                seatingOptions: seatingOptions[0],
+                occasions: "",
+                additionalInfo: "",
+                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+            }
         },
         {
-            stepNum: 3,
-            stepHeading: "your details"
+            stepDetails: {
+                stepNum: 3,
+                stepHeading: "your details"
+            },
+            formikInitialValues: {
+                firstname: "",
+                lastname: "",
+                email: "",
+                phone: "",
+                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+            }
         },
         {
-            stepNum: 4,
-            stepHeading: "hold your reservation"
+            stepDetails: {
+                stepNum: 4,
+                stepHeading: "hold your reservation"
+            },
+            formikInitialValues: {
+                cardNumber: "",
+                cardExpiration: "",
+                securityCode: "",
+                cardHolderName: "",
+                easyReservationSignUp: false,
+                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+            }
         },
         {
-            stepNum: 5,
-            stepHeading: "review and confirm"
+            stepDetails: {
+                stepNum: 5,
+                stepHeading: "review and confirm"
+            },
+            formikInitialValues: {}
         }
     ]
 
@@ -207,37 +253,40 @@ const TableReservation = ({ handleFormOverlay }) => {
                     left={{ base: `${-(formStatus.previousStep - 1) * 100}vw`, xl: `${-(formStatus.previousStep - 1) * 1280}px` }}
                 >
                     <FormStep1
-                        stepDetails={formSteps[0]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
                         formikOnSubmitLogic={formikOnSubmitLogic}
+                        todayDate={todayDate}
+                        {...formSteps[0]}
                     />
                     <FormStep2
-                        stepDetails={formSteps[1]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
                         formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
+                        seatingOptions={seatingOptions}
+                        occasionOptions={occasionOptions}
+                        {...formSteps[1]}
                     />
                     <FormStep3
-                        stepDetails={formSteps[2]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
                         formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
+                        {...formSteps[2]}
                     />
                     <FormStep4
-                        stepDetails={formSteps[3]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
                         formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
+                        {...formSteps[3]}
                     />
                     <FormStep5
-                        stepDetails={formSteps[4]}
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
                         goToPreviousFormStep={goToPreviousFormStep}
+                        {...formSteps[4]}
                     />
                 </HStack>
             </Box>

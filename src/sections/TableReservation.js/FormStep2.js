@@ -11,19 +11,16 @@ import SelectInput from "./FormUI/SelectInput";
 import { ReactComponent as OccasionIcon } from "../../assets/icons/occasion.svg";
 
 
-const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic }) => {
-
-    const seatingOptions = ["Indoors", "Outdoors"];
-    const occasionOptions = ["Birthday", "Date", "Engagement", "Anniversary", "other"];
+const FormStep2 = ({
+    stepDetails, formStatus, setFormStatus, formikOnSubmitLogic, formikInitialValues, goToPreviousFormStep,
+    ...otherStepProps
+}) => {
 
     return (
         <Formik
             initialValues={{
-                disabilityAccomodation: false,
-                seatingOptions: seatingOptions[0],
-                occasions: "",
-                additionalInfo: "",
-                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+                ...formikInitialValues,
+                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object({
                 disabilityAccomodation: Yup.boolean()
@@ -74,7 +71,7 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                         name="seatingOptions"
                         id="seatingOptions"
                         inputComponent={inputProps => <RegularRadioOptionGroup
-                            options={seatingOptions}
+                            options={otherStepProps.seatingOptions}
                             {...inputProps}
                         />}
                     />
@@ -87,7 +84,7 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                         type="select"
                         inputComponent={inputProps => <SelectInput
                             {...inputProps}
-                            options={occasionOptions}
+                            options={otherStepProps.occasionOptions}
                             placeHolder="Occasion"
                             leftIcon={(iconProps) => <OccasionIcon {...iconProps} />}
                         />}
@@ -129,6 +126,8 @@ const FormStep2 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                     <FormCTAButton
                         type="reset"
                         display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
+                        formikInitialValues={formikInitialValues}
+                        stepNum={stepDetails.stepNum}
                     >
                         Reset
                     </FormCTAButton>

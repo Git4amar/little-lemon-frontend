@@ -3,9 +3,14 @@ import ButtonRegular from "../../../components/Buttons/ButtonRegular";
 import { useEffect } from "react";
 
 
-const FormCTAButton = ({ primary = false, children, formStatus, setFormStatus, stepNum, ...props }) => {
+const FormCTAButton = ({ primary = false, children, formStatus, setFormStatus, stepNum, formikInitialValues, ...props }) => {
 
-    const { isValid, initialValues, setValues } = useFormikContext();
+    const { isValid, setValues } = useFormikContext();
+
+    const handleFormReset = () => {
+        sessionStorage.removeItem(`tableReservationStep${stepNum}`);
+        setValues(formikInitialValues);
+    }
 
     useEffect(() => {
         if (formStatus && setFormStatus) {
@@ -49,7 +54,7 @@ const FormCTAButton = ({ primary = false, children, formStatus, setFormStatus, s
             {...props}
             // to avoid formik bug formik i.e isValid doesn't change on resetForm
             type={props.type === "submit" ? "submit" : "button"}
-            onClick={props.type === "reset" ? () => { setValues(initialValues) } : props.onClick}
+            onClick={props.type === "reset" ? handleFormReset : props.onClick}
         >
             {children}
         </ButtonRegular>

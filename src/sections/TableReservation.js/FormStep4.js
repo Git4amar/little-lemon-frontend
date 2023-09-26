@@ -13,16 +13,15 @@ const dayjs = require("dayjs")
     .extend(require("dayjs/plugin/customParseFormat"));
 const creditCardValidator = require("credit-card-validator");
 
-const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic }) => {
+const FormStep4 = ({
+    stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic, formikInitialValues,
+    ...otherStepProps
+}) => {
     return (
         <Formik
             initialValues={{
-                cardNumber: "",
-                cardExpiration: "",
-                securityCode: "",
-                cardHolderName: "",
-                easyReservationSignUp: false,
-                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+                ...formikInitialValues,
+                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object({
                 cardNumber: Yup.string()
@@ -244,6 +243,8 @@ const FormStep4 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                     <FormCTAButton
                         type="reset"
                         display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
+                        formikInitialValues={formikInitialValues}
+                        stepNum={stepDetails.stepNum}
                     >
                         Reset
                     </FormCTAButton>

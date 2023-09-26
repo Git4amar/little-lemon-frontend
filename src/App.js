@@ -12,25 +12,29 @@ import Footer from './sections/Footer'
 import MobileFixedNav from './sections/MobileFixedNav';
 import StickyReservationButton from './components/Buttons/StickyReservationButton';
 import TableReservation from './sections/TableReservation.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 
 function App() {
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(parseInt(sessionStorage.getItem("reservationFormIsOpen")) || 0);
 
   const handleFormOverlay = e => {
     switch (e.target.dataset.actionToForm) {
       case "formOpen":
-        setIsFormOpen(true);
+        setIsFormOpen(1);
         break;
       default:
-        setIsFormOpen(false);
+        setIsFormOpen(0);
         // reset form values from session
         sessionStorage.clear();
     }
   }
+
+  useEffect(() => {
+    sessionStorage.setItem("reservationFormIsOpen", isFormOpen);
+  }, [isFormOpen]);
 
   return (
     <>

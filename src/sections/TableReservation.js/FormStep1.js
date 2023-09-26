@@ -8,11 +8,13 @@ import FormCTAButton from "./FormUI/FormCTAButton";
 import TimeSelectRadioInputGroup from "./FormUI/TimeSelectRadioInputGroup.js/index.js";
 
 
-const FormStep1 = ({ stepDetails, formStatus, setFormStatus, formikOnSubmitLogic }) => {
+const dayjs = require("dayjs")
 
-    const dayjs = require("dayjs")
-    // simulate receive available dates from backend API
-    const todayDate = dayjs(dayjs().format("YYYY-MM-DD")).toDate();
+
+const FormStep1 = ({
+    stepDetails, formStatus, setFormStatus, formikOnSubmitLogic, formikInitialValues,
+    ...otherStepProps
+}) => {
 
     // simulate receive available options from backend API
     const momentOptions = [
@@ -25,11 +27,8 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus, formikOnSubmitLogic
     return (
         <Formik
             initialValues={{
-                numOfGuests: 4,
-                reservationDay: dayjs(todayDate).format("YYYY-MM-DD"),
-                reservationMoment: "",
-                reservationTime: "",
-                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+                ...formikInitialValues,
+                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object({
                 numOfGuests: Yup.number()
@@ -38,8 +37,8 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus, formikOnSubmitLogic
                     .min(1, "Min number of 1 guest is allowed"),
                 reservationDay: Yup.date()
                     .required("Required")
-                    .min(dayjs(todayDate).toDate(), "Pick an available date within 4 weeks from today")
-                    .max(dayjs(todayDate).add(4, "week").toDate(), "Reservations are available within 4 weeks from today."),
+                    .min(dayjs(otherStepProps.todayDate).toDate(), "Pick an available date within 4 weeks from today")
+                    .max(dayjs(otherStepProps.todayDate).add(4, "week").toDate(), "Reservations are available within 4 weeks from today."),
                 reservationMoment: Yup.string()
                     .required("Required")
                     .oneOf(momentOptions, "Pick a valid option"),
@@ -124,6 +123,8 @@ const FormStep1 = ({ stepDetails, formStatus, setFormStatus, formikOnSubmitLogic
                     <FormCTAButton
                         type="reset"
                         display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
+                        formikInitialValues={formikInitialValues}
+                        stepNum={stepDetails.stepNum}
                     >
                         Reset
                     </FormCTAButton>

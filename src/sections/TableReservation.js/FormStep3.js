@@ -11,15 +11,15 @@ import { AsYouType, parsePhoneNumber } from "libphonenumber-js";
 
 const emailValidator = require("email-validator");
 
-const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic }) => {
+const FormStep3 = ({
+    stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic, formikInitialValues,
+    ...otherStepProps
+}) => {
     return (
         <Formik
             initialValues={{
-                firstname: "",
-                lastname: "",
-                email: "",
-                phone: "",
-                // ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+                ...formikInitialValues,
+                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object().shape({
                 firstname: Yup.string()
@@ -221,6 +221,8 @@ const FormStep3 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                     <FormCTAButton
                         type="reset"
                         display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
+                        formikInitialValues={formikInitialValues}
+                        stepNum={stepDetails.stepNum}
                     >
                         Reset
                     </FormCTAButton>
