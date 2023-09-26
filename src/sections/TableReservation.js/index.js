@@ -8,10 +8,9 @@ import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
 import { useEffect, useState } from "react";
-import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
 
 
-const TableReservation = () => {
+const TableReservation = ({ handleFormOverlay }) => {
 
     const formSteps = [
         {
@@ -112,18 +111,40 @@ const TableReservation = () => {
         })
     }
 
+    const variants = {
+        hidden: {
+            left: "-100vw",
+            transition: {
+                type: "spring",
+                stiffness: 80,
+                damping: 20
+            }
+        },
+        visible: {
+            left: 0,
+            transition: {
+                type: "spring",
+                stiffness: 80,
+                damping: 20
+            }
+        }
+    }
+
     return (
         <VStack
             as={motion.section}
             id="table-reservation-section"
             pos="fixed"
+            zIndex="overlay"
             w="100vw"
             h="100vh"
             spacing={0}
             top="0"
-            left="-100vw"
             bg="linear-gradient(180deg, #EDEFEE 0%, #D4E2CE 25%, #D1D0A6 50%, #DDB882 75%, #EE9972 100%);"
-            zIndex="overlay"
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={variants}
         >
             {/* Header */}
             <VStack
@@ -157,6 +178,7 @@ const TableReservation = () => {
                         {/* close btn */}
                         <ChevronButton
                             id="form-close-btn"
+                            onClick={handleFormOverlay}
                         />
                     </HStack>
 

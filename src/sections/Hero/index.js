@@ -7,9 +7,9 @@ import { Box, GridItem, Heading, VStack, Text, Center } from "@chakra-ui/react";
 import { useBreakpointValue } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
-import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
 
-const Hero = ({ ...props }) => {
+
+const Hero = ({ handleFormOverlay, ...props }) => {
 
     const [heroBgScope, animateHeroBg] = useAnimate();
     const [heroPicScope, animateHeroPic] = useAnimate();
@@ -80,8 +80,6 @@ const Hero = ({ ...props }) => {
             animate(".heroFlipBoxFront", { boxShadow: "0px 0px 0px 0px #333333" });
         }
     }
-
-    const { setIsFormOpen } = useFormOverlayHandler();
 
     return (
         <Box
@@ -197,7 +195,8 @@ const Hero = ({ ...props }) => {
                     {useBreakpointValue({
                         base: <ButtonRegular
                             w="full"
-                            onClick={() => setIsFormOpen(true)}
+                            onClick={handleFormOverlay}
+                            data-action-to-form="formOpen"
                         >
                             Reserve your table
                         </ButtonRegular>,
@@ -206,8 +205,9 @@ const Hero = ({ ...props }) => {
                             onMouseLeave={handleHeroPicFlip}
                             onFocus={handleHeroPicFlip}
                             onBlur={handleHeroPicFlip}
-                            onClick={() => setIsFormOpen(true)}
                             w="full"
+                            onClick={handleFormOverlay}
+                            data-action-to-form="formOpen"
                         >
                             Reserve your table
                         </ButtonHoverable>,

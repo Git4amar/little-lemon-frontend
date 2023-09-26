@@ -30,6 +30,7 @@ const FormCTAButton = ({ primary = false, children, formStatus, setFormStatus, s
                     });
             }
         }
+        //eslint-disable-next-line
     }, [isValid])
 
     return (

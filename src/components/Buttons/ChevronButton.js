@@ -1,4 +1,4 @@
-import { Center } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import { ReactComponent as ChevronSvg } from "../../assets/icons/chevron.svg"
 import { useAnimate } from "framer-motion";
 import { useEffect } from "react";
@@ -25,11 +25,16 @@ const ChevronButton = ({
             ref={scope}
             {...props}
         >
-            <ChevronSvg
-                style={{
-                    filter: filter
-                }}
-            />
+            <Box
+                as="span"
+                pointerEvents="none"
+            >
+                <ChevronSvg
+                    style={{
+                        filter: filter,
+                    }}
+                />
+            </Box>
         </Center>
     )
 }

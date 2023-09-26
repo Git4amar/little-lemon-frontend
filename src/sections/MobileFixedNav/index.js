@@ -3,9 +3,8 @@ import HamburgerMenuIcon from './HamburgerMenuIcon';
 import ButtonRegular from '../../components/Buttons/ButtonRegular';
 import NavBar from "../../components/Navigation/Navbar"
 import { useAnimate, motion } from 'framer-motion';
-import useFormOverlayHandler from '../../util/customHooks/useFormOverlayHandler';
 
-const MobileFixedNav = () => {
+const MobileFixedNav = ({ handleFormOverlay }) => {
 
     const [overlayMenuScope, animateOverlayMenu] = useAnimate();
 
@@ -24,8 +23,6 @@ const MobileFixedNav = () => {
                 })
         }
     }
-
-    const { setIsFormOpen } = useFormOverlayHandler();
 
     return (
         <>
@@ -81,8 +78,11 @@ const MobileFixedNav = () => {
             >
                 <ButtonRegular
                     flexGrow={1}
-                    onClick={() => setIsFormOpen(true)}
-                >Reserve your table</ButtonRegular>
+                    onClick={handleFormOverlay}
+                    data-action-to-form="formOpen"
+                >
+                    Reserve your table
+                </ButtonRegular>
                 <HamburgerMenuIcon
                     showOverlayMenu={showOverlayMenu}
                 />

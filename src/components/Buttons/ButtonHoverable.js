@@ -1,7 +1,7 @@
 import ButtonRegular from "./ButtonRegular";
-
-import { Box } from "@chakra-ui/react";
+import { Box, shouldForwardProp } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
+import chakraPropFilter from "../../util/chakraPropFilter";
 
 const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
 
@@ -52,11 +52,13 @@ const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
         }
     }
 
+    const { chakraProps, nonChakraProps } = chakraPropFilter(props);
+
     return (
         <Box
             ref={scope}
             borderRadius="16px"
-            {...props}
+            {...chakraProps}
         >
             <ButtonRegular
                 as={motion.button}
@@ -73,6 +75,7 @@ const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
                 border="1px"
                 pos="relative"
                 overflow="hidden"
+                {...nonChakraProps}
             >
                 {children}
                 <Box

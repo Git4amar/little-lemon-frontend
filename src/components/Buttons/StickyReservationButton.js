@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import ButtonHoverable from "./ButtonHoverable";
 import { useState, useEffect, useRef } from "react";
 import { useScroll } from "framer-motion";
-import useFormOverlayHandler from "../../util/customHooks/useFormOverlayHandler";
+import chakraPropFilter from "../../util/chakraPropFilter";
 
 const StickyButton = ({ ...props }) => {
 
@@ -47,7 +47,7 @@ const StickyButton = ({ ...props }) => {
         // eslint-disable-next-line
     }, [])
 
-    const { setIsFormOpen } = useFormOverlayHandler();
+    const { chakraProps, nonChakraProps } = chakraPropFilter(props);
 
     return (
         <Box
@@ -61,11 +61,11 @@ const StickyButton = ({ ...props }) => {
             w="max"
             h={0}
             hideBelow="xl"
-            {...props}
+            {...chakraProps}
         >
             <ButtonHoverable
                 darkBg={false}
-                onClick={() => { setIsFormOpen(true) }}
+                {...nonChakraProps}
             >
                 Reserve your table
             </ButtonHoverable>
