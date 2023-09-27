@@ -132,7 +132,7 @@ const RegularHeader = ({ ...props }) => {
                 left="0"
                 // bg="brand.secondary.brightGray"
                 overflow="hidden"
-                borderBottomRadius={{ md: "75px", xl: "150px" }}
+                borderBottomRadius={{ md: "79px", xl: "158px" }}
             // visibility="hidden"
             >
                 <Box
