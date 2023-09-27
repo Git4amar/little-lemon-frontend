@@ -14,7 +14,7 @@ import StickyReservationButton from './components/Buttons/StickyReservationButto
 import TableReservation from './sections/TableReservation.js';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-
+import SmoothScroll from "../src/assets/kreativescroll/kreativesmooth";
 
 function App() {
 
@@ -36,6 +36,10 @@ function App() {
     sessionStorage.setItem("reservationFormIsOpen", isFormOpen);
   }, [isFormOpen]);
 
+  useEffect(() => {
+    new SmoothScroll(0.03);
+  }, [])
+
   return (
     <>
       <ChakraProvider theme={theme} >
@@ -43,10 +47,7 @@ function App() {
           pos="relative"
           zIndex="docked"
         >
-          <RegularHeader
-          // TODO
-          // visibility={isFormOpen ? "hidden" : "visible"}
-          />
+          <RegularHeader />
           <MobileFixedNav
             handleFormOverlay={handleFormOverlay}
           />
