@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const RegularHeader = ({ ...props }) => {
 
     const [scope, animate] = useAnimate();
-    const { scrollY } = useScroll();
+    const { scrollY, scrollYProgress } = useScroll();
     let headerPrevStyle = null;
 
     const animateHeader = () => {
@@ -15,8 +15,8 @@ const RegularHeader = ({ ...props }) => {
             window.requestAnimationFrame(() => {
                 headerPrevStyle = "transparent";
                 animate([
-                    [scope.current, {
-                        backgroundColor: "#EDEFEE00",
+                    ["#regular-header", {
+                        backgroundColor: "#495E57",
                         boxShadow: "0px 0px 0px 0px #333333",
                         color: "#EDEFEE",
                         borderBottomColor: "#EDEFEE",
@@ -25,6 +25,7 @@ const RegularHeader = ({ ...props }) => {
                     ["#header-logo-v2", { opacity: 1 }, { at: "<" }],
                     ["[class*='line']", { backgroundColor: "#EDEFEE" }, { at: "<" }]
                 ], {
+                    type: "spring",
                     stiffness: 80,
                     damping: 20
                 });
@@ -34,8 +35,8 @@ const RegularHeader = ({ ...props }) => {
             window.requestAnimationFrame(() => {
                 headerPrevStyle = "notTransparent";
                 animate([
-                    [scope.current, {
-                        backgroundColor: "#EDEFEEFF",
+                    ["#regular-header", {
+                        backgroundColor: "#EDEFEE",
                         boxShadow: "0px 1px 4px 0px #33333380",
                         color: "#333333",
                         borderBottomColor: "#495E57",
@@ -44,75 +45,105 @@ const RegularHeader = ({ ...props }) => {
                     ["#header-logo-v2", { opacity: 0 }, { at: "<" }],
                     ["[class*='line']", { backgroundColor: "#495E57" }, { at: "<" }]
                 ], {
+                    type: "spring",
                     stiffness: 80,
                     damping: 20
                 });
             })
         }
+        window.requestAnimationFrame(() => {
+            animate("#header-scroll-bar", { width: `${scrollYProgress.current * 100}%` }, {
+                duration: 0.01
+            })
+        });
     }
 
     useEffect(() => {
         document.addEventListener("scroll", animateHeader);
         return () => document.removeEventListener("scroll", animateHeader);
-    }, [])
+    })
 
     return (
-        <Center
+        <Box
             ref={scope}
-            as={motion.header}
-            id="regular-header"
-            pos={{ md: "fixed" }}
-            w="full"
-            zIndex={{ md: "sticky" }}
-            py={4}
-            hideBelow="md"
-            left="0"
-            color="brand.secondary.brightGray"
-            borderBottom="1px"
-            borderBottomRadius="150px"
-            {...props}
         >
-            <VStack
-                spacing={4}
-                maxW="container.xl"
+            <Center
+                as={motion.header}
+                id="regular-header"
+                pos={{ md: "fixed" }}
                 w="full"
+                zIndex={{ md: "sticky" }}
+                py={4}
+                hideBelow="md"
+                left="0"
+                color="brand.secondary.brightGray"
+                borderBottom="2px"
+                borderBottomRadius={{ md: "75px", xl: "150px" }}
+                // bg={scrollY.current > 25 ? "brand.secondary.brightGray" : "brand.primary.green"}
+                {...props}
+            >
+                <VStack
+                    spacing={4}
+                    maxW="container.xl"
+                    w="full"
+                >
+                    <Box
+                        // border="1px"
+                        pos="relative"
+                        w="236px"
+                        h="72px"
+                    >
+                        <Image
+                            pos="absolute"
+                            id="header-logo-v1"
+                            as={motion.img}
+                            h="full"
+                            initial={{ opacity: 0 }}
+                            src={require("../../assets/logo/logo_v1.png")}
+                            alt="Little Lemon logo"
+                        />
+                        <Image
+                            pos="absolute"
+                            id="header-logo-v2"
+                            as={motion.img}
+                            h="full"
+                            initial={{ opacity: 1 }}
+                            src={require("../../assets/logo/logo_v4.png")}
+                            alt="Little Lemon logo"
+                        />
+                    </Box>
+                    <Navbar
+                        w="full"
+                        spacing={{ xl: 16 }}
+                        direction="row"
+                        justify={{ md: "space-between", xl: "center" }}
+                        px={{ base: "20px", md: "70px" }}
+                        py={0.5}
+                        darkBg={true}
+                    />
+                </VStack>
+            </Center >
+            <Box
+                pos={{ md: "fixed" }}
+                w="full"
+                h="158px"
+                zIndex={{ md: "docked" }}
+                hideBelow="md"
+                left="0"
+                // bg="brand.secondary.brightGray"
+                overflow="hidden"
+                borderBottomRadius={{ md: "75px", xl: "150px" }}
+            // visibility="hidden"
             >
                 <Box
-                    // border="1px"
-                    pos="relative"
-                    w="236px"
-                    h="72px"
-                >
-                    <Image
-                        pos="absolute"
-                        id="header-logo-v1"
-                        as={motion.img}
-                        h="full"
-                        initial={{ opacity: 0 }}
-                        src={require("../../assets/logo/logo_v1.png")}
-                        alt="Little Lemon logo"
-                    />
-                    <Image
-                        pos="absolute"
-                        id="header-logo-v2"
-                        as={motion.img}
-                        h="full"
-                        initial={{ opacity: 1 }}
-                        src={require("../../assets/logo/logo_v4.png")}
-                        alt="Little Lemon logo"
-                    />
-                </Box>
-                <Navbar
-                    w="full"
-                    spacing={{ xl: 16 }}
-                    direction="row"
-                    justify={{ md: "space-between", xl: "center" }}
-                    px={{ base: "20px", md: "70px" }}
-                    py={0.5}
-                    darkBg={true}
+                    id="header-scroll-bar"
+                    as={motion.div}
+                    h="full"
+                    initial={{ width: "0" }}
+                    bg="brand.primary.green"
                 />
-            </VStack>
-        </Center >
+            </Box>
+        </Box>
     )
 }
 

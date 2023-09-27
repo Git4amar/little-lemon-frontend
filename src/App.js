@@ -37,7 +37,7 @@ function App() {
   }, [isFormOpen]);
 
   useEffect(() => {
-    new SmoothScroll(0.03);
+    new SmoothScroll(0.02);
   }, [])
 
   return (
