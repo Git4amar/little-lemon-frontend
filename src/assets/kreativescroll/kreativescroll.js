@@ -836,12 +836,12 @@ skew(${this.getTransformValue("k", progress)}deg)
         element._physics.pointerDeltaY = 0;
 
         const zIndex = parseInt(element.style.zIndex, 10);
-        elements.forEach((el) => {
+        element.forEach((el) => {
           if (parseInt(el.style.zIndex, 10) > zIndex) {
             el.style.zIndex = (parseInt(el.style.zIndex, 10) - 1).toString();
           }
         });
-        element.style.zIndex = elements.length.toString();
+        element.style.zIndex = element.length.toString();
 
         element.removeEventListener('pointermove', onPointerMove);
         element.removeEventListener('touchmove', onPointerMove);

@@ -41,43 +41,41 @@ function App() {
   }, [])
 
   return (
-    <>
-      <ChakraProvider theme={theme} >
+    <ChakraProvider theme={theme} >
+      <Box
+        pos="relative"
+        zIndex="docked"
+      >
+        <RegularHeader />
+        <MobileFixedNav
+          handleFormOverlay={handleFormOverlay}
+        />
         <Box
-          pos="relative"
-          zIndex="docked"
+          as="main"
         >
-          <RegularHeader />
-          <MobileFixedNav
+          <Hero
             handleFormOverlay={handleFormOverlay}
           />
-          <Box
-            as="main"
-          >
-            <Hero
-              handleFormOverlay={handleFormOverlay}
-            />
-            <StickyReservationButton
-              onClick={handleFormOverlay}
-              data-action-to-form="formOpen"
-            />
-            <Specials />
-            <Testimonials />
-            <About />
-            <AnimatePresence>
-              {
-                isFormOpen
-                &&
-                <TableReservation
-                  handleFormOverlay={handleFormOverlay}
-                />
-              }
-            </AnimatePresence>
-          </Box>
+          <StickyReservationButton
+            onClick={handleFormOverlay}
+            data-action-to-form="formOpen"
+          />
+          <Specials />
+          <Testimonials />
+          <About />
+          <AnimatePresence>
+            {
+              isFormOpen
+              &&
+              <TableReservation
+                handleFormOverlay={handleFormOverlay}
+              />
+            }
+          </AnimatePresence>
         </Box>
-        <Footer />
-      </ChakraProvider>
-    </>
+      </Box>
+      <Footer />
+    </ChakraProvider>
   );
 }
 

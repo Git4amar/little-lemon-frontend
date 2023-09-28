@@ -1,6 +1,6 @@
 import { Center, VStack, Image, Box } from '@chakra-ui/react';
 import Navbar from '../../components/Navigation/Navbar';
-import { motion, useAnimate, useScroll } from "framer-motion";
+import { motion, useAnimate, useAnimationFrame, useScroll } from "framer-motion";
 import { useEffect } from 'react';
 
 
@@ -11,57 +11,47 @@ const RegularHeader = ({ ...props }) => {
     let headerPrevStyle = null;
 
     const animateHeader = () => {
+        // used animate function as if else will excute only once
         if (scrollY.current <= 20 && headerPrevStyle !== "transparent") {
-            window.requestAnimationFrame(() => {
-                headerPrevStyle = "transparent";
-                animate([
-                    ["#regular-header", {
-                        backgroundColor: "#495E57",
-                        boxShadow: "0px 0px 0px 0px #333333",
-                        color: "#EDEFEE",
-                        borderBottomColor: "#EDEFEE",
-                    }],
-                    ["#header-logo-v1", { opacity: 0 }, { at: "<" }],
-                    ["#header-logo-v2", { opacity: 1 }, { at: "<" }],
-                    ["[class*='line']", { backgroundColor: "#EDEFEE" }, { at: "<" }]
-                ], {
-                    type: "spring",
-                    stiffness: 80,
-                    damping: 20
-                });
+            headerPrevStyle = "transparent";
+            animate([
+                ["#regular-header", {
+                    backgroundColor: "#495E57",
+                    boxShadow: "0px 0px 0px 0px #333333",
+                    color: "#EDEFEE",
+                    borderBottomColor: "#EDEFEE",
+                }],
+                ["#header-logo-v1", { opacity: 0 }, { at: "<" }],
+                ["#header-logo-v2", { opacity: 1 }, { at: "<" }],
+                ["[class*='line']", { backgroundColor: "#EDEFEE" }, { at: "<" }]
+            ], {
+                type: "spring",
+                stiffness: 80,
+                damping: 20
             });
         }
         else if (scrollY.current >= 20 && headerPrevStyle !== "notTransparent") {
-            window.requestAnimationFrame(() => {
-                headerPrevStyle = "notTransparent";
-                animate([
-                    ["#regular-header", {
-                        backgroundColor: "#EDEFEE",
-                        boxShadow: "0px 1px 4px 0px #33333380",
-                        color: "#333333",
-                        borderBottomColor: "#495E57",
-                    }],
-                    ["#header-logo-v1", { opacity: 1 }, { at: "<" }],
-                    ["#header-logo-v2", { opacity: 0 }, { at: "<" }],
-                    ["[class*='line']", { backgroundColor: "#495E57" }, { at: "<" }]
-                ], {
-                    type: "spring",
-                    stiffness: 80,
-                    damping: 20
-                });
-            })
+            headerPrevStyle = "notTransparent";
+            animate([
+                ["#regular-header", {
+                    backgroundColor: "#EDEFEE",
+                    boxShadow: "0px 1px 4px 0px #33333380",
+                    color: "#333333",
+                    borderBottomColor: "#495E57",
+                }],
+                ["#header-logo-v1", { opacity: 1 }, { at: "<" }],
+                ["#header-logo-v2", { opacity: 0 }, { at: "<" }],
+                ["[class*='line']", { backgroundColor: "#495E57" }, { at: "<" }]
+            ], {
+                type: "spring",
+                stiffness: 80,
+                damping: 20
+            });
         }
-        window.requestAnimationFrame(() => {
-            animate("#header-scroll-bar", { width: `${scrollYProgress.current * 100}%` }, {
-                duration: 0.01
-            })
-        });
+        scope.current.querySelector("#header-scroll-bar").style.width = `${scrollYProgress.current * 100}%`;
     }
 
-    useEffect(() => {
-        document.addEventListener("scroll", animateHeader);
-        return () => document.removeEventListener("scroll", animateHeader);
-    })
+    useAnimationFrame(animateHeader);
 
     return (
         <Box

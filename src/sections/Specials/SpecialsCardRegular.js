@@ -1,11 +1,21 @@
 import { AspectRatio, VStack, Image, Text } from "@chakra-ui/react";
 import CardHeaderDishInfo from "./CardHeaderDishInfo";
 import OrderDelivery from "./OrderDelivery";
+import { useRef } from "react";
+import useCardAnimator from "../../util/customHooks/useCardAnimator";
 
 const SpecialsCardRegular = ({ title, desc, price, imgSrc, cardIndex }) => {
+
+    const scope = useRef(null);
+    useCardAnimator(scope, cardIndex);
+
     return (
         <VStack
-            pt={cardIndex % 2 === 0 ? 8 : 0}
+            ref={scope}
+            // pt={cardIndex % 2 ? 0 : 8}
+            pt={4}
+            pb={4}
+        // transform={cardIndex % 2 ? "translateY(-16px)" : "translateY(16px)"}
         >
             <VStack
                 as="article"

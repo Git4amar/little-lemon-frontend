@@ -5,12 +5,12 @@ import { useEffect } from "react";
 import "./cardCarousel.css";
 import DragCursorPointer from "./Gestures/DragCursorPointer";
 
-const CardCarousel = ({ Card, itemList, dragConstraintsRef, ...props }) => {
+const CardCarousel = ({ dragConstraintsRef, renderCards, numOfItems, ...props }) => {
 
     const [scrollScope, animateScroll] = useAnimate();
 
     const sizeScroll = () => {
-        const scrollW = Math.floor((scrollScope.current.offsetWidth - 8) / itemList.length);
+        const scrollW = Math.floor((scrollScope.current.offsetWidth - 8) / numOfItems);
         animateScroll("div", { width: scrollW });
     }
 
@@ -87,7 +87,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef, ...props }) => {
     useEffect(() => {
         sizeScroll();
         // eslint-disable-next-line 
-    }, [])
+    })
 
     return (
         <VStack
@@ -141,11 +141,7 @@ const CardCarousel = ({ Card, itemList, dragConstraintsRef, ...props }) => {
                     dragConstraints={dragConstraintsRef}
                     pos="relative"
                 >
-                    {itemList.map((item, index) => <Card
-                        key={item.title || item.reviewer}
-                        cardIndex={index}
-                        {...item}
-                    />)}
+                    {renderCards()}
                     <Box
                         w="full"
                         h="85%"

@@ -116,12 +116,20 @@ const Specials = ({ ...props }) => {
                 >
                     <CardCarousel
                         id="specials-card-carousel"
-                        itemList={specialDishes}
-                        Card={useBreakpointValue({
-                            base: SpecialsCardSmall,
-                            md: SpecialsCardRegular
-                        })}
                         dragConstraintsRef={dragConstraintsRef}
+                        numOfItems={specialDishes.length}
+                        renderCards={useBreakpointValue({
+                            base: () => specialDishes.map((dish, index) => <SpecialsCardSmall
+                                key={dish.title}
+                                cardIndex={index}
+                                {...dish}
+                            />),
+                            md: () => specialDishes.map((dish, index) => <SpecialsCardRegular
+                                key={dish.title}
+                                cardIndex={index}
+                                {...dish}
+                            />)
+                        })}
                     />
                 </GridItem>
             </FullScreenGridSection>
