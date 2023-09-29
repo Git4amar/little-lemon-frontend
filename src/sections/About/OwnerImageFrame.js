@@ -1,14 +1,16 @@
 import { VStack, AspectRatio, Image, Box } from "@chakra-ui/react";
+import { forwardRef } from "react";
 
-const OwnerImageFrame = ({
-    src, alt, ratio, align, scale,
+const OwnerImageFrame = forwardRef(({
+    src, alt, ratio, align, transform,
     scrollAnimation = false,
     fit = "cover",
     boxShadow = "0px 4px 4px 0px #33333380",
     borderRadius = "16px",
-    ...props }) => {
+    ...props }, ref) => {
     return (
         <VStack
+            ref={ref}
             h="full"
             w="full"
             {...props}
@@ -29,12 +31,12 @@ const OwnerImageFrame = ({
                         alt={alt}
                         objectFit={fit}
                         align={align}
-                        transform={`scale(${scale})`}
+                        transform={transform}
                     />
                 </Box>
             </AspectRatio>
         </VStack>
     )
-}
+})
 
 export default OwnerImageFrame;
