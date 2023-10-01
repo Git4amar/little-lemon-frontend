@@ -1,4 +1,4 @@
-import { Box, ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider, Text } from '@chakra-ui/react';
 import './App.css';
 import '../src/theme/styles.css';
 
@@ -14,7 +14,7 @@ import StickyReservationButton from './components/Buttons/StickyReservationButto
 import TableReservation from './sections/TableReservation.js';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import SmoothScroll from "../src/assets/kreativescroll/kreativesmooth";
+
 
 function App() {
 
@@ -34,14 +34,11 @@ function App() {
 
   useEffect(() => {
     sessionStorage.setItem("reservationFormIsOpen", isFormOpen);
+    // document.querySelector("body").style.overflow = isFormOpen ? "clip" : "visible";
   }, [isFormOpen]);
 
-  useEffect(() => {
-    new SmoothScroll(0.02);
-  }, [])
-
   return (
-    <ChakraProvider theme={theme} >
+    <ChakraProvider theme={theme}>
       <Box
         pos="relative"
         zIndex="docked"

@@ -13,6 +13,7 @@ const dayjs = require("dayjs")
 
 const FormStep1 = ({
     stepDetails, formStatus, setFormStatus, formikOnSubmitLogic, formikInitialValues,
+    focusLockShards, handleFormOverlay,
     ...otherStepProps
 }) => {
 
@@ -26,15 +27,30 @@ const FormStep1 = ({
 
     return (
         <Formik
+            validateOnMount={true}
             initialValues={{
                 ...formikInitialValues,
                 ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
             }}
             validationSchema={Yup.object({
-                numOfGuests: Yup.number()
+                numOfGuests: Yup.string()
+                    .matches(/^\d*$/, "Please enter integers only")
                     .required("Required")
-                    .max(16, "Max number of 10 guests are allowed")
-                    .min(1, "Min number of 1 guest is allowed"),
+                    .test(
+                        'is-valid-value',
+                        (value, context) => {
+                            const intValue = parseInt(value)
+                            if (intValue < 1 || intValue > 16) {
+                                return context.createError({
+                                    name: "numOfGuests",
+                                    message: intValue < 1
+                                        ? "Don't forget to count yourself"
+                                        : "Max number of 16 guests allowed"
+                                })
+                            }
+                            return true;
+                        }
+                    ),
                 reservationDay: Yup.date()
                     .required("Required")
                     .min(dayjs(otherStepProps.todayDate).toDate(), "Pick an available date within 4 weeks from today")
@@ -62,6 +78,8 @@ const FormStep1 = ({
                     stepDetails={stepDetails}
                     formStatus={formStatus}
                     setFormStatus={setFormStatus}
+                    focusLockShards={focusLockShards}
+                    handleFormOverlay={handleFormOverlay}
                 >
                     {/* num of guests */}
                     <FormElementRegular

@@ -1,16 +1,16 @@
-import { Box, Center, Heading, Image } from "@chakra-ui/react";
+import { Box, Center, Heading, Image, useMergeRefs } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
-import { useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 
 import LineFrame from "./LineFrame";
 
 
-const StepIndicator = ({ children,
+const StepIndicator = forwardRef(({ children,
     isStepInProgress,
     isStepComplete,
     isStepPrev,
     goToPreviousFormStep,
-    ...props }) => {
+    ...props }, ref) => {
 
     const [scope, animate] = useAnimate();
 
@@ -46,6 +46,8 @@ const StepIndicator = ({ children,
         //eslint-disable-next-line
     }, [isStepInProgress, isStepPrev, isStepComplete])
 
+    const refs = useMergeRefs(scope, ref);
+
     return (
         <Center
             as={motion.button}
@@ -57,7 +59,7 @@ const StepIndicator = ({ children,
             pos="relative"
             w={{ base: "32px", md: "48px" }}
             h={{ base: "30.86px", md: "46.29px" }}
-            ref={scope}
+            ref={refs}
             _active={(isStepComplete && !isStepInProgress) && {
                 boxShadow: "0px 0px 0px 0px #33333380",
                 transform: "translateY(1px)",
@@ -120,6 +122,6 @@ const StepIndicator = ({ children,
             />
         </Center >
     )
-}
+})
 
 export default StepIndicator;

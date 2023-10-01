@@ -22,11 +22,6 @@ const RegularRadioOptionGroup = ({
         //eslint-disable-next-line
     }, [value])
 
-    useEffect(() => {
-        formikMeta.value && setValue(formikMeta.value);
-        //eslint-disable-next-line
-    }, [formikMeta.value])
-
     return (
         <HStack
             spacing={4}
@@ -37,6 +32,7 @@ const RegularRadioOptionGroup = ({
                 name={name}
                 key={val}
                 value={val}
+                setValue={setValue}
             >
                 {val}
             </RadioOptionRegular>)}

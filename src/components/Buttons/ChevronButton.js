@@ -1,14 +1,14 @@
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Center, useMergeRefs } from "@chakra-ui/react";
 import { ReactComponent as ChevronSvg } from "../../assets/icons/chevron.svg"
 import { useAnimate } from "framer-motion";
-import { useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const ChevronButton = ({
+const ChevronButton = forwardRef(({
     hexColorCode,
     filter = "drop-shadow(0px 2px 2px #33333380)",
     ...props
-}) => {
+}, ref) => {
 
     const [scope, animate] = useAnimate();
 
@@ -16,13 +16,15 @@ const ChevronButton = ({
         scope.current.querySelector("path").style.fill = hexColorCode;
     })
 
+    const refs = useMergeRefs(scope, ref);
+
     return (
         <Center
             as={motion.button}
             type="button"
             w={6}
             h={8}
-            ref={scope}
+            ref={refs}
             {...props}
         >
             <Box
@@ -37,6 +39,6 @@ const ChevronButton = ({
             </Box>
         </Center>
     )
-}
+})
 
 export default ChevronButton;

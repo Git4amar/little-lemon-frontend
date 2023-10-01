@@ -16,7 +16,7 @@ const AboutOwnersText = ({ children }) => {
     useEffect(() => {
         wordSpanElems.current = Array.from(scope.current.querySelectorAll("span"));
         wordSpanElemsL.current = wordSpanElems.current.length;
-    }, [])
+    })
 
     let i = 0;
     let coloredWordSpans = []

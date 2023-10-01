@@ -10,25 +10,21 @@ const CheckboxOptionRegular = ({ rightIcon = null, children, formikMeta, formikH
         defaultChecked: formikMeta.value
     });
 
-    const handleFormikValue = async value => {
-        await formikHelpers.setValue(value);
-        formikHelpers.setTouched(true);
-    }
-
-    useEffect(() => {
-        handleFormikValue(state.isChecked);
-        // eslint-disable-next-line
-    }, [state.isChecked])
-
     return (
         <HStack
             as="label"
             spacing={1}
             cursor="pointer"
             htmlFor={props.id}
+            tabIndex={0}
+            onKeyDown={e => {
+                if (["Space", "Enter"].includes(e.code)) {
+                    formikHelpers.setValue(!formikMeta.value);
+                }
+            }}
             {...htmlProps}
         >
-            <input {...getInputProps()} />
+            <input {...getInputProps()} style={{ display: "none" }} />
             <Circle
                 {...getCheckboxProps()}
                 w={6}

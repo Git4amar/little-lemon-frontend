@@ -11,8 +11,12 @@ const useCardAnimator = (scope, cardIndex, breakpoint = "md") => {
     let animationBreakpoint = useBreakpointValue(theme.breakpoints);
     animationBreakpoint = parseInt(animationBreakpoint.match(/^\d+px$/));
 
-    useAnimationFrame(() => {
+    // let elapsedTime = 0;
+    useAnimationFrame((t, d) => {
         if (parseInt(theme.breakpoints[breakpoint].match(/^\d+px$/)) > animationBreakpoint || !scope) return;
+        // elapsedTime += d;
+        // if (elapsedTime > 100) {
+        //     elapsedTime = 0;
         if (scrollYProgress.current > 0 && scrollYProgress.current <= 0.5) {
             scope.current.style.cssText = `
             padding-top : ${cardIndex % 2 ? `${16 - (2 * scrollYProgress.current * 16)}px` : `${(2 * scrollYProgress.current * 16) + 16}px`};
@@ -27,6 +31,7 @@ const useCardAnimator = (scope, cardIndex, breakpoint = "md") => {
             transform: ${cardIndex % 2 ? `rotateZ(${4 * (1 - scrollYProgress.current)}deg)` : `rotateZ(-${4 * (1 - scrollYProgress.current)}deg)`};
             `;
         }
+        // }
     })
 };
 

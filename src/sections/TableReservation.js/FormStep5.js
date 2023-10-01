@@ -8,7 +8,7 @@ import { Formik, Form } from "formik";
 
 const dayjs = require("dayjs");
 
-const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep }) => {
+const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormStep, focusLockShards, handleFormOverlay, }) => {
 
     const reviewItems = [
         {
@@ -93,6 +93,8 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                     stepDetails={stepDetails}
                     formStatus={formStatus}
                     setFormStatus={setFormStatus}
+                    focusLockShards={focusLockShards}
+                    handleFormOverlay={handleFormOverlay}
                 >
                     {formData
                         &&
@@ -116,6 +118,7 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                                 item={reviewItem.item}
                                 desc={desc}
                                 formStepNum={reviewItem.formStepNum}
+                                fieldName={reviewItem.fieldName}
                                 goToPreviousFormStep={goToPreviousFormStep}
                             />
                         })

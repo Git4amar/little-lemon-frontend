@@ -7,7 +7,8 @@ import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { InFocusGuard } from "react-focus-on";
 
 const dayjs = require("dayjs")
 
@@ -176,6 +177,12 @@ const TableReservation = ({ handleFormOverlay }) => {
         }
     }
 
+    const closeBtnRef = useRef(null);
+    const step1BtnRef = useRef(null);
+    const step2BtnRef = useRef(null);
+    const step3BtnRef = useRef(null);
+    const step4BtnRef = useRef(null);
+
     return (
         <VStack
             as={motion.section}
@@ -222,15 +229,24 @@ const TableReservation = ({ handleFormOverlay }) => {
                             Table Reservation
                         </Heading>
                         {/* close btn */}
-                        <ChevronButton
-                            id="form-close-btn"
-                            onClick={handleFormOverlay}
-                            aria-label="form close button"
-                        />
+                        <InFocusGuard>
+                            <ChevronButton
+                                id="form-close-btn"
+                                onClick={handleFormOverlay}
+                                aria-label="form close button"
+                                ref={closeBtnRef}
+                            />
+                        </InFocusGuard>
                     </HStack>
 
                     {/* form progress bar */}
-                    <FormProgressBar formStatus={formStatus} goToPreviousFormStep={goToPreviousFormStep} />
+                    <InFocusGuard>
+                        <FormProgressBar
+                            formStatus={formStatus}
+                            goToPreviousFormStep={goToPreviousFormStep}
+                            stepBtnRefs={[step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                        />
+                    </InFocusGuard>
                 </VStack>
             </VStack>
 
@@ -257,6 +273,8 @@ const TableReservation = ({ handleFormOverlay }) => {
                         setFormStatus={setFormStatus}
                         formikOnSubmitLogic={formikOnSubmitLogic}
                         todayDate={todayDate}
+                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                        handleFormOverlay={handleFormOverlay}
                         {...formSteps[0]}
                     />
                     <FormStep2
@@ -266,6 +284,8 @@ const TableReservation = ({ handleFormOverlay }) => {
                         goToPreviousFormStep={goToPreviousFormStep}
                         seatingOptions={seatingOptions}
                         occasionOptions={occasionOptions}
+                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                        handleFormOverlay={handleFormOverlay}
                         {...formSteps[1]}
                     />
                     <FormStep3
@@ -273,6 +293,8 @@ const TableReservation = ({ handleFormOverlay }) => {
                         setFormStatus={setFormStatus}
                         formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
+                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                        handleFormOverlay={handleFormOverlay}
                         {...formSteps[2]}
                     />
                     <FormStep4
@@ -280,12 +302,16 @@ const TableReservation = ({ handleFormOverlay }) => {
                         setFormStatus={setFormStatus}
                         formikOnSubmitLogic={formikOnSubmitLogic}
                         goToPreviousFormStep={goToPreviousFormStep}
+                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                        handleFormOverlay={handleFormOverlay}
                         {...formSteps[3]}
                     />
                     <FormStep5
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
                         goToPreviousFormStep={goToPreviousFormStep}
+                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                        handleFormOverlay={handleFormOverlay}
                         {...formSteps[4]}
                     />
                 </HStack>

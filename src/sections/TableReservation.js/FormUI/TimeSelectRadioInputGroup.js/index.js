@@ -95,6 +95,7 @@ const TimeSelectRadioInputGroup = ({ formikHelpers, formikMeta, displayDependsOn
                                         name={name}
                                         key={value}
                                         value={value}
+                                        setValue={setValue}
                                     >
                                         {value}
                                     </TimeRadioInputOption>

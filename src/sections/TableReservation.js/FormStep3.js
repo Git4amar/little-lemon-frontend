@@ -13,10 +13,12 @@ const emailValidator = require("email-validator");
 
 const FormStep3 = ({
     stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic, formikInitialValues,
+    focusLockShards, handleFormOverlay,
     ...otherStepProps
 }) => {
     return (
         <Formik
+            validateOnMount={true}
             initialValues={{
                 ...formikInitialValues,
                 ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
@@ -76,6 +78,8 @@ const FormStep3 = ({
                     stepDetails={stepDetails}
                     formStatus={formStatus}
                     setFormStatus={setFormStatus}
+                    focusLockShards={focusLockShards}
+                    handleFormOverlay={handleFormOverlay}
                 >
                     {/* login or guest info stack */}
                     <VStack

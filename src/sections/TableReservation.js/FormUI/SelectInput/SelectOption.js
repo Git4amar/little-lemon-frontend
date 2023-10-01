@@ -48,7 +48,13 @@ const SelectOption = ({ children, handleOptionSelection, isSelected, ...props })
             onPointerEnter={isSelected ? null : handlePointerHover}
             onPointerLeave={isSelected ? null : handlePointerHover}
             onClick={handleOptionSelection}
+            onKeyDown={e => {
+                if (e.code === "Enter") {
+                    handleOptionSelection(e);
+                }
+            }}
             pos="relative"
+            tabIndex={0}
             {...props}
         >
             <Text

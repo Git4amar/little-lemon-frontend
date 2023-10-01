@@ -4,7 +4,7 @@ import { ReactComponent as ClockIcon } from "../../../../assets/icons/select-tim
 import { useEffect } from "react";
 
 
-const TimeRadioInputOption = ({ children, ...props }) => {
+const TimeRadioInputOption = ({ children, setValue, ...props }) => {
 
     const { getInputProps, getRadioProps, getLabelProps, state } = useRadio(props);
 
@@ -35,8 +35,14 @@ const TimeRadioInputOption = ({ children, ...props }) => {
             as="label"
             cursor="pointer"
             htmlFor={children}
+            tabIndex={0}
+            onKeyDown={e => {
+                if (e.code === "Enter") {
+                    setValue(children);
+                }
+            }}
         >
-            <input {...getInputProps()} id={children} />
+            <input {...getInputProps()} id={children} style={{ display: "none" }} />
             <HStack
                 {...getRadioProps()}
                 as={motion.div}

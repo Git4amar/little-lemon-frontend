@@ -1,57 +1,63 @@
 import { Box } from "@chakra-ui/react";
 import ButtonHoverable from "./ButtonHoverable";
 import { useState, useEffect, useRef } from "react";
-import { useScroll } from "framer-motion";
+import { useAnimationFrame, useScroll } from "framer-motion";
 import chakraPropFilter from "../../util/chakraPropFilter";
 
-const StickyButton = ({ ...props }) => {
+const StickyReservationButton = ({ ...props }) => {
 
-    const { scrollY } = useScroll();
     const [position, setPosition] = useState({
         mode: "absolute",
         top: 0,
         left: 35
     });
-    const stickyButtomElemRef = useRef(null);
+
+    const ref = useRef(null);
+    const headerH = useRef(null);
+    const buttonW = useRef(null);
+    const specialCardCarouselTop = useRef(null);
+    useEffect(() => {
+        headerH.current = document.getElementById("regular-header").offsetHeight;
+        specialCardCarouselTop.current = document.getElementById("specials-card-carousel").offsetTop;
+        buttonW.current = ref.current.offsetWidth;
+        setPosition(prev => {
+            return {
+                ...prev,
+                top: specialCardCarouselTop.current + 32 + buttonW.current
+            }
+        });
+    }, [])
+
+    const { scrollY } = useScroll();
 
     const handleStickiness = () => {
-        const headerHeight = document.getElementById("regular-header").offsetHeight;
-        const specialCardCarouselTop = document.getElementById("specials-card-carousel").offsetTop;
-        if (scrollY.current >= specialCardCarouselTop - headerHeight + 16) {
+        if (scrollY.current >= specialCardCarouselTop.current - headerH.current + 16 && position.mode !== "sticky") {
             setPosition(prevState => {
                 return {
                     ...prevState,
                     mode: "sticky",
-                    top: stickyButtomElemRef.current.offsetWidth + headerHeight + 16
+                    top: ref.current.offsetWidth + headerH.current + 16
                 }
             })
         }
-        else {
+        else if (scrollY.current < specialCardCarouselTop.current - headerH.current + 16 && position.mode !== "absolute") {
             setPosition(prevState => {
                 return {
                     ...prevState,
                     mode: "absolute",
-                    top: specialCardCarouselTop + stickyButtomElemRef.current.offsetWidth + 32
+                    top: specialCardCarouselTop.current + ref.current.offsetWidth + 32
                 }
             })
         }
     }
 
-    useEffect(() => {
-        document.addEventListener("scroll", () => {
-            window.requestAnimationFrame(handleStickiness);
-        });
-        return () => document.removeEventListener("scroll", () => {
-            window.requestAnimationFrame(handleStickiness);
-        });
-        // eslint-disable-next-line
-    }, [])
+    useAnimationFrame(handleStickiness);
 
     const { chakraProps, nonChakraProps } = chakraPropFilter(props);
 
     return (
         <Box
-            ref={stickyButtomElemRef}
+            ref={ref}
             transformOrigin="left center"
             transform="rotateZ(-90deg)"
             pos={position.mode}
@@ -73,4 +79,4 @@ const StickyButton = ({ ...props }) => {
     )
 }
 
-export default StickyButton;
+export default StickyReservationButton;

@@ -15,10 +15,12 @@ const creditCardValidator = require("credit-card-validator");
 
 const FormStep4 = ({
     stepDetails, formStatus, setFormStatus, goToPreviousFormStep, formikOnSubmitLogic, formikInitialValues,
+    focusLockShards, handleFormOverlay,
     ...otherStepProps
 }) => {
     return (
         <Formik
+            validateOnMount={true}
             initialValues={{
                 ...formikInitialValues,
                 ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
@@ -103,6 +105,8 @@ const FormStep4 = ({
                     stepDetails={stepDetails}
                     formStatus={formStatus}
                     setFormStatus={setFormStatus}
+                    focusLockShards={focusLockShards}
+                    handleFormOverlay={handleFormOverlay}
                 >
                     {/* reservation price info */}
                     <Heading

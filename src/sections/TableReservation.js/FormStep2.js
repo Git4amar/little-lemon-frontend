@@ -13,11 +13,13 @@ import { ReactComponent as OccasionIcon } from "../../assets/icons/occasion.svg"
 
 const FormStep2 = ({
     stepDetails, formStatus, setFormStatus, formikOnSubmitLogic, formikInitialValues, goToPreviousFormStep,
+    focusLockShards, handleFormOverlay,
     ...otherStepProps
 }) => {
 
     return (
         <Formik
+            validateOnMount={true}
             initialValues={{
                 ...formikInitialValues,
                 ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
@@ -49,6 +51,8 @@ const FormStep2 = ({
                     stepDetails={stepDetails}
                     formStatus={formStatus}
                     setFormStatus={setFormStatus}
+                    focusLockShards={focusLockShards}
+                    handleFormOverlay={handleFormOverlay}
                 >
                     {/* disability accommodation */}
                     <FormElementRegular

@@ -155,6 +155,13 @@ const SelectInput = ({
                     wasOpen.current = isOpen;
                     setIsOpen(!isOpen);
                 }}
+                tabIndex={0}
+                onKeyDown={e => {
+                    if (["ArrowDown", "Space"].includes(e.code)) {
+                        wasOpen.current = isOpen;
+                        setIsOpen(!isOpen);
+                    }
+                }}
             >
                 {/* left icon */}
                 {leftIcon && leftIcon({
