@@ -7,51 +7,70 @@ const AboutOwnersText = ({ children }) => {
     const scope = useRef(null);
     const { scrollYProgress, scrollY } = useScroll({
         target: scope,
-        offset: ["start center", "0.4 center"]
+        offset: ["start 0.6", "end 0.6"]
     })
 
     const words = children.split(" ");
-    let wordSpanElems = useRef(null);
-    let wordSpanElemsL = useRef(null);
+    let uncoloredWords = useRef(null);
     useEffect(() => {
-        wordSpanElems.current = Array.from(scope.current.querySelectorAll("span"));
-        wordSpanElemsL.current = wordSpanElems.current.length;
+        uncoloredWords.current = Array.from(scope.current.querySelectorAll("span"));
     })
 
     let i = 0;
-    let coloredWordSpans = []
-    useAnimationFrame(() => {
+    let coloredWords = []
+    const handleScrollAnimation = () => {
         if (scrollYProgress.current * 100 > 0 && scrollYProgress.current * 100 < 100) {
-            if (scrollY.current > scrollY.prev && scrollYProgress.current * 100 > i * 100 / wordSpanElemsL.current && i < wordSpanElemsL.current) {
-                wordSpanElems.current[0].style.cssText = "color: #333333;";
-                coloredWordSpans.unshift(wordSpanElems.current[0]);
-                wordSpanElems.current.shift();
+            if (scrollY.current > scrollY.prev && scrollYProgress.current * 100 > i * 100 / words.length && i < words.length) {
+                uncoloredWords.current[0].style.cssText = "color: #333333;";
+                coloredWords.unshift(uncoloredWords.current[0]);
+                uncoloredWords.current.shift();
                 i++;
             }
-            else if (scrollY.current < scrollY.prev && scrollYProgress.current * 100 < i * 100 / wordSpanElemsL.current && i >= 0) {
-                coloredWordSpans[0].style.cssText = "color: #F4CE14;";
-                wordSpanElems.current.unshift(coloredWordSpans[0]);
-                coloredWordSpans.shift();
+            else if (scrollY.current < scrollY.prev && scrollYProgress.current * 100 < i * 100 / words.length && i >= 0) {
+                coloredWords[0].style.cssText = "color: #F4CE14;";
+                uncoloredWords.current.unshift(coloredWords[0]);
+                coloredWords.shift();
                 i--;
             }
         }
-        else if (scrollYProgress.current >= 1 && wordSpanElems.current.length > 0) {
-            i = wordSpanElemsL.current;
-            for (let word of wordSpanElems.current) {
+        else if (scrollYProgress.current >= 1 && uncoloredWords.current.length > 0) {
+            i = words.length;
+            for (let word of uncoloredWords.current) {
                 word.style.cssText = "color: #333333;";
-                coloredWordSpans.unshift(word);
+                coloredWords.unshift(word);
             }
-            wordSpanElems.current = [];
+            uncoloredWords.current = [];
         }
-        else if (scrollYProgress.current <= 0 && coloredWordSpans.length > 0) {
+        else if (scrollYProgress.current <= 0 && coloredWords.length > 0) {
             i = 0;
-            for (let word of coloredWordSpans) {
+            for (let word of coloredWords) {
                 word.style.cssText = "color: #F4CE14;";
-                wordSpanElems.current.unshift(word);
+                uncoloredWords.current.unshift(word);
             }
-            coloredWordSpans = [];
+            coloredWords = [];
         }
-    })
+    }
+
+    useAnimationFrame(handleScrollAnimation);
+
+    /*TODO: find a better way to control scroll speed during text color change onscroll*/
+    // const handleScrollSpeed = e => {
+    //     if (scrollYProgress.current > 0 && scrollYProgress.current < 1) {
+    //         e.preventDefault();
+    //         switch (e.deltaY < 0) {
+    //             case true:
+    //                 document.scrollingElement.scrollTop--;
+    //                 break;
+    //             default:
+    //                 document.scrollingElement.scrollTop++;
+    //         }
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     document.scrollingElement.addEventListener("wheel", handleScrollSpeed, { passive: false });
+    //     return () => document.scrollingElement.removeEventListener("wheel", handleScrollSpeed, { passive: false });
+    // })
 
     return (
         <VStack

@@ -5,7 +5,7 @@ const OwnerImageFrame = forwardRef(({
     src, alt, ratio, align, transform,
     scrollAnimation = false,
     fit = "cover",
-    boxShadow = "0px 4px 4px 0px #33333380",
+    boxShadow = "0px 0px 0px 0px #33333380",
     borderRadius = "16px",
     ...props }, ref) => {
     return (

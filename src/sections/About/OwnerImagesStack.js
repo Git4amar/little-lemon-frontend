@@ -8,7 +8,7 @@ const OwnerImagesStack = ({ ...props }) => {
     const scope = useRef(null);
     const { scrollYProgress } = useScroll({
         target: scope,
-        offset: ["start center", "center"]
+        offset: ["start 0.6", "end 0.6"]
     })
 
     let leftImg = useRef(null);
@@ -29,10 +29,10 @@ const OwnerImagesStack = ({ ...props }) => {
     const animateImages = () => {
         if (scrollYProgress.current > 0 && scrollYProgress.current < 1) {
             leftImg.current.style.cssText = `
-            transform: translateY(${(centerImg.current.offsetHeight - leftImg.current.firstChild.offsetHeight) * (scrollYProgress.current)}px);
+            transform: translateY(-${(centerImg.current.offsetHeight - leftImg.current.firstChild.offsetHeight) * (scrollYProgress.current)}px);
             `
             rightImg.current.style.cssText = `
-            transform: translateY(-${(centerImg.current.offsetHeight - rightImg.current.firstChild.offsetHeight) * (scrollYProgress.current)}px);
+            transform: translateY(${(centerImg.current.offsetHeight - rightImg.current.firstChild.offsetHeight) * (scrollYProgress.current)}px);
             `
             leftImgElem.current.style.cssText = window.innerWidth >= 740
                 ? `transform: scale(1.2) translateY(${30 * (1 - scrollYProgress.current)}px)`
@@ -66,7 +66,7 @@ const OwnerImagesStack = ({ ...props }) => {
                 src={() => require("../../assets/images/restaurant/owner-image-A.jpg")}
                 alt={"An image of Adrian and Mario"}
                 ratio={9 / 16}
-                // justify="end"
+                justify="end"
                 align="70% top"
                 transform={{ base: "scale(1.2) translateY(15px)", md: "scale(1.2) translateY(30px)" }}
             />
@@ -87,7 +87,7 @@ const OwnerImagesStack = ({ ...props }) => {
                 alt={"An image of Adrian and Mario"}
                 ratio={9 / 16}
                 align="70% top"
-                justify="end"
+                // justify="end"
                 transform={{ base: "scale(1.2) translateY(-15px)", md: "scale(1.2) translateY(-30px)" }}
             />
         </HStack>

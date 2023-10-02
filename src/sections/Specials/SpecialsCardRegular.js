@@ -22,7 +22,7 @@ const SpecialsCardRegular = ({ title, desc, price, imgSrc, cardIndex }) => {
                 w="280px"
                 h={`${280 * 16 / 9}px`}
                 bg="brand.secondary.brightGray"
-                boxShadow="0px 4px 4px 0px #33333380"
+                // boxShadow="0px 4px 4px 0px #33333380"
                 spacing={0}
                 borderRadius="16px"
                 overflow="hidden"

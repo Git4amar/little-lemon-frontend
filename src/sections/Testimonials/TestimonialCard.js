@@ -26,7 +26,7 @@ const TestimonialCard = ({ reviewer, imgSrc, rating, review, cardIndex }) => {
                 p={4}
                 spacing={4}
                 bg="brand.secondary.brightGray"
-                boxShadow="0px 4px 4px 0px #33333380"
+                // boxShadow="0px 4px 4px 0px #33333380"
                 borderRadius="16px"
                 align="start"
             >
