@@ -8,7 +8,7 @@ const OwnerImagesStack = ({ ...props }) => {
     const scope = useRef(null);
     const { scrollYProgress } = useScroll({
         target: scope,
-        offset: ["start 0.6", "end 0.6"]
+        offset: ["0.1 0.6", "end 0.6"]
     })
 
     let leftImg = useRef(null);
