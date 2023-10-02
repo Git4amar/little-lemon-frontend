@@ -1,4 +1,4 @@
-import { Box, GridItem, Heading, VStack, useBreakpointValue } from "@chakra-ui/react";
+import { Box, GridItem, Heading, VStack } from "@chakra-ui/react";
 import { useRef } from "react";
 import FullScreenGridSection from "../FullScreenGridSection";
 import CardCarousel from "../../components/CardCarousel";

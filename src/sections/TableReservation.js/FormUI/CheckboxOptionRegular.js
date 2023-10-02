@@ -1,11 +1,10 @@
 import { Circle, useCheckbox, HStack, Text } from "@chakra-ui/react";
 import { ReactComponent as Check } from "../../../assets/icons/radio-check.svg";
-import { useEffect } from "react";
 
 
 const CheckboxOptionRegular = ({ rightIcon = null, children, formikMeta, formikHelpers, ...props }) => {
 
-    const { getInputProps, getLabelProps, getCheckboxProps, state, htmlProps } = useCheckbox({
+    const { getInputProps, getLabelProps, getCheckboxProps, htmlProps } = useCheckbox({
         ...props,
         defaultChecked: formikMeta.value
     });

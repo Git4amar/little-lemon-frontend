@@ -8,7 +8,7 @@ const OwnerImagesStack = ({ ...props }) => {
     const scope = useRef(null);
     const { scrollYProgress } = useScroll({
         target: scope,
-        offset: ["0.25 end", "center"]
+        offset: ["start center", "center"]
     })
 
     let leftImg = useRef(null);
@@ -18,21 +18,21 @@ const OwnerImagesStack = ({ ...props }) => {
     let rightImg = useRef(null);
     let rightImgElem = useRef(null);
     useEffect(() => {
-        leftImg.current = scope.current.previousSibling.firstChild;
+        leftImg.current = scope.current.previousSibling;
         leftImgElem.current = scope.current.previousSibling.querySelector("img");
         centerImg.current = scope.current;
         centerImgElem.current = scope.current.querySelector("img");
-        rightImg.current = scope.current.nextSibling.firstChild;
+        rightImg.current = scope.current.nextSibling;
         rightImgElem.current = scope.current.nextSibling.querySelector("img");
     }, [])
 
     const animateImages = () => {
         if (scrollYProgress.current > 0 && scrollYProgress.current < 1) {
             leftImg.current.style.cssText = `
-            transform: ${`translateY(${(centerImg.current.offsetHeight - leftImg.current.offsetHeight) * (scrollYProgress.current)}px)`};
+            transform: translateY(${(centerImg.current.offsetHeight - leftImg.current.firstChild.offsetHeight) * (scrollYProgress.current)}px);
             `
             rightImg.current.style.cssText = `
-            transform: ${`translateY(-${(centerImg.current.offsetHeight - rightImg.current.offsetHeight) * (scrollYProgress.current)}px)`};
+            transform: translateY(-${(centerImg.current.offsetHeight - rightImg.current.firstChild.offsetHeight) * (scrollYProgress.current)}px);
             `
             leftImgElem.current.style.cssText = window.innerWidth >= 740
                 ? `transform: scale(1.2) translateY(${30 * (1 - scrollYProgress.current)}px)`

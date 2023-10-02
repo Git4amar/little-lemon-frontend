@@ -1,7 +1,6 @@
 import { Center, VStack, Image, Box } from '@chakra-ui/react';
 import Navbar from '../../components/Navigation/Navbar';
 import { motion, useAnimate, useAnimationFrame, useScroll } from "framer-motion";
-import { useEffect } from 'react';
 
 
 const RegularHeader = ({ ...props }) => {

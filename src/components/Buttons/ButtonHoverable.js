@@ -1,5 +1,5 @@
 import ButtonRegular from "./ButtonRegular";
-import { Box, shouldForwardProp } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import chakraPropFilter from "../../util/chakraPropFilter";
 

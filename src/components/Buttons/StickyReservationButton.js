@@ -36,7 +36,7 @@ const StickyReservationButton = ({ ...props }) => {
                 return {
                     ...prevState,
                     mode: "sticky",
-                    top: ref.current.offsetWidth + headerH.current + 16
+                    top: buttonW.current + headerH.current + 16
                 }
             })
         }
@@ -45,7 +45,7 @@ const StickyReservationButton = ({ ...props }) => {
                 return {
                     ...prevState,
                     mode: "absolute",
-                    top: specialCardCarouselTop.current + ref.current.offsetWidth + 32
+                    top: specialCardCarouselTop.current + buttonW.current + 32
                 }
             })
         }

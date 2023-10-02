@@ -18,6 +18,7 @@ const FormStepHeading = ({ children, formStatus }) => {
                 damping: 15
             })
         }, 1740 * 3 / 8);
+        //eslint-disable-next-line
     }, [formStatus.stepInProgress, formStatus.isFormOpen])
 
     return (

@@ -7,6 +7,7 @@ const DragCursorPointer = ({ ...props }) => {
         <>
             <Box
                 as={motion.div}
+                cursor="none"
                 {...props}
             >
                 <DragCursor />

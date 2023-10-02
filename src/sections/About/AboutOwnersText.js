@@ -7,7 +7,7 @@ const AboutOwnersText = ({ children }) => {
     const scope = useRef(null);
     const { scrollYProgress, scrollY } = useScroll({
         target: scope,
-        offset: ["center end", "0.25 center"]
+        offset: ["start center", "0.4 center"]
     })
 
     const words = children.split(" ");
