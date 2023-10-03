@@ -31,7 +31,8 @@ const StickyReservationButton = ({ ...props }) => {
     const { scrollY } = useScroll();
 
     const handleStickiness = () => {
-        if (scrollY.current >= specialCardCarouselTop.current - headerH.current + 16 && position.mode !== "sticky") {
+        const carouselTop = document.querySelector("#specials-card-carousel").offsetTop;
+        if (scrollY.current >= carouselTop - headerH.current + 16 && position.mode !== "sticky") {
             setPosition(prevState => {
                 return {
                     ...prevState,
@@ -40,12 +41,12 @@ const StickyReservationButton = ({ ...props }) => {
                 }
             })
         }
-        else if (scrollY.current < specialCardCarouselTop.current - headerH.current + 16 && position.mode !== "absolute") {
+        else if (scrollY.current < carouselTop - headerH.current + 16 && position.mode !== "absolute") {
             setPosition(prevState => {
                 return {
                     ...prevState,
                     mode: "absolute",
-                    top: specialCardCarouselTop.current + buttonW.current + 32
+                    top: carouselTop + buttonW.current + 32
                 }
             })
         }

@@ -10,6 +10,7 @@ const FormStepFrame = ({ children, stepDetails, formStatus, setFormStatus, focus
             enabled={formStatus.stepInProgress === stepDetails.stepNum}
             shards={focusLockShards}
             onEscapeKey={handleFormOverlay}
+            style={{ height: "100%" }}
         >
             <Box
                 w={{ base: "100vw", xl: "container.xl" }}
