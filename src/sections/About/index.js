@@ -2,26 +2,33 @@ import { Box, GridItem, Heading, VStack, useBreakpointValue } from "@chakra-ui/r
 import FullScreenGridSection from "../FullScreenGridSection";
 import OwnerImagesStack from "./OwnerImagesStack";
 import AboutOwnersText from "./AboutOwnersText";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 
 const About = ({ ...props }) => {
 
-    const [sectionH, setSectionH] = useState("100vh");
+    // const [sectionH, setSectionH] = useState("100vh");
 
-    useEffect(() => {
-        const sectionOffestTop = document.getElementById("about-section-box").offsetTop;
-        const bodyStackOffestTop = document.getElementById("about-image-stack").offsetTop;
-        const bodyStackH = document.getElementById("about-image-stack").offsetHeight;
-        const newSectionH = bodyStackOffestTop - sectionOffestTop + bodyStackH + 64;
-        setSectionH(newSectionH);
-    }, [])
+    const sectionRef = useRef(null);
+    const imageStackRef = useRef(null);
+
+    const setSectionH = useBreakpointValue({
+        base: () => {
+            if (sectionRef.current && imageStackRef.current) {
+                const sectionOffestTop = sectionRef.current.offsetTop;
+                const imageStackTop = imageStackRef.current.offsetTop;
+                const imageStackH = imageStackRef.current.offsetHeight;
+                return imageStackTop - sectionOffestTop + imageStackH + 64;
+            }
+        }
+    })
 
     return (
         <Box
+            ref={sectionRef}
             id="about-section-box"
             overflow="hidden"
-            h={{ base: sectionH, xl: "900px" }}
+            h={{ base: setSectionH(), xl: "900px" }}
             boxShadow="0px 4px 4px 0px #33333380"
             bg="brand.secondary.darkSalmon"
             {...props}
@@ -92,7 +99,7 @@ const About = ({ ...props }) => {
                             Adrian and Mario are the proud owners of a Mediterranean restaurant located in the heart of Chicago. They specialize in Mediterranean cuisine, utilizing fresh ingredients and flavors from the Mediterranean region. Adrian and Mario have been in the restaurant business for over 10 years and have built up a loyal following of customers who appreciate their attention to detail and the quality of their food. Both Adrian and Mario are passionate about the Mediterranean cuisine and strive to bring the best flavors and ingredients to their customers. They are extremely proud of their restaurant and take great pride in providing the freshest and tastiest food to their customers.
                         </AboutOwnersText>
                         {useBreakpointValue({
-                            base: <OwnerImagesStack />,
+                            base: <OwnerImagesStack ref={imageStackRef} />,
                             xl: null
                         }, { ssr: false })}
                     </VStack>
@@ -106,7 +113,7 @@ const About = ({ ...props }) => {
                         gridColumn={{ base: "1 / span 4", md: "1 / span 8", xl: "6 / span 7" }}
                         gridRow={{ base: (616 / 4) + 1, md: (572 / 4) + 1, xl: (232 / 4) + 1 }}
                     >
-                        <OwnerImagesStack />
+                        <OwnerImagesStack ref={imageStackRef} />
                     </GridItem>
                 }, { ssr: false })}
             </FullScreenGridSection>

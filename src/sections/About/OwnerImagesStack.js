@@ -1,9 +1,9 @@
 import { HStack } from "@chakra-ui/react";
 import OwnerImageFrame from "./OwnerImageFrame";
 import { useAnimationFrame, useScroll } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 
-const OwnerImagesStack = ({ ...props }) => {
+const OwnerImagesStack = forwardRef(({ ...props }, ref) => {
 
     const scope = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -50,6 +50,7 @@ const OwnerImagesStack = ({ ...props }) => {
 
     return (
         <HStack
+            ref={ref}
             id="about-image-stack"
             w="full"
             h={{
@@ -92,6 +93,6 @@ const OwnerImagesStack = ({ ...props }) => {
             />
         </HStack>
     )
-}
+})
 
 export default OwnerImagesStack;
