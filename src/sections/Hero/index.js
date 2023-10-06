@@ -224,7 +224,7 @@ const Hero = ({ handleFormOverlay, ...props }) => {
                     h="max"
                 >
                     <HeroImageFrame pos="absolute" />
-                    <HeroImageFrame scope={scope} />
+                    <HeroImageFrame ref={scope} />
                 </GridItem>
             </FullScreenGridSection>
         </Box >

@@ -1,4 +1,4 @@
-import { Center, VStack, Image, Box } from '@chakra-ui/react';
+import { Center, VStack, Image, Box, useBreakpointValue } from '@chakra-ui/react';
 import Navbar from '../../components/Navigation/Navbar';
 import { motion, useAnimate, useAnimationFrame, useScroll } from "framer-motion";
 
@@ -9,52 +9,56 @@ const RegularHeader = ({ ...props }) => {
     const { scrollY, scrollYProgress } = useScroll();
     let headerPrevStyle = null;
 
-    const animateHeader = () => {
-        // used animate function as if else will excute only once
-        if (scrollY.current <= 20 && headerPrevStyle !== "transparent") {
-            headerPrevStyle = "transparent";
-            animate([
-                ["#regular-header", {
-                    backgroundColor: "#495E57",
-                    boxShadow: "0px 0px 0px 0px #333333",
-                    color: "#EDEFEE",
-                    borderBottomColor: "#EDEFEE",
-                }],
-                ["#header-logo-v1", { opacity: 0 }, { at: "<" }],
-                ["#header-logo-v2", { opacity: 1 }, { at: "<" }],
-                ["[class*='line']", { backgroundColor: "#EDEFEE" }, { at: "<" }]
-            ], {
-                type: "spring",
-                stiffness: 80,
-                damping: 20
-            });
+    const animateHeader = useBreakpointValue({
+        base: () => { return },
+        md: () => {
+            // used animate function as if else will excute only once
+            if (scrollY.current <= 20 && headerPrevStyle !== "transparent") {
+                headerPrevStyle = "transparent";
+                animate([
+                    ["#regular-header", {
+                        backgroundColor: "#495E57",
+                        boxShadow: "0px 0px 0px 0px #333333",
+                        color: "#EDEFEE",
+                        borderBottomColor: "#EDEFEE",
+                    }],
+                    ["#header-logo-v1", { opacity: 0 }, { at: "<" }],
+                    ["#header-logo-v2", { opacity: 1 }, { at: "<" }],
+                    ["[class*='line']", { backgroundColor: "#EDEFEE" }, { at: "<" }]
+                ], {
+                    type: "spring",
+                    stiffness: 80,
+                    damping: 20
+                });
+            }
+            else if (scrollY.current >= 20 && headerPrevStyle !== "notTransparent") {
+                headerPrevStyle = "notTransparent";
+                animate([
+                    ["#regular-header", {
+                        backgroundColor: "#EDEFEE",
+                        boxShadow: "0px 1px 4px 0px #33333380",
+                        color: "#333333",
+                        borderBottomColor: "#495E57",
+                    }],
+                    ["#header-logo-v1", { opacity: 1 }, { at: "<" }],
+                    ["#header-logo-v2", { opacity: 0 }, { at: "<" }],
+                    ["[class*='line']", { backgroundColor: "#495E57" }, { at: "<" }]
+                ], {
+                    type: "spring",
+                    stiffness: 80,
+                    damping: 20
+                });
+            }
+            scope.current.querySelector("#header-scroll-bar").style.width = `${scrollYProgress.current * 100}%`;
         }
-        else if (scrollY.current >= 20 && headerPrevStyle !== "notTransparent") {
-            headerPrevStyle = "notTransparent";
-            animate([
-                ["#regular-header", {
-                    backgroundColor: "#EDEFEE",
-                    boxShadow: "0px 1px 4px 0px #33333380",
-                    color: "#333333",
-                    borderBottomColor: "#495E57",
-                }],
-                ["#header-logo-v1", { opacity: 1 }, { at: "<" }],
-                ["#header-logo-v2", { opacity: 0 }, { at: "<" }],
-                ["[class*='line']", { backgroundColor: "#495E57" }, { at: "<" }]
-            ], {
-                type: "spring",
-                stiffness: 80,
-                damping: 20
-            });
-        }
-        scope.current.querySelector("#header-scroll-bar").style.width = `${scrollYProgress.current * 100}%`;
-    }
+    }, { ssr: false })
 
     useAnimationFrame(animateHeader);
 
     return (
         <Box
             ref={scope}
+            hideBelow="md"
         >
             <Center
                 as={motion.header}
@@ -63,7 +67,6 @@ const RegularHeader = ({ ...props }) => {
                 w="full"
                 zIndex={{ md: "sticky" }}
                 py={4}
-                hideBelow="md"
                 left="0"
                 color="brand.secondary.brightGray"
                 borderBottom="2px"

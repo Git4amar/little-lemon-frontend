@@ -12,23 +12,24 @@ const About = ({ ...props }) => {
     const sectionRef = useRef(null);
     const imageStackRef = useRef(null);
 
-    const setSectionH = useBreakpointValue({
-        base: () => {
-            if (sectionRef.current && imageStackRef.current) {
-                const sectionOffestTop = sectionRef.current.offsetTop;
-                const imageStackTop = imageStackRef.current.offsetTop;
-                const imageStackH = imageStackRef.current.offsetHeight;
-                return imageStackTop - sectionOffestTop + imageStackH + 64;
-            }
+    const setSectionH = () => {
+        if (sectionRef.current && imageStackRef.current) {
+            const sectionOffestTop = sectionRef.current.offsetTop;
+            const imageStackTop = imageStackRef.current.offsetTop;
+            const imageStackH = imageStackRef.current.offsetHeight;
+            return imageStackTop - sectionOffestTop + imageStackH + 64;
         }
-    })
+    }
 
     return (
         <Box
             ref={sectionRef}
             id="about-section-box"
             overflow="hidden"
-            h={{ base: setSectionH(), xl: "900px" }}
+            h={{
+                base: setSectionH(),
+                xl: "900px"
+            }}
             boxShadow="0px 4px 4px 0px #33333380"
             bg="brand.secondary.darkSalmon"
             {...props}
@@ -96,7 +97,7 @@ const About = ({ ...props }) => {
 
                     >
                         <AboutOwnersText>
-                            Adrian and Mario are the proud owners of a Mediterranean restaurant located in the heart of Chicago. They specialize in Mediterranean cuisine, utilizing fresh ingredients and flavors from the Mediterranean region. Adrian and Mario have been in the restaurant business for over 10 years and have built up a loyal following of customers who appreciate their attention to detail and the quality of their food. Both Adrian and Mario are passionate about the Mediterranean cuisine and strive to bring the best flavors and ingredients to their customers. They are extremely proud of their restaurant and take great pride in providing the freshest and tastiest food to their customers.
+                            Adrian and Mario are the owners of Little Lemon restaurant located in the heart of Chicago. They specialize in Mediterranean cuisine, utilizing fresh ingredients and flavors from the Mediterranean region. Adrian and Mario have been in the restaurant business for over 10 years and have built up a loyal following of customers who appreciate their attention to detail and the quality of their food. Both Adrian and Mario are passionate about the Mediterranean cuisine and strive to bring the best flavors and ingredients to their customers. They are extremely proud of their restaurant and take great pride in providing the freshest and tastiest food to their customers.
                         </AboutOwnersText>
                         {useBreakpointValue({
                             base: <OwnerImagesStack ref={imageStackRef} />,

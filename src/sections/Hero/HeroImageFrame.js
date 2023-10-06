@@ -1,8 +1,9 @@
 import { Box, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { forwardRef } from "react";
 
 
-const HeroImageFrame = ({ scope, ...props }) => {
+const HeroImageFrame = forwardRef((props, ref) => {
 
     return (
         <Box
@@ -11,7 +12,7 @@ const HeroImageFrame = ({ scope, ...props }) => {
             bg="transparent"
             w="full"
             style={{ perspective: "800px" }}
-            ref={scope}
+            ref={ref}
             {...props}
         >
             <Box
@@ -52,6 +53,6 @@ const HeroImageFrame = ({ scope, ...props }) => {
             </Box>
         </Box>
     )
-}
+})
 
 export default HeroImageFrame;

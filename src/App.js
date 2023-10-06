@@ -14,6 +14,7 @@ import StickyReservationButton from './components/Buttons/StickyReservationButto
 import TableReservation from './sections/TableReservation.js';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import DishImages from './sections/DishImages';
 
 
 function App() {
@@ -37,11 +38,14 @@ function App() {
     // document.querySelector("body").style.overflow = isFormOpen ? "clip" : "visible";
   }, [isFormOpen]);
 
+
   return (
     <ChakraProvider theme={theme}>
       <Box
         pos="relative"
         zIndex="docked"
+        w="100%"
+        overflowX="hidden"
       >
         <RegularHeader />
         <MobileFixedNav
@@ -70,6 +74,8 @@ function App() {
             }
           </AnimatePresence>
         </Box>
+        {/* extra dish images */}
+        <DishImages />
       </Box>
       <Footer />
     </ChakraProvider>
