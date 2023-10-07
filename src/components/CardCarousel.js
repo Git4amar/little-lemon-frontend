@@ -119,7 +119,7 @@ const CardCarousel = ({ dragConstraintsRef, renderCards, numOfItems, ...props })
                 w="100vw"
                 h="max"
                 overflow={{ base: "auto", xl: "visible" }}
-                pb={2}
+                pb={4}
                 onScroll={useBreakpointValue({
                     base: handleScroll,
                     xl: null

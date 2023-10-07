@@ -1,8 +1,8 @@
-import { Image, useBreakpointValue, Center, Box } from "@chakra-ui/react";
-import { useAnimationFrame, useScroll, useTransform } from "framer-motion";
+import { Image, useBreakpointValue, Center } from "@chakra-ui/react";
+import { useAnimationFrame, useScroll, useTransform, easeInOut } from "framer-motion";
 import { forwardRef, useEffect, useRef, useState } from "react";
 
-const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => null }, ref) => {
+const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => null, ...props }, ref) => {
   return (
     <Center
       ref={ref}
@@ -15,6 +15,7 @@ const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => nu
         h="full"
         fit="cover"
         display={renderState ? "block" : "none"}
+        {...props}
       />
     </Center>
   )
@@ -50,6 +51,7 @@ const DishImages = () => {
     setRenderState(true);
   }, [])
 
+  // define positions with breakpoints
   const image1Props = useBreakpointValue({
     base: () => {
       const heroImgTop = heroImgRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
@@ -69,6 +71,36 @@ const DishImages = () => {
       }
     }
   });
+  const image1bProps = useBreakpointValue({
+    base: () => {
+      const heroImgTop = heroImgRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+      const heroImgBottom = heroImgTop + (heroImgRef.current.getBoundingClientRect().width * 9 / 16);
+      return {
+        top: `${heroImgBottom + 16}px`,
+        right: `calc(100vw - ${heroImgRef.current.getBoundingClientRect().right + 16}px)`,
+        h: "18vh",
+        display: viewPortRef.current.height >= 700 ? "block" : "none"
+      }
+    },
+    md: () => {
+      const heroImgTop = heroImgRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+      const heroImgBottom = heroImgTop + (heroImgRef.current.getBoundingClientRect().width * 4 / 3);
+      return {
+        top: `${heroImgBottom + 16}px`,
+        right: `calc(100vw - ${heroImgRef.current.getBoundingClientRect().right + 64}px)`,
+        h: "16vh"
+      }
+    },
+    xl: () => {
+      const heroImgTop = heroImgRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+      const heroImgBottom = heroImgTop + (heroImgRef.current.getBoundingClientRect().width * 3 / 4);
+      return {
+        top: `${heroImgBottom + 40}px`,
+        left: `${heroImgRef.current.getBoundingClientRect().left}px`,
+        h: "16vh"
+      }
+    }
+  });
   const image2Props = useBreakpointValue({
     base: () => {
       const h = "28vh"
@@ -85,6 +117,27 @@ const DishImages = () => {
       return {
         top: `calc(${specialHeaderTop}px - ${h})`,
         right: `calc(100vw - ${heroImgRef.current.getBoundingClientRect().right}px - 64px)`,
+        h: h,
+      }
+    },
+  });
+  const image2bProps = useBreakpointValue({
+    base: () => {
+      const h = "28vh"
+      const specialHeaderTop = specialsHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+      return {
+        top: `calc(${specialHeaderTop}px - ${h} + 32px)`,
+        left: `${heroImgRef.current.getBoundingClientRect().left - 16}px`,
+        h: h,
+        display: viewPortRef.current.height >= 700 ? "block" : "none"
+      }
+    },
+    md: () => {
+      const h = "40vh"
+      const specialHeaderTop = specialsHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+      return {
+        top: `calc(${specialHeaderTop}px - ${h})`,
+        left: `${reservationButtonRef.current.getBoundingClientRect().left - 64}px`,
         h: h,
       }
     },
@@ -221,57 +274,6 @@ const DishImages = () => {
       }
     }
   });
-  const image1bProps = useBreakpointValue({
-    base: () => {
-      const h = "28vh"
-      const specialHeaderTop = specialsHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      return {
-        top: `calc(${specialHeaderTop}px - ${h} + 32px)`,
-        left: `${heroImgRef.current.getBoundingClientRect().left - 16}px`,
-        h: h,
-        display: viewPortRef.current.height >= 700 ? "block" : "none"
-      }
-    },
-    md: () => {
-      const h = "40vh"
-      const specialHeaderTop = specialsHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      return {
-        top: `calc(${specialHeaderTop}px - ${h})`,
-        left: `${reservationButtonRef.current.getBoundingClientRect().left - 64}px`,
-        h: h,
-      }
-    },
-  });
-  const image2bProps = useBreakpointValue({
-    base: () => {
-      const heroImgTop = heroImgRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      const heroImgBottom = heroImgTop + (heroImgRef.current.getBoundingClientRect().width * 9 / 16);
-      return {
-        top: `${heroImgBottom + 16}px`,
-        right: `calc(100vw - ${heroImgRef.current.getBoundingClientRect().right + 16}px)`,
-        h: "18vh",
-        display: viewPortRef.current.height >= 700 ? "block" : "none"
-      }
-    },
-    md: () => {
-      const heroImgTop = heroImgRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      const heroImgBottom = heroImgTop + (heroImgRef.current.getBoundingClientRect().width * 4 / 3);
-      return {
-        top: `${heroImgBottom + 16}px`,
-        right: `calc(100vw - ${heroImgRef.current.getBoundingClientRect().right + 64}px)`,
-        h: "16vh"
-      }
-    },
-    xl: () => {
-      const heroImgTop = heroImgRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      const heroImgBottom = heroImgTop + (heroImgRef.current.getBoundingClientRect().width * 3 / 4);
-      return {
-        top: `${heroImgBottom + 64}px`,
-        left: `${heroImgRef.current.getBoundingClientRect().left}px`,
-        h: "16vh"
-      }
-    }
-  });
   const image7Props = useBreakpointValue({
     base: () => {
       return {
@@ -299,23 +301,96 @@ const DishImages = () => {
     }
   });
 
-  const img2Ref = useRef(null);
-  const image2Scroll = useScroll({
-    target: img2Ref,
-    offset: ["end", "start"],
+  // link scrolls and animate
+  const img1Ref = useRef(null);
+  const img1Scroll = useScroll({
+    target: img1Ref,
+    // 152px is the fixed top header height
+    offset: [`start 0.6`, "center start"],
   });
-  const img2RotationZ = useTransform(
-    image2Scroll.scrollYProgress,
+  const img1tX = useTransform(
+    img1Scroll.scrollYProgress,
     [0, 1],
-    [45, 0]
-  )
-  // useAnimationFrame(() => {
-  //   // console.log(image2Scroll.scrollYProgress.current, img2RotationZ.current);
-  //   // if (image2Scroll.scrollYProgress.current > 0 && image2Scroll.scrollYProgress.current < 1) {
-  //   //   img2Ref.current.style.transform = `rotateZ(${img2RotationZ.current}deg)`;
-  //   // }
-  // })
+    [0, -viewPortRef.current.width / 4],
+    { ease: easeInOut }
+  );
+  const img1tY = useTransform(
+    img1Scroll.scrollYProgress,
+    [0, 1],
+    [0, -viewPortRef.current.height / 8],
+    { ease: easeInOut }
+  );
+  useAnimationFrame(() => {
+    if (!renderState) return;
+    // console.log(img1Scroll.scrollYProgress.current, img1tX.current, img1tY.current, renderState);
+    if (img1Scroll.scrollYProgress.current > 0 && img1Scroll.scrollYProgress.current < 1) {
+      img1Ref.current.firstChild.style.transform = `translate(${img1tX.current}px, ${img1tY.current}px)`;
+    }
+  });
 
+  const img2Ref = useRef(null);
+  const img2Scroll = useScroll({
+    target: img2Ref,
+    offset: ["start end", "center start"],
+  });
+  const img2rZ = useTransform(
+    img2Scroll.scrollYProgress,
+    [0, 1],
+    [30, 0],
+    { ease: easeInOut }
+  );
+  const img2tX = useTransform(
+    img2Scroll.scrollYProgress,
+    [0, 1],
+    viewPortRef.current.width >= 1280
+      ? [(viewPortRef.current.width - 1280) * 1 / 4, -1280 / 8]
+      : [viewPortRef.current.width / 8, -viewPortRef.current.width / 16],
+    { ease: easeInOut }
+  );
+  const img2tY = useTransform(
+    img2Scroll.scrollYProgress,
+    [0, 1],
+    [-viewPortRef.current.height / 16, viewPortRef.current.height / 16],
+    { ease: easeInOut }
+  );
+  useAnimationFrame(() => {
+    if (!renderState) return;
+    if (img2Scroll.scrollYProgress.current > 0 && img2Scroll.scrollYProgress.current < 1) {
+      img2Ref.current.firstChild.style.transform = `translate(${img2tX.current}px, ${img2tY.current}px) rotateZ(${img2rZ.current}deg)`;
+    }
+  });
+
+  const img2bRef = useRef(null);
+  const img2bScroll = useScroll({
+    target: img2bRef,
+    offset: ["start end", "center start"]
+  });
+  const img2brZ = useTransform(
+    img2bScroll.scrollYProgress,
+    [0, 1],
+    [-45, 0],
+    { ease: easeInOut }
+  );
+  const img2btX = useTransform(
+    img2bScroll.scrollYProgress,
+    [0, 1],
+    viewPortRef.current.width >= 1280
+      ? [-(viewPortRef.current.width - 1280) * 1 / 4, 1280 / 8]
+      : [-viewPortRef.current.width / 8, viewPortRef.current.width / 16],
+    { ease: easeInOut }
+  );
+  const img2btY = useTransform(
+    img2bScroll.scrollYProgress,
+    [0, 1],
+    [-viewPortRef.current.height / 16, viewPortRef.current.height / 16],
+    { ease: easeInOut }
+  );
+  useAnimationFrame(() => {
+    if (!renderState) return;
+    if (img2bScroll.scrollYProgress.current > 0 && img2bScroll.scrollYProgress.current < 1) {
+      img2bRef.current.firstChild.style.transform = `translate(${img2btX.current}px, ${img2btY.current}px) rotateZ(${img2brZ.current}deg)`;
+    }
+  });
 
   return (
     <>
@@ -324,12 +399,27 @@ const DishImages = () => {
         imagePosProps={renderState ? image1Props : () => null}
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_1.png")}
+        ref={img1Ref}
+      // transform={renderState ? `translate(${img1tX.current}px, ${img1tY.current}px)` : null}
       />
       <DishImageBox
-        ref={img2Ref}
+        imagePosProps={renderState ? image1bProps : () => null}
+        renderState={renderState}
+        imgSrc={() => require("../../assets/dish-images/dish_1b.png")}
+      />
+      <DishImageBox
         imagePosProps={renderState ? image2Props : () => null}
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_2.png")}
+        ref={img2Ref}
+        transform={renderState ? `translate(${img2tX.current}px, ${img2tY.current}px) rotateZ(${img2rZ.current}deg)` : null}
+      />
+      <DishImageBox
+        imagePosProps={renderState ? image2bProps : () => null}
+        renderState={renderState}
+        imgSrc={() => require("../../assets/dish-images/dish_2b.png")}
+        ref={img2bRef}
+        transform={renderState ? `translate(${img2btX.current}px, ${img2btY.current}px) rotateZ(${img2brZ.current}deg)` : null}
       />
       <DishImageBox
         imagePosProps={renderState ? image3Props : () => null}
@@ -355,16 +445,6 @@ const DishImages = () => {
         imagePosProps={renderState ? image7Props : () => null}
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_7.png")}
-      />
-      <DishImageBox
-        imagePosProps={renderState ? image1bProps : () => null}
-        renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_1b.png")}
-      />
-      <DishImageBox
-        imagePosProps={renderState ? image2bProps : () => null}
-        renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_2b.png")}
       />
     </>
   )
