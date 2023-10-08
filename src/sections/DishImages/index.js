@@ -289,13 +289,13 @@ const DishImages = () => {
   const img1Ref = useRef(null);
   const img1Scroll = useScroll({
     target: img1Ref,
-    // 152px is the fixed top header height
-    // offset: [`start 0.6`, "center start"],
-    offset: viewPortRef.current.width >= 1280
-      ? ["start 0.5", "center start"]
-      : viewPortRef.current.width >= 740
-        ? ["start 0.5", "center start"]
-        : ["start 0.8", "center start"]
+    offset: viewPortRef.current.width >= 1536
+      ? ["start 0.4", "center start"]
+      : viewPortRef.current.width >= 1280
+        ? ["start 0.6", "center start"]
+        : viewPortRef.current.width >= 740
+          ? ["start 0.5", "center start"]
+          : ["start 0.8", "center start"]
   });
   const img1tX = useTransform(
     img1Scroll.scrollYProgress,
@@ -306,21 +306,25 @@ const DishImages = () => {
   const img1tY = useTransform(
     img1Scroll.scrollYProgress,
     [0, 1],
-    [0, -viewPortRef.current.height / 8],
+    [0, -viewPortRef.current.height / 6],
     { ease: easeInOut }
   );
   useAnimationFrame(() => {
     if (!renderState) return;
-    // console.log(img1Scroll.scrollYProgress.current, img1tX.current, img1tY.current, renderState);
     if (img1Scroll.scrollYProgress.current > 0 && img1Scroll.scrollYProgress.current < 1) {
       img1Ref.current.firstChild.style.transform = `translate(${img1tX.current}px, ${img1tY.current}px)`;
     }
   });
 
+
   const img1bRef = useRef(null);
   const img1bScroll = useScroll({
     target: img1bRef,
-    offset: [`start 0.8`, "center start"],
+    offset: viewPortRef.current.width >= 1536
+      ? [`start 0.6`, "center start"]
+      : viewPortRef.current.width >= 740
+        ? [`start 0.8`, "center start"]
+        : [`start 0.6`, "center start"],
   });
   const img1btX = useTransform(
     img1bScroll.scrollYProgress,
@@ -331,16 +335,16 @@ const DishImages = () => {
   const img1btY = useTransform(
     img1bScroll.scrollYProgress,
     [0, 1],
-    [0, -viewPortRef.current.height / 8],
+    [0, -viewPortRef.current.height / 6],
     { ease: easeInOut }
   );
   useAnimationFrame(() => {
     if (!renderState) return;
-    // console.log(img1Scroll.scrollYProgress.current, img1tX.current, img1tY.current, renderState);
     if (img1bScroll.scrollYProgress.current > 0 && img1bScroll.scrollYProgress.current < 1) {
       img1bRef.current.firstChild.style.transform = `translate(${img1btX.current}px, ${img1btY.current}px)`;
     }
   });
+
 
   const img2Ref = useRef(null);
   const img2Scroll = useScroll({
@@ -350,7 +354,7 @@ const DishImages = () => {
   const img2rZ = useTransform(
     img2Scroll.scrollYProgress,
     [0, 1],
-    [30, 0],
+    [45, 0],
     { ease: easeInOut }
   );
   const img2tX = useTransform(
@@ -528,7 +532,6 @@ const DishImages = () => {
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_1.png")}
         ref={img1Ref}
-      // transform={renderState ? `translate(${img1tX.current}px, ${img1tY.current}px)` : null}
       />
       <DishImageBox
         imagePosProps={renderState ? image1bProps : () => null}
