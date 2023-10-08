@@ -212,11 +212,14 @@ const DishImages = () => {
       const h = aboutHeaderTop - reviewCarouselBottom + 16;
       return {
         top: h > 0.24 * viewPortRef.current.height
-          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height)}px`
+          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height) - 16}px`
           : `${aboutHeaderTop - h + 32}px`,
-        left: `${aboutHeaderRef.current.getBoundingClientRect().left}px`,
-        h: h + "px",
-        maxH: "24vh"
+        boxSize: h + "px",
+        maxH: "24vh",
+        maxW: "24vh",
+        left: h > 0.24 * viewPortRef.current.height
+          ? `calc(50vw - ${0.24 * viewPortRef.current.height / 2}px)`
+          : `calc(50vw - ${h / 2}px)`
       }
     },
     md: () => {
@@ -225,24 +228,36 @@ const DishImages = () => {
       const h = aboutHeaderTop - reviewCarouselBottom;
       return {
         top: h > 0.24 * viewPortRef.current.height
-          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height)}px`
-          : `${aboutHeaderTop - h}px`,
+          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height) - 16}px`
+          : `${aboutHeaderTop - h + 32}px`,
         left: `${aboutHeaderRef.current.getBoundingClientRect().left - 64 + 16}px`,
         h: h + "px",
         maxH: "24vh"
+      }
+    },
+    xl: () => {
+      const aboutHeaderTop = aboutHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+      const reviewCarouselBottom = reviewCardCarouselRef.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top;
+      const h = aboutHeaderTop - reviewCarouselBottom;
+      return {
+        top: h > 0.24 * viewPortRef.current.height
+          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height) - 16}px`
+          : `${aboutHeaderTop - h + 32}px`,
+        boxSize: h + "px",
+        maxH: "24vh",
+        maxW: "24vh",
+        left: viewPortRef.current.width >= 1536
+          ? h > 0.24 * viewPortRef.current.height
+            ? `calc(${aboutHeaderRef.current.getBoundingClientRect().left}px - ${0.24 * viewPortRef.current.height}px)`
+            : `calc(${aboutHeaderRef.current.getBoundingClientRect().left}px - ${h}px)`
+          : `${aboutHeaderRef.current.getBoundingClientRect().left - 64 + 16}px`
       }
     }
   });
   const image6Props = useBreakpointValue({
     base: () => {
-      const aboutHeaderTop = aboutHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      const reviewCarouselBottom = reviewCardCarouselRef.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top;
-      const h = aboutHeaderTop - reviewCarouselBottom + 16;
       return {
-        top: `${reviewCarouselBottom}px`,
-        right: `calc(100vw - ${aboutHeaderRef.current.getBoundingClientRect().right + 16}px)`,
-        h: h + "px",
-        maxH: "16vh"
+        display: "none"
       }
     },
     md: () => {
@@ -252,9 +267,9 @@ const DishImages = () => {
       return {
         top: `${reviewCarouselBottom}px`,
         // right: `calc(100vw - ${onlineMenuBtnRef.current.getBoundingClientRect().right + 64}px)`,
-        left: `50%`,
+        left: "calc(50vw - 145px)",
         h: h + "px",
-        maxH: "16vh"
+        maxH: "16vh",
       }
     }
   });
@@ -290,7 +305,7 @@ const DishImages = () => {
   const img1Scroll = useScroll({
     target: img1Ref,
     offset: viewPortRef.current.width >= 1536
-      ? ["start 0.4", "center start"]
+      ? ["start 0.5", "center start"]
       : viewPortRef.current.width >= 1280
         ? ["start 0.6", "center start"]
         : viewPortRef.current.width >= 740
@@ -321,7 +336,7 @@ const DishImages = () => {
   const img1bScroll = useScroll({
     target: img1bRef,
     offset: viewPortRef.current.width >= 1536
-      ? [`start 0.6`, "center start"]
+      ? [`start 0.7`, "center start"]
       : viewPortRef.current.width >= 740
         ? [`start 0.8`, "center start"]
         : [`start 0.6`, "center start"],
@@ -360,7 +375,7 @@ const DishImages = () => {
   const img2tX = useTransform(
     img2Scroll.scrollYProgress,
     [0, 1],
-    [viewPortRef.current.width / 4, -viewPortRef.current.width / 16],
+    [viewPortRef.current.width / 8, -viewPortRef.current.width / 16],
     { ease: easeInOut }
   );
   const img2tY = useTransform(
@@ -390,7 +405,7 @@ const DishImages = () => {
   const img2btX = useTransform(
     img2bScroll.scrollYProgress,
     [0, 1],
-    [-viewPortRef.current.width / 4, viewPortRef.current.width / 16],
+    [-viewPortRef.current.width / 8, viewPortRef.current.width / 16],
     { ease: easeInOut }
   );
   const img2btY = useTransform(
@@ -431,7 +446,7 @@ const DishImages = () => {
     if (img3Scroll.scrollYProgress.current > 0 && img3Scroll.scrollYProgress.current <= 0.4) {
       img3Ref.current.firstChild.style.transform = `translate(${img3tX_p1.current}px, 0px) rotateZ(${img3rZ.current}deg)`;
     }
-    else {
+    else if (img3Scroll.scrollYProgress.current > 0.4 && img3Scroll.scrollYProgress.current < 1) {
       img3Ref.current.firstChild.style.transform = `translate(${img3tX_p2.current}px, 0px) rotateZ(${img3rZ.current}deg)`;
     }
   });
@@ -461,7 +476,7 @@ const DishImages = () => {
     if (img4Scroll.scrollYProgress.current > 0 && img4Scroll.scrollYProgress.current <= 0.4) {
       img4Ref.current.firstChild.style.transform = `translate(${img4tX_p1.current}px, 0px) rotateZ(${img4rZ.current}deg)`;
     }
-    else {
+    else if (img4Scroll.scrollYProgress.current > 0.4 && img4Scroll.scrollYProgress.current < 1) {
       img4Ref.current.firstChild.style.transform = `translate(${img4tX_p2.current}px, 0px) rotateZ(${img4rZ.current}deg)`;
     }
   });
@@ -491,15 +506,17 @@ const DishImages = () => {
   const img6tY = useTransform(
     img6Scroll.scrollYProgress,
     [0, 1],
-    [-viewPortRef.current.height / 8, viewPortRef.current.height / 4]
+    [viewPortRef.current.height / 2, -viewPortRef.current.height / 2]
   );
+  const img6Scale = useTransform(
+    img6Scroll.scrollYProgress,
+    [0, 1],
+    [0, 4]
+  )
   useAnimationFrame(() => {
     if (!renderState) return;
-    if (img6Scroll.scrollYProgress.current > 0 && img6Scroll.scrollYProgress.current <= 0.6) {
-      img6Ref.current.firstChild.style.transform = `translateY(${img6tY.current}px) scale(${3 * img6Scroll.scrollYProgress.current})`;
-    }
-    else if (img6Scroll.scrollYProgress.current === 0) {
-      img6Ref.current.firstChild.style.transform = "scale(0)";
+    if (img6Scroll.scrollYProgress.current > 0 && img6Scroll.scrollYProgress.current < 1) {
+      img6Ref.current.firstChild.style.transform = `translateY(${img6tY.current}px) scale(${img6Scale.current})`;
     }
   });
 
@@ -554,24 +571,28 @@ const DishImages = () => {
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_3.png")}
         ref={img3Ref}
+        transform={`translate(${img3tX_p1.current}px, 0px) rotateZ(${img3rZ.current}deg)`}
       />
       <DishImageBox
         imagePosProps={renderState ? image4Props : () => null}
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_4.png")}
         ref={img4Ref}
+        transform={`translate(${img4tX_p1.current}px, 0px) rotateZ(${img4rZ.current}deg)`}
       />
       <DishImageBox
         imagePosProps={renderState ? image5Props : () => null}
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_5.png")}
         ref={img5Ref}
+        transform={`rotateZ(${img5rZ.current}deg)`}
       />
       <DishImageBox
         imagePosProps={renderState ? image6Props : () => null}
         renderState={renderState}
         imgSrc={() => require("../../assets/dish-images/dish_6.png")}
         ref={img6Ref}
+        transform={`translateY(${img6tY.current}px) scale(${img6Scale.current})`}
       />
       <DishImageBox
         imagePosProps={renderState ? image7Props : () => null}
