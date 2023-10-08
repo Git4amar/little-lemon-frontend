@@ -120,7 +120,7 @@ const DishImages = () => {
       const specialHeaderTop = specialsHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
       return {
         top: `calc(${specialHeaderTop}px - ${h})`,
-        left: `${reservationButtonRef.current.getBoundingClientRect().left - 64}px`,
+        left: `${reservationButtonRef.current.getBoundingClientRect().left - 128}px`,
         h: h,
       }
     },
@@ -184,7 +184,7 @@ const DishImages = () => {
         top: h > 0.28 * viewPortRef.current.height
           ? `${reviewHeaderBottom - (0.28 * viewPortRef.current.height)}px`
           : `${reviewHeaderBottom - h}px`,
-        right: `calc(100vw - ${onlineMenuBtnRef.current.getBoundingClientRect().right}px - 64px)`,
+        right: `calc(100vw - ${onlineMenuBtnRef.current.getBoundingClientRect().right - 64}px)`,
         h: h + "px",
         maxH: "28vh"
       }
@@ -199,7 +199,7 @@ const DishImages = () => {
         top: h > 0.28 * viewPortRef.current.height
           ? `${reviewHeaderBottom - (0.28 * viewPortRef.current.height)}px`
           : `${reviewHeaderBottom - h}px`,
-        right: `calc(100vw - ${onlineMenuBtnRef.current.getBoundingClientRect().right}px - 64px)`,
+        right: `calc(100vw - ${onlineMenuBtnRef.current.getBoundingClientRect().right - 64}px)`,
         h: h + "px",
         maxH: "28vh"
       }
@@ -360,9 +360,7 @@ const DishImages = () => {
   const img2tX = useTransform(
     img2Scroll.scrollYProgress,
     [0, 1],
-    viewPortRef.current.width >= 1280
-      ? [(viewPortRef.current.width - 1280) * 1 / 4, -1280 / 8]
-      : [viewPortRef.current.width / 8, -viewPortRef.current.width / 16],
+    [viewPortRef.current.width / 4, -viewPortRef.current.width / 16],
     { ease: easeInOut }
   );
   const img2tY = useTransform(
@@ -386,15 +384,13 @@ const DishImages = () => {
   const img2brZ = useTransform(
     img2bScroll.scrollYProgress,
     [0, 1],
-    [-45, 0],
+    [-60, 0],
     { ease: easeInOut }
   );
   const img2btX = useTransform(
     img2bScroll.scrollYProgress,
     [0, 1],
-    viewPortRef.current.width >= 1280
-      ? [-(viewPortRef.current.width - 1280) * 1 / 4, 1280 / 8]
-      : [-viewPortRef.current.width / 8, viewPortRef.current.width / 16],
+    [-viewPortRef.current.width / 4, viewPortRef.current.width / 16],
     { ease: easeInOut }
   );
   const img2btY = useTransform(
@@ -422,7 +418,7 @@ const DishImages = () => {
   );
   const img3tX_p2 = useTransform(
     img3Scroll.scrollYProgress,
-    [0.6, 1],
+    [0.7, 1],
     [0, -viewPortRef.current.width / 4]
   );
   const img3rZ = useTransform(

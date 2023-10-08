@@ -4,7 +4,7 @@ import { Center, Image } from "@chakra-ui/react";
 const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => null, ...props }, ref) => {
     return (
         <Center
-            border="1px"
+            // border="1px"
             ref={ref}
             pos="absolute"
             {...imagePosProps()}
