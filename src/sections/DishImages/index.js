@@ -1,26 +1,8 @@
-import { Image, useBreakpointValue, Center } from "@chakra-ui/react";
+import { useBreakpointValue } from "@chakra-ui/react";
 import { useAnimationFrame, useScroll, useTransform, easeInOut } from "framer-motion";
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import DishImageBox from "./DishImageBox";
 
-const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => null, ...props }, ref) => {
-  return (
-    <Center
-      border="1px"
-      ref={ref}
-      pos="absolute"
-      {...imagePosProps()}
-    >
-      <Image
-        src={imgSrc()}
-        alt="An image of a dish"
-        h="full"
-        fit="cover"
-        display={renderState ? "block" : "none"}
-        {...props}
-      />
-    </Center>
-  )
-})
 
 const DishImages = () => {
 
