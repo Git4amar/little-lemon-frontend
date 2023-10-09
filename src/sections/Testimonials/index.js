@@ -1,4 +1,4 @@
-import { Box, GridItem, Heading, VStack } from "@chakra-ui/react";
+import { Box, GridItem, Heading, VStack, useBreakpointValue } from "@chakra-ui/react";
 import { useRef } from "react";
 import FullScreenGridSection from "../FullScreenGridSection";
 import CardCarousel from "../../components/CardCarousel";
@@ -72,14 +72,17 @@ const Testimonials = ({ ...props }) => {
                     >
                         <Heading
                             as="h2"
-                            fontSize="64px"
+                            fontSize={"64px"}
                             fontWeight={500}
                             lineHeight="none"
                             color="brand.primary.green"
                             w="full"
                             textAlign={{ base: "center", md: "start" }}
                         >
-                            Reviews
+                            {useBreakpointValue({
+                                base: "Reviews",
+                                md: "Testimonials"
+                            })}
                         </Heading>
                     </VStack>
                 </GridItem>

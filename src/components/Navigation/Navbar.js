@@ -5,22 +5,10 @@ import { useState } from 'react';
 const Navbar = ({ darkBg = false, ...props }) => {
 
     const [navMenuItems] = useState([
-        {
-            name: "home",
-            href: "/",
-        },
-        {
-            name: "about",
-            href: "/about",
-        },
-        {
-            name: "specials",
-            href: "/specials"
-        },
-        {
-            name: "testimonials",
-            href: "/testimonials"
-        },
+        { name: "home", href: "/", },
+        { name: "specials", href: "/specials" },
+        { name: "testimonials", href: "/testimonials" },
+        { name: "about", href: "/about", },
         // {
         //     name: "menu",
         //     href: "/menu",

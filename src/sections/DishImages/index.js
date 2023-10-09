@@ -213,7 +213,7 @@ const DishImages = () => {
       return {
         top: h > 0.24 * viewPortRef.current.height
           ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height) - 16}px`
-          : `${aboutHeaderTop - h + 32}px`,
+          : `${aboutHeaderTop - h}px`,
         boxSize: h + "px",
         maxH: "24vh",
         maxW: "24vh",
