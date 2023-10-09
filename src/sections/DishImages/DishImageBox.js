@@ -1,4 +1,4 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 import { Center, Image } from "@chakra-ui/react";
 
 const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => null, ...props }, ref) => {
@@ -8,13 +8,13 @@ const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => nu
             ref={ref}
             pos="absolute"
             {...imagePosProps()}
-            maxH={
-                renderState && Object.keys(imagePosProps()).includes("maxH")
-                    ? imagePosProps().maxH > 336
-                        ? "336px"
-                        : imagePosProps().maxH
-                    : "336px"
-            }
+        // maxH={
+        //     renderState && Object.keys(imagePosProps()).includes("maxH")
+        //         ? imagePosProps().maxH > 336
+        //             ? "336px"
+        //             : imagePosProps().maxH
+        //         : "336px"
+        // }
         >
             <Image
                 src={imgSrc()}

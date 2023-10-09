@@ -227,12 +227,12 @@ const DishImages = () => {
       const reviewCarouselBottom = reviewCardCarouselRef.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top;
       const h = aboutHeaderTop - reviewCarouselBottom;
       return {
-        top: h > 0.2 * viewPortRef.current.height
-          ? `${aboutHeaderTop - (0.2 * viewPortRef.current.height) - 16}px`
-          : `${aboutHeaderTop - h + 32}px`,
+        top: h > 0.24 * viewPortRef.current.height
+          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height) - 16}px`
+          : `${aboutHeaderTop - h + 16}px`,
         left: `${aboutHeaderRef.current.getBoundingClientRect().left - 64 + 32}px`,
         h: h + "px",
-        maxH: "20vh"
+        maxH: "24vh"
       }
     },
   });
@@ -494,7 +494,7 @@ const DishImages = () => {
   );
   const img6Scale = useTransform(
     img6Scroll.scrollYProgress,
-    [0, 1],
+    [0, 0.7],
     [0, 3]
   )
   useAnimationFrame(() => {

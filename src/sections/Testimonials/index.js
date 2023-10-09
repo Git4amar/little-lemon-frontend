@@ -51,7 +51,7 @@ const Testimonials = ({ ...props }) => {
         <Box
             h="100vh"
             overflow="hidden"
-            maxH={{ xl: "900px" }}
+            // maxH={{ xl: "900px" }}
             bg="brand.secondary.peachPuff"
             {...props}
         >

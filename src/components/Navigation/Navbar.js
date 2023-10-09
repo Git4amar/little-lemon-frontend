@@ -14,21 +14,29 @@ const Navbar = ({ darkBg = false, ...props }) => {
             href: "/about",
         },
         {
-            name: "menu",
-            href: "/menu",
+            name: "specials",
+            href: "/specials"
         },
         {
-            name: "reservations",
-            href: "/reservations",
+            name: "testimonials",
+            href: "/testimonials"
         },
-        {
-            name: "order online",
-            href: "/order-online",
-        },
-        {
-            name: "log in",
-            href: "/login",
-        }
+        // {
+        //     name: "menu",
+        //     href: "/menu",
+        // },
+        // {
+        //     name: "reservations",
+        //     href: "/reservations",
+        // },
+        // {
+        //     name: "order online",
+        //     href: "/order-online",
+        // },
+        // {
+        //     name: "log in",
+        //     href: "/login",
+        // }
     ]);
 
     const [activeItem, setActiveItem] = useState("home");
