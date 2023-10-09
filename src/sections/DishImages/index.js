@@ -62,7 +62,7 @@ const DishImages = () => {
         top: `${heroImgBottom + 16}px`,
         right: `calc(100vw - ${heroImgRef.current.getBoundingClientRect().right + 16}px)`,
         h: "18vh",
-        display: viewPortRef.current.height >= 700 ? "block" : "none"
+        display: viewPortRef.current.height >= 740 ? "block" : "none"
       }
     },
     md: () => {
@@ -112,7 +112,7 @@ const DishImages = () => {
         top: `calc(${specialHeaderTop}px - ${h} + 32px)`,
         left: `${heroImgRef.current.getBoundingClientRect().left - 16}px`,
         h: h,
-        display: viewPortRef.current.height >= 700 ? "block" : "none"
+        display: viewPortRef.current.height >= 740 ? "block" : "none"
       }
     },
     md: () => {
@@ -227,32 +227,14 @@ const DishImages = () => {
       const reviewCarouselBottom = reviewCardCarouselRef.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top;
       const h = aboutHeaderTop - reviewCarouselBottom;
       return {
-        top: h > 0.24 * viewPortRef.current.height
-          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height) - 16}px`
+        top: h > 0.2 * viewPortRef.current.height
+          ? `${aboutHeaderTop - (0.2 * viewPortRef.current.height) - 16}px`
           : `${aboutHeaderTop - h + 32}px`,
-        left: `${aboutHeaderRef.current.getBoundingClientRect().left - 64 + 16}px`,
+        left: `${aboutHeaderRef.current.getBoundingClientRect().left - 64 + 32}px`,
         h: h + "px",
-        maxH: "24vh"
+        maxH: "20vh"
       }
     },
-    xl: () => {
-      const aboutHeaderTop = aboutHeaderRef.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      const reviewCarouselBottom = reviewCardCarouselRef.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top;
-      const h = aboutHeaderTop - reviewCarouselBottom;
-      return {
-        top: h > 0.24 * viewPortRef.current.height
-          ? `${aboutHeaderTop - (0.24 * viewPortRef.current.height) - 16}px`
-          : `${aboutHeaderTop - h + 32}px`,
-        boxSize: h + "px",
-        maxH: "24vh",
-        maxW: "24vh",
-        left: viewPortRef.current.width >= 1536
-          ? h > 0.24 * viewPortRef.current.height
-            ? `calc(${aboutHeaderRef.current.getBoundingClientRect().left}px - ${0.24 * viewPortRef.current.height}px)`
-            : `calc(${aboutHeaderRef.current.getBoundingClientRect().left}px - ${h}px)`
-          : `${aboutHeaderRef.current.getBoundingClientRect().left - 64 + 16}px`
-      }
-    }
   });
   const image6Props = useBreakpointValue({
     base: () => {
@@ -267,7 +249,9 @@ const DishImages = () => {
       return {
         top: `${reviewCarouselBottom}px`,
         // right: `calc(100vw - ${onlineMenuBtnRef.current.getBoundingClientRect().right + 64}px)`,
-        left: "calc(50vw - 145px)",
+        left: h > 0.16 * viewPortRef.current.height
+          ? `calc(50vw - ${0.16 * viewPortRef.current.height / 2}px)`
+          : `calc(50vw - ${h / 2}px)`,
         h: h + "px",
         maxH: "16vh",
       }
@@ -428,7 +412,7 @@ const DishImages = () => {
   });
   const img3tX_p1 = useTransform(
     img3Scroll.scrollYProgress,
-    [0, 0.4],
+    [0, 0.3],
     [-viewPortRef.current.width / 4, 0]
   );
   const img3tX_p2 = useTransform(
@@ -443,10 +427,10 @@ const DishImages = () => {
   );
   useAnimationFrame(() => {
     if (!renderState) return;
-    if (img3Scroll.scrollYProgress.current > 0 && img3Scroll.scrollYProgress.current <= 0.4) {
+    if (img3Scroll.scrollYProgress.current > 0 && img3Scroll.scrollYProgress.current <= 0.3) {
       img3Ref.current.firstChild.style.transform = `translate(${img3tX_p1.current}px, 0px) rotateZ(${img3rZ.current}deg)`;
     }
-    else if (img3Scroll.scrollYProgress.current > 0.4 && img3Scroll.scrollYProgress.current < 1) {
+    else if (img3Scroll.scrollYProgress.current > 0.3 && img3Scroll.scrollYProgress.current < 1) {
       img3Ref.current.firstChild.style.transform = `translate(${img3tX_p2.current}px, 0px) rotateZ(${img3rZ.current}deg)`;
     }
   });
@@ -458,12 +442,12 @@ const DishImages = () => {
   });
   const img4tX_p1 = useTransform(
     img4Scroll.scrollYProgress,
-    [0, 0.4],
+    [0, 0.3],
     [viewPortRef.current.width / 4, 0]
   );
   const img4tX_p2 = useTransform(
     img4Scroll.scrollYProgress,
-    [0.6, 1],
+    [0.65, 1],
     [0, viewPortRef.current.width / 4]
   );
   const img4rZ = useTransform(
@@ -473,10 +457,10 @@ const DishImages = () => {
   );
   useAnimationFrame(() => {
     if (!renderState) return;
-    if (img4Scroll.scrollYProgress.current > 0 && img4Scroll.scrollYProgress.current <= 0.4) {
+    if (img4Scroll.scrollYProgress.current > 0 && img4Scroll.scrollYProgress.current <= 0.3) {
       img4Ref.current.firstChild.style.transform = `translate(${img4tX_p1.current}px, 0px) rotateZ(${img4rZ.current}deg)`;
     }
-    else if (img4Scroll.scrollYProgress.current > 0.4 && img4Scroll.scrollYProgress.current < 1) {
+    else if (img4Scroll.scrollYProgress.current > 0.3 && img4Scroll.scrollYProgress.current < 1) {
       img4Ref.current.firstChild.style.transform = `translate(${img4tX_p2.current}px, 0px) rotateZ(${img4rZ.current}deg)`;
     }
   });
@@ -511,7 +495,7 @@ const DishImages = () => {
   const img6Scale = useTransform(
     img6Scroll.scrollYProgress,
     [0, 1],
-    [0, 4]
+    [0, 3]
   )
   useAnimationFrame(() => {
     if (!renderState) return;

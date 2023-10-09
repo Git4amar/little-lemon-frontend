@@ -8,6 +8,13 @@ const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => nu
             ref={ref}
             pos="absolute"
             {...imagePosProps()}
+            maxH={
+                renderState && Object.keys(imagePosProps()).includes("maxH")
+                    ? imagePosProps().maxH > 336
+                        ? "336px"
+                        : imagePosProps().maxH
+                    : "336px"
+            }
         >
             <Image
                 src={imgSrc()}

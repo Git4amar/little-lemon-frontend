@@ -102,7 +102,7 @@ const Hero = ({ handleFormOverlay, ...props }) => {
             {/* Scroll Indicator */}
             <Center
                 pos="absolute"
-                top={{ base: "75vh", md: "80vh", xl: "88vh" }}
+                top={{ base: "75vh" }}
                 w="full"
             >
                 <ScrollIndicator />
