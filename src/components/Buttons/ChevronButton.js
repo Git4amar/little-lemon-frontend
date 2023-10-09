@@ -1,7 +1,6 @@
 import { Box, Center, useMergeRefs } from "@chakra-ui/react";
 import { ReactComponent as ChevronSvg } from "../../assets/icons/chevron.svg"
 import { forwardRef, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 
 const ChevronButton = forwardRef(({
     hexColorCode,
@@ -19,8 +18,6 @@ const ChevronButton = forwardRef(({
 
     return (
         <Center
-            as={motion.button}
-            type="button"
             w={6}
             h={8}
             ref={refs}

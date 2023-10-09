@@ -1,4 +1,4 @@
-import { HStack, Heading, VStack, Box } from "@chakra-ui/react";
+import { HStack, Heading, VStack, Box, Text } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import ChevronButton from "../../components/Buttons/ChevronButton";
 import FormProgressBar from "./FormProgressBar";
@@ -26,7 +26,7 @@ const TableReservation = ({ handleFormOverlay }) => {
                 stepHeading: "let's set up your table"
             },
             formikInitialValues: {
-                numOfGuests: 4,
+                numOfGuests: "",
                 reservationDay: dayjs(todayDate).format("YYYY-MM-DD"),
                 reservationMoment: "",
                 reservationTime: "",
@@ -230,12 +230,27 @@ const TableReservation = ({ handleFormOverlay }) => {
                         </Heading>
                         {/* close btn */}
                         <InFocusGuard>
-                            <ChevronButton
-                                id="form-close-btn"
+                            <HStack
+                                as="button"
+                                // border="1px"
+                                ref={closeBtnRef}
                                 onClick={handleFormOverlay}
                                 aria-label="form close button"
-                                ref={closeBtnRef}
-                            />
+                                id="form-close-btn"
+                                spacing={0}
+                                border="2px"
+                                px={2}
+                                borderRadius="16px"
+                            >
+                                <Text
+                                    fontSize="18px"
+                                    fontWeight={400}
+                                    lineHeight="none"
+                                >
+                                    Close
+                                </Text>
+                                <ChevronButton />
+                            </HStack>
                         </InFocusGuard>
                     </HStack>
 

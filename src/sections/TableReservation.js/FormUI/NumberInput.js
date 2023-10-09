@@ -2,11 +2,11 @@ import { Button, HStack, useNumberInput } from "@chakra-ui/react";
 import InputBox from "./InputBox";
 import { useEffect } from "react";
 
-const NumberInput = ({ step = 1, defaultValue = 4, min = 1, max = 16, formikHelpers, formikMeta, ...props }) => {
+const NumberInput = ({ step = 1, min = 1, max = 16, formikHelpers, formikMeta, ...props }) => {
 
     const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
         step: step,
-        defaultValue: formikMeta.value || defaultValue,
+        defaultValue: formikMeta.value,
         min: min,
         max: max,
     });
