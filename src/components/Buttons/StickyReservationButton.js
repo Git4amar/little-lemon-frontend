@@ -6,46 +6,51 @@ import chakraPropFilter from "../../util/chakraPropFilter";
 
 const StickyReservationButton = ({ ...props }) => {
 
+    const [render, setRender] = useState(false)
+
     const [position, setPosition] = useState({
-        mode: "absolute",
-        top: 0,
-        left: 35
+        pos: "absolute",
+        left: "35px"
     });
 
     const ref = useRef(null);
     const headerH = useRef(null);
     const buttonW = useRef(null);
-    const specialCardCarouselTop = useRef(null);
     useEffect(() => {
-        headerH.current = document.getElementById("regular-header").offsetHeight;
-        specialCardCarouselTop.current = document.getElementById("specials-card-carousel").offsetTop;
-        buttonW.current = ref.current.offsetWidth;
+        headerH.current = document.getElementById("regular-header").getBoundingClientRect().height;
+        const specialCardCarouselTop = document.getElementById("specials-card-carousel").getBoundingClientRect().top
+            - document.body.getBoundingClientRect().top;
+        buttonW.current = ref.current.getBoundingClientRect().width;
         setPosition(prev => {
             return {
                 ...prev,
-                top: specialCardCarouselTop.current + 32 + buttonW.current
+                top: (specialCardCarouselTop + buttonW.current + 32) + "px",
             }
         });
+        setRender(true);
     }, [])
 
     const { scrollY } = useScroll();
 
     const handleStickiness = () => {
-        const carouselTop = document.querySelector("#specials-card-carousel").offsetTop;
-        if (scrollY.current >= carouselTop - headerH.current + 16 && position.mode !== "sticky") {
+        const carouselTop = document.querySelector("#specials-card-carousel").getBoundingClientRect().top
+            - document.body.getBoundingClientRect().top;
+        if (scrollY.current >= carouselTop - headerH.current + 16 && position.pos !== "fixed") {
+            console.log(carouselTop, scrollY.current);
             setPosition(prevState => {
                 return {
                     ...prevState,
-                    mode: "sticky",
-                    top: buttonW.current + headerH.current + 16
+                    pos: "fixed",
+                    top: (headerH.current + 16 + buttonW.current) + "px"
                 }
             })
         }
-        else if (scrollY.current < carouselTop - headerH.current + 16 && position.mode !== "absolute") {
+        else if (scrollY.current < carouselTop - headerH.current + 16 && position.pos !== "absolute") {
+            console.log(carouselTop, scrollY.current);
             setPosition(prevState => {
                 return {
                     ...prevState,
-                    mode: "absolute",
+                    pos: "absolute",
                     top: carouselTop + buttonW.current + 32
                 }
             })
@@ -59,18 +64,16 @@ const StickyReservationButton = ({ ...props }) => {
     return (
         <Box
             ref={ref}
-            transformOrigin="left center"
-            transform="rotateZ(-90deg)"
-            pos={position.mode}
-            top={position.top}
-            left={position.left}
             zIndex="sticky"
             w="max"
-            h={0}
             hideBelow="xl"
+            {...position}
             {...chakraProps}
+            visibility={render ? "visible" : "hidden"}
         >
             <ButtonHoverable
+                transform="rotateZ(-90deg)"
+                transformOrigin="left top"
                 darkBg={false}
                 {...nonChakraProps}
             >

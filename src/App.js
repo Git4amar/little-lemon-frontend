@@ -51,15 +51,15 @@ function App() {
         <MobileFixedNav
           handleFormOverlay={handleFormOverlay}
         />
+        <StickyReservationButton
+          onClick={handleFormOverlay}
+          data-action-to-form="formOpen"
+        />
         <Box
           as="main"
         >
           <Hero
             handleFormOverlay={handleFormOverlay}
-          />
-          <StickyReservationButton
-            onClick={handleFormOverlay}
-            data-action-to-form="formOpen"
           />
           <Specials />
           <Testimonials />
