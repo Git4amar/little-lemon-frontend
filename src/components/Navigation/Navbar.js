@@ -2,13 +2,13 @@ import { Stack } from "@chakra-ui/react";
 import NavItem from "./NavItem";
 import { useState } from 'react';
 
-const Navbar = ({ darkBg = false, ...props }) => {
+const Navbar = ({ darkBg = true, ...props }) => {
 
     const [navMenuItems] = useState([
-        { name: "home", href: "/", },
-        { name: "specials", href: "/specials" },
-        { name: "testimonials", href: "/testimonials" },
-        { name: "about", href: "/about", },
+        { name: "home", href: "#hero-section", },
+        { name: "specials", href: "#specials-section" },
+        { name: "testimonials", href: "#testimonials-section" },
+        { name: "about", href: "#about-section", },
         // {
         //     name: "menu",
         //     href: "/menu",

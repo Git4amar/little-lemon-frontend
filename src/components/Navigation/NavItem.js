@@ -1,9 +1,9 @@
 import { Box, HStack, LinkBox, LinkOverlay, VStack, chakra, shouldForwardProp } from "@chakra-ui/react";
 import { motion, isValidMotionProp, useAnimate } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 
-const NavItem = ({ children, href, isActive, setActiveItem, darkBg = false }) => {
+const NavItem = ({ children, href, isActive, setActiveItem, darkBg = true }) => {
 
     const [scope, animate] = useAnimate();
 
@@ -32,7 +32,10 @@ const NavItem = ({ children, href, isActive, setActiveItem, darkBg = false }) =>
 
     const handleClick = event => {
         event.preventDefault();
-        console.log(event.type, event.target, event.key);
+        const sectionId = event.target.href.split("/").slice(-1)[0];
+        document.querySelector(sectionId).scrollIntoView({
+            behavior: "smooth",
+        });
         setActiveItem(event.target.text.toLowerCase());
     }
 
@@ -53,7 +56,7 @@ const NavItem = ({ children, href, isActive, setActiveItem, darkBg = false }) =>
         shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop)
     })
 
-    const itemsLineColor = darkBg ? "brand.secondary.brightGray" : "brand.primary.green";
+    const itemsLineColor = useRef(darkBg ? "brand.secondary.brightGray" : "brand.primary.green");
 
     return (
         <LinkBox
@@ -67,7 +70,7 @@ const NavItem = ({ children, href, isActive, setActiveItem, darkBg = false }) =>
                     <LineBox
                         className="topline"
                         initial={isActive ? { x: "-16px" } : { x: "-200px" }}
-                        bg={itemsLineColor}
+                        bg={itemsLineColor.current}
                         w="full"
                         h="2px"
                         borderRadius="1px"
@@ -78,7 +81,7 @@ const NavItem = ({ children, href, isActive, setActiveItem, darkBg = false }) =>
                         <LineBox
                             className="leftline"
                             initial={{ y: "20px" }}
-                            bg={itemsLineColor}
+                            bg={itemsLineColor.current}
                             w="2px"
                             h="full"
                             borderRadius="1px"
@@ -98,7 +101,7 @@ const NavItem = ({ children, href, isActive, setActiveItem, darkBg = false }) =>
                         <LineBox
                             className="rightline"
                             initial={{ y: "-20px" }}
-                            bg={itemsLineColor}
+                            bg={itemsLineColor.current}
                             w="2px"
                             h="full"
                             borderRadius="1px"
@@ -109,7 +112,7 @@ const NavItem = ({ children, href, isActive, setActiveItem, darkBg = false }) =>
                     <LineBox
                         className="bottomline"
                         initial={isActive ? { x: "16px", y: "-2px" } : { x: "200px", y: "-2px" }}
-                        bg={itemsLineColor}
+                        bg={itemsLineColor.current}
                         w="full"
                         h="2px"
                         borderRadius="1px"

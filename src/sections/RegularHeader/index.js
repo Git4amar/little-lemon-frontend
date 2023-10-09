@@ -111,7 +111,6 @@ const RegularHeader = ({ ...props }) => {
                         justify={{ md: "space-between", xl: "center" }}
                         px={{ base: "20px", md: "70px" }}
                         py={0.5}
-                        darkBg={true}
                     />
                 </VStack>
             </Center >

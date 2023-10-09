@@ -9,7 +9,7 @@ import convertToTitleCase from "../../util/convertToTitleCase";
 const Footer = ({ ...props }) => {
 
     const navItems = [
-        { name: "home", href: "#" },
+        { name: "home", href: "#hero-section" },
         { name: "specials", href: "#specials-section" },
         { name: "testimonials", href: "#testimonials-section" },
         { name: "about", href: "#about-section" }
@@ -58,6 +58,13 @@ const Footer = ({ ...props }) => {
             behavior: "smooth"
         })
     }
+    const handleClick = event => {
+        event.preventDefault();
+        const sectionId = event.target.href.split("/").slice(-1)[0];
+        document.querySelector(sectionId).scrollIntoView({
+            behavior: "smooth",
+        });
+    }
 
     return (
         <Box
@@ -104,6 +111,7 @@ const Footer = ({ ...props }) => {
                             <Link
                                 onFocus={handleFocus}
                                 href={item.href}
+                                onClick={handleClick}
                             >
                                 {convertToTitleCase(item.name)}
                             </Link>
@@ -113,11 +121,20 @@ const Footer = ({ ...props }) => {
                     </VStack>
 
                     {/* logo */}
-                    <Image
-                        h="156.27px"
-                        src={require("../../assets/logo/logo_v2.png")}
-                        alt="Little Lemon logo"
-                    />
+                    <LinkBox
+                        pos="relative"
+                    >
+                        <LinkOverlay
+                            href={navItems[0].href}
+                            onClick={handleClick}
+                        />
+                        <Image
+                            h="156.27px"
+                            src={require("../../assets/logo/logo_v2.png")}
+                            alt="Little Lemon logo"
+                            fit="scale-down"
+                        />
+                    </LinkBox>
                 </HStack>
 
                 {/* contact stack */}
