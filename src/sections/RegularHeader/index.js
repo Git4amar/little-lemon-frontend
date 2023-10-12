@@ -1,18 +1,23 @@
 import { Center, VStack, Image, Box, useBreakpointValue } from '@chakra-ui/react';
 import Navbar from '../../components/Navigation/Navbar';
-import { motion, useAnimate, useAnimationFrame, useScroll } from "framer-motion";
+import { motion, useAnimate, useAnimationFrame, useScroll, useSpring } from "framer-motion";
 
 
 const RegularHeader = ({ ...props }) => {
 
     const [scope, animate] = useAnimate();
     const { scrollY, scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
     let headerPrevStyle = null;
 
     const animateHeader = useBreakpointValue({
         base: () => { return },
         md: () => {
-            // used animate function as if else will excute only once
+            // used animate function as it will excute only once
             if (scrollY.current <= 20 && headerPrevStyle !== "transparent") {
                 headerPrevStyle = "transparent";
                 animate([
@@ -49,7 +54,8 @@ const RegularHeader = ({ ...props }) => {
                     damping: 20
                 });
             }
-            scope.current.querySelector("#header-scroll-bar").style.width = `${scrollYProgress.current * 100}%`;
+            // scope.current.querySelector("#header-scroll-bar").style.width = `${scrollYProgress.current * 100}%`;
+            // scope.current.querySelector("#header-scroll-bar").style.transform = `ScaleX(${scrollYProgress.current})`;
         }
     }, { ssr: false })
 
@@ -130,8 +136,11 @@ const RegularHeader = ({ ...props }) => {
                     id="header-scroll-bar"
                     as={motion.div}
                     h="full"
-                    initial={{ width: "0" }}
+                    w="full"
+                    // initial={{ width: "0" }}
                     bg="brand.primary.green"
+                    style={{ scaleX }}
+                // transformOrigin="left center"
                 />
             </Box>
         </Box>
