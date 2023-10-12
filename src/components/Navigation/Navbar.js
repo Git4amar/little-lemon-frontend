@@ -3,7 +3,7 @@ import NavItem from "./NavItem";
 import { useState, useEffect, useRef } from 'react';
 import { useAnimationFrame, useScroll } from "framer-motion";
 
-const Navbar = ({ darkBg = true, ...props }) => {
+const Navbar = ({ darkBg = true, scrollActivationLocked = false, setMenuIsOpen = null, ...props }) => {
 
     const [navMenuItems, setNavMenuItems] = useState([
         { name: "home", href: "#hero-section", active: true },
@@ -12,9 +12,10 @@ const Navbar = ({ darkBg = true, ...props }) => {
         { name: "about", href: "#about-section", active: false },
     ]);
 
-    const isScrollActivationLocked = useRef(false);
+    const isScrollActivationLocked = useRef(scrollActivationLocked);
 
     const handleClickActivation = event => {
+        setMenuIsOpen && setMenuIsOpen(false);
         isScrollActivationLocked.current = true;
         event.preventDefault();
         const sectionId = event.target.href.split("/").slice(-1)[0];

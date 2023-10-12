@@ -1,64 +1,47 @@
-import { HStack, VStack, Image } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 import HamburgerMenuIcon from './HamburgerMenuIcon';
 import ButtonRegular from '../../components/Buttons/ButtonRegular';
-import NavBar from "../../components/Navigation/Navbar"
-import { useAnimate, motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import OverlayMenu from './OverlayMenu';
 
 const MobileFixedNav = ({ handleFormOverlay }) => {
 
-    const [overlayMenuScope, animateOverlayMenu] = useAnimate();
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-    const showOverlayMenu = status => {
-        switch (status) {
-            case true:
-                animateOverlayMenu(overlayMenuScope.current, { left: "-20vw" }, {
-                    ease: "easeOut",
-                    duration: 1.74 / 2
-                })
-                break;
-            default:
-                animateOverlayMenu(overlayMenuScope.current, { left: "calc(-1 * 120vw)" }, {
-                    ease: "backIn",
-                    duration: 1.74 / 2
-                })
+    const variants = {
+        hide: {
+            left: "calc(-1 * 120vw)",
+            transition: {
+                ease: "backIn",
+                duration: 1.74 / 4
+            }
+        },
+        show: {
+            left: "-20vw",
+            transition: {
+                ease: "easeOut",
+                duration: 1.74 / 4
+            }
         }
     }
 
     return (
         <>
             {/* overlay menu */}
-            <VStack
-                as={motion.div}
-                border="1px"
-                bg="brand.primary.green"
-                pos="fixed"
-                initial={{ left: "calc(-1 * 120vw)" }}
-                zIndex="sticky"
-                w="120vw"
-                h="100vh"
-                justify={{ md: "center" }}
-                hideFrom="xl"
-                pt={{ base: 10, md: 0 }}
-                pl={"20vw"}
-                ref={overlayMenuScope}
-            >
-                {/* log and nav stack */}
-                <VStack
-                    spacing={{ base: 10, md: 16 }}
-                >
-                    <Image
-                        h="156.27px"
-                        src={require("../../assets/logo/logo_v2.png")}
-                        alt="Little Lemon logo"
+            <AnimatePresence>
+                {menuIsOpen
+                    &&
+                    <OverlayMenu
+                        key="mobile-nav-overlay"
+                        variants={variants}
+                        initial="hide"
+                        animate="show"
+                        exit="hide"
+                        setMenuIsOpen={setMenuIsOpen}
                     />
-                    <NavBar
-                        align="center"
-                        color="brand.secondary.brightGray"
-                        spacing={4}
-                        darkBg={true}
-                    />
-                </VStack>
-            </VStack>
+                }
+            </AnimatePresence>
 
             {/* bottom fixed nav */}
             <HStack
@@ -84,7 +67,9 @@ const MobileFixedNav = ({ handleFormOverlay }) => {
                     Reserve your table
                 </ButtonRegular>
                 <HamburgerMenuIcon
-                    showOverlayMenu={showOverlayMenu}
+                    // showOverlayMenu={showOverlayMenu}
+                    setMenuIsOpen={setMenuIsOpen}
+                    menuIsOpen={menuIsOpen}
                 />
             </HStack>
         </>

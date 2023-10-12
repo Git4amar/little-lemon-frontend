@@ -1,6 +1,6 @@
 import { Box, HStack, LinkBox, LinkOverlay, VStack, chakra, shouldForwardProp } from "@chakra-ui/react";
 import { motion, isValidMotionProp, useAnimate } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 
 const NavItem = ({ children, href, isActive, handleActivation, itemColor = "brand.secondary.brightGray" }) => {

@@ -1,22 +1,16 @@
 import { Box, Center, HStack, VStack } from "@chakra-ui/react";
 import { useAnimate } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const HamburgerMenuIcon = ({ showOverlayMenu }) => {
-
-    const [menuIsOpen, setMenuIsOpen] = useState(false);
-    const handleOverlayMenu = () => {
-        showOverlayMenu(!menuIsOpen);
-        setMenuIsOpen(!menuIsOpen);
-    }
+const HamburgerMenuIcon = ({ setMenuIsOpen, menuIsOpen }) => {
 
     const [scope, animate] = useAnimate();
-    const prevButtonState = useRef(false);
+    const prevOpened = useRef(false);
 
     const hamburgerTransition = {
         ease: [0.9, -0.82, 0.4, 1.4],
-        duration: 0.435 * 2
+        duration: 0.435
     }
 
     const closeButtonAnimation = async () => {
@@ -37,7 +31,7 @@ const HamburgerMenuIcon = ({ showOverlayMenu }) => {
         }, hamburgerTransition);
         await animate(sequence1, hamburgerTransition);
         await animate(sequence2, hamburgerTransition);
-        prevButtonState.current = true;
+        prevOpened.current = true;
     }
 
     const hamburgerAnimation = async () => {
@@ -58,11 +52,11 @@ const HamburgerMenuIcon = ({ showOverlayMenu }) => {
             boxShadow: "0px 0px 0px 0px #333333"
         }, hamburgerTransition);
         await animate(sequence2, hamburgerTransition);
-        prevButtonState.current = false;
+        prevOpened.current = false;
     }
 
     useEffect(() => {
-        menuIsOpen ? closeButtonAnimation() : prevButtonState.current && hamburgerAnimation();
+        menuIsOpen ? closeButtonAnimation() : prevOpened.current && hamburgerAnimation();
     })
 
     return (
@@ -76,7 +70,7 @@ const HamburgerMenuIcon = ({ showOverlayMenu }) => {
                 boxSize={12}
                 borderColor="brand.primary.yellow"
                 borderRadius={"8px"}
-                onClick={handleOverlayMenu}
+                onClick={() => { setMenuIsOpen(!menuIsOpen) }}
                 overflow="hidden"
                 bg={menuIsOpen ? "brand.primary.yellow" : "brand.primary.green"}
                 // boxShadow={"0px 4px 4px 0px #333333"}
