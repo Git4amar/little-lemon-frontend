@@ -13,26 +13,6 @@ const Footer = ({ ...props }) => {
         { name: "specials", href: "#specials-section" },
         { name: "testimonials", href: "#testimonials-section" },
         { name: "about", href: "#about-section" }
-        // {
-        //     name: "about",
-        //     href: "#about-section",
-        // },
-        // {
-        //     name: "menu",
-        //     href: "/menu",
-        // },
-        // {
-        //     name: "reservations",
-        //     href: "/reservations",
-        // },
-        // {
-        //     name: "order online",
-        //     href: "/order-online",
-        // },
-        // {
-        //     name: "log in",
-        //     href: "/login",
-        // }
     ];
 
     const twitterLogoRef = useRef(null);
