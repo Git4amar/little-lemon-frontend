@@ -13,8 +13,9 @@ import MobileFixedNav from './sections/MobileFixedNav';
 import StickyReservationButton from './components/Buttons/StickyReservationButton';
 import TableReservation from './sections/TableReservation.js';
 import { useEffect, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, useAnimationFrame } from 'framer-motion';
 import DishImages from './sections/DishImages';
+import Lenis from "@studio-freight/lenis"
 
 
 function App() {
@@ -38,6 +39,9 @@ function App() {
     // document.querySelector("body").style.overflow = isFormOpen ? "clip" : "visible";
   }, [isFormOpen]);
 
+  const lenis = new Lenis();
+
+  useAnimationFrame((t) => { lenis.raf(t) });
 
   return (
     <ChakraProvider theme={theme}>

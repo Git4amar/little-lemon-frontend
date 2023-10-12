@@ -17,6 +17,9 @@ const FormStepFrame = ({ children, stepDetails, formStatus, setFormStatus, focus
                 h={{ base: "full" }}
                 overflowY="auto"
                 overflowX="hidden"
+                data-lenis-prevent
+                data-lenis-prevent-wheel
+                data-lenis-prevent-touch
                 {...props}
             >
                 <VStack
