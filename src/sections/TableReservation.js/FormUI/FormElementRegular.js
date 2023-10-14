@@ -3,15 +3,15 @@ import FieldLabel from "./FieldLabel";
 import { useField, useFormikContext } from "formik";
 
 
-const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHelperInfoIcon, infoFor, displayDependsOn = null, ...props }) => {
+const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHelperInfoIcon, infoFor, ...props }) => {
 
     const { name, type, id } = props;
 
     const [field, meta, helpers] = useField(name);
 
-    const formikContext = useFormikContext();
+    // const formikContext = useFormikContext();
 
-    props = displayDependsOn ? { ...props, displayDependsOn: displayDependsOn } : props
+    // props = displayDependsOn ? { ...props, displayDependsOn: displayDependsOn } : props
 
     return (
         <FormControl
@@ -21,9 +21,9 @@ const FormElementRegular = ({ inputComponent, label = "Label", isRequired, hasHe
             id={id}
             name={name}
             type={type}
-            display={displayDependsOn
-                ? !formikContext.values[displayDependsOn] || Object.keys(formikContext.errors).includes(displayDependsOn) ? "none" : "block"
-                : "block"}
+        // display={displayDependsOn
+        //     ? !formikContext.values[displayDependsOn] || Object.keys(formikContext.errors).includes(displayDependsOn) ? "none" : "block"
+        //     : "block"}
         >
             <VStack
                 align="start"

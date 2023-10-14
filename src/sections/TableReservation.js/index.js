@@ -96,6 +96,9 @@ const TableReservation = ({ handleFormOverlay }) => {
 
     const formikOnSubmitLogic = (values, formikBag, stepNum) => {
         sessionStorage.setItem(`tableReservationStep${stepNum}`, JSON.stringify(values));
+        if (stepNum === 1) {
+            sessionStorage.setItem("initialTimeOptions", sessionStorage.getItem("availableTimeOptions"));
+        }
         setFormStatus(prev => {
             formStatus.stepsInvalid.delete(stepNum);
             return {

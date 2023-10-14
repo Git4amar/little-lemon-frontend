@@ -1,11 +1,11 @@
-const fetchAPI = (reservationMoment, initialValue) => {
+const fetchAPI = (reservationMoment) => {
 
     //simulate time un-availability by 10% probability
     const probability = Math.floor(Math.random() * 100) + 1;
     let newTimeOptions = null;
-    if (probability > 10) {
+    if (probability > 50) {
         const numOfOptions = Math.floor(Math.random() * (14 - 8 + 1)) + 8;
-        newTimeOptions = initialValue ? [initialValue] : [];
+        newTimeOptions = [];
         const mins = ["00", "15", "30", "45"];
 
         switch (reservationMoment) {

@@ -6,6 +6,7 @@ import NumberInput from "./FormUI/NumberInput"
 import SelectInput from "./FormUI/SelectInput";
 import FormCTAButton from "./FormUI/FormCTAButton";
 import TimeSelectRadioInputGroup from "./FormUI/TimeSelectRadioInputGroup.js/index.js";
+import AvailableTimesFetcher from "./FormUI/AvailableTimesFetcher";
 
 
 const dayjs = require("dayjs")
@@ -30,7 +31,7 @@ const FormStep1 = ({
             validateOnMount={true}
             initialValues={{
                 ...formikInitialValues,
-                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`))
+                ...JSON.parse(sessionStorage.getItem(`tableReservationStep${stepDetails.stepNum}`)),
             }}
             validationSchema={Yup.object({
                 numOfGuests: Yup.string()
@@ -118,7 +119,20 @@ const FormStep1 = ({
                     />
 
                     {/* show available time */}
-                    <FormElementRegular
+                    <AvailableTimesFetcher
+                        renderComponent={(options) => <FormElementRegular
+                            name="reservationTime"
+                            type="radio"
+                            id="reservationTime"
+                            label="Select an available time"
+                            isRequired
+                            inputComponent={inputProps => <TimeSelectRadioInputGroup
+                                {...inputProps}
+                                options={options}
+                            />}
+                        />}
+                    />
+                    {/* <FormElementRegular
                         name="reservationTime"
                         type="radio"
                         id="reservationTime"
@@ -128,7 +142,7 @@ const FormStep1 = ({
                             {...inputProps}
                         />}
                         displayDependsOn="reservationMoment"
-                    />
+                    /> */}
                     <FormCTAButton
                         primary
                         type="submit"
