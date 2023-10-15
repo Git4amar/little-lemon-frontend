@@ -203,6 +203,9 @@ const TableReservation = ({ handleFormOverlay }) => {
             animate="visible"
             exit="hidden"
             variants={variants}
+            data-lenis-prevent
+            data-lenis-prevent-wheel
+            data-lenis-prevent-touch
         >
             {/* Header */}
             <InFocusGuard>
