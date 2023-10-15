@@ -97,20 +97,21 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
             submitAPI(formData)
                 .then(
                     () => {
-                        console.log("Submitted");
                         setFormStatus(prev => {
                             return {
                                 ...prev,
                                 isSubmitting: false,
                                 isSubmitted: true
                             }
-                        })
+                        });
+                        sessionStorage.clear();
                     },
                     (rejectionError) => {
-                        console(rejectionError.message);
+                        console.log(rejectionError.message);
                     }
                 )
         }
+        // eslint-disable-next-line
     }, [formStatus.isSubmitting])
 
     return (
@@ -210,7 +211,6 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                 }
             </FormStepFrame>
         </Box>
-
     )
 }
 

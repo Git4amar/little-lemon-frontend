@@ -8,7 +8,7 @@ import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
 import { useEffect, useState, useRef } from "react";
-import { FocusOn, InFocusGuard } from "react-focus-on";
+import { InFocusGuard } from "react-focus-on";
 
 const dayjs = require("dayjs")
 
