@@ -1,9 +1,9 @@
-import { HStack, Heading } from "@chakra-ui/react";
+import { Box, HStack, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 import FormCTAButton from "./FormUI/FormCTAButton";
 import FormStepFrame from "./FormStepFrame";
 import ReservationReviewItem from "./FormUI/ReservationReviewItem";
 import { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import submitAPI from "../../util/submitAPI";
 
 
 const dayjs = require("dayjs");
@@ -69,6 +69,7 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
     ]
 
     const [formData, setFormData] = useState(null);
+    // const [isSubmitting, setSubmitting] = useState(true);
 
     useEffect(() => {
         formStatus.stepInProgress === 5
@@ -81,78 +82,135 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
             });
     }, [formStatus.stepInProgress])
 
-    return (
-        <Formik>
-            <Form
-                id={`tableReservationStep${stepDetails.stepNum}`}
-                style={{ height: "100%" }}
-                noValidate
-            // method="post"
-            >
-                <FormStepFrame
-                    stepDetails={stepDetails}
-                    formStatus={formStatus}
-                    setFormStatus={setFormStatus}
-                    focusLockShards={focusLockShards}
-                    handleFormOverlay={handleFormOverlay}
-                >
-                    {formData
-                        &&
-                        reviewItems.map(reviewItem => {
-                            let desc = null;
-                            if (reviewItem.item.includes("name")) {
-                                desc = formData[reviewItem.fieldName.split(",")[0].trim()] + " " + formData[reviewItem.fieldName.split(",")[1].trim()]
+    const handleSubmit = e => {
+        e.preventDefault();
+        setFormStatus(prev => {
+            return {
+                ...prev,
+                isSubmitting: true,
+            }
+        })
+    }
+
+    useEffect(() => {
+        if (formStatus.isSubmitting) {
+            submitAPI(formData)
+                .then(
+                    () => {
+                        console.log("Submitted");
+                        setFormStatus(prev => {
+                            return {
+                                ...prev,
+                                isSubmitting: false,
+                                isSubmitted: true
                             }
-                            else if (reviewItem.item.includes("Date")) {
-                                desc = dayjs(formData[reviewItem.fieldName], "YYYY-MM-DD").format("dddd, MMMM D, YYYY")
-                            }
-                            else if (reviewItem.item.includes("Moment")) {
-                                desc = formData[reviewItem.fieldName].split(" ")[0]
-                            }
-                            else {
-                                desc = formData[reviewItem.fieldName]
-                                desc = typeof (desc) === "boolean" ? desc.toString() : desc
-                            }
-                            return desc && <ReservationReviewItem
-                                key={reviewItem.item}
-                                item={reviewItem.item}
-                                desc={desc}
-                                formStepNum={reviewItem.formStepNum}
-                                fieldName={reviewItem.fieldName}
-                                goToPreviousFormStep={goToPreviousFormStep}
-                            />
                         })
+                    },
+                    (rejectionError) => {
+                        console(rejectionError.message);
                     }
-                    {/* reservation price info */}
-                    <Heading
-                        as="h4"
-                        fontSize={{ base: "24px", md: "32px" }}
-                        fontWeight={400}
-                        lineHeight="150%"
-                    >
-                        We'll place a temporary charge of $10.00 on your card. <br />Click reserve to finalize.
-                    </Heading>
-                    {/* CTA button Stack */}
-                    <HStack
-                        w="full"
-                        spacing={4}
-                    >
-                        <FormCTAButton
-                            value={stepDetails.stepNum}
-                            onClick={goToPreviousFormStep}
+                )
+        }
+    }, [formStatus.isSubmitting])
+
+    return (
+        <Box
+            as="form"
+            id={`tableReservationStep${stepDetails.stepNum}`}
+            style={{ height: "100%" }}
+            noValidate
+            onSubmit={handleSubmit}
+        // method="post"
+        >
+            <FormStepFrame
+                stepDetails={stepDetails}
+                formStatus={formStatus}
+                focusLockShards={focusLockShards}
+                handleFormOverlay={handleFormOverlay}
+            >
+                {formData
+                    &&
+                    reviewItems.map(reviewItem => {
+                        let desc = null;
+                        if (reviewItem.item.includes("name")) {
+                            desc = formData[reviewItem.fieldName.split(",")[0].trim()] + " " + formData[reviewItem.fieldName.split(",")[1].trim()]
+                        }
+                        else if (reviewItem.item.includes("Date")) {
+                            desc = dayjs(formData[reviewItem.fieldName], "YYYY-MM-DD").format("dddd, MMMM D, YYYY")
+                        }
+                        else if (reviewItem.item.includes("Moment")) {
+                            desc = formData[reviewItem.fieldName].split(" ")[0]
+                        }
+                        else {
+                            desc = formData[reviewItem.fieldName]
+                            desc = typeof (desc) === "boolean" ? desc.toString() : desc
+                        }
+                        return desc && <ReservationReviewItem
+                            key={reviewItem.item}
+                            item={reviewItem.item}
+                            desc={desc}
+                            formStepNum={reviewItem.formStepNum}
+                            fieldName={reviewItem.fieldName}
+                            goToPreviousFormStep={goToPreviousFormStep}
+                            editable={!formStatus.isSubmitting}
+                        />
+                    })
+                }
+                {/* reservation price info */}
+                <Heading
+                    as="h4"
+                    fontSize={{ base: "24px", md: "32px" }}
+                    fontWeight={400}
+                    lineHeight="150%"
+                >
+                    We'll place a temporary charge of $10.00 on your card.
+                    {
+                        !formStatus.isSubmitting && <><br />Click reserve to finalize.</>
+                    }
+                </Heading>
+                {/* CTA button Stack or submission feedback */}
+                {
+                    formStatus.isSubmitting
+                        ? <VStack
+                            spacing={4}
+                            w="full"
                         >
-                            Previous
-                        </FormCTAButton>
-                        <FormCTAButton
-                            primary
-                        // type="submit"
+                            <Spinner
+                                size="xl"
+                                color="brand.primary.green"
+                                emptyColor="brand.secondary.brightGray"
+                                speed={1.74 / 2 + "s"}
+                                thickness="8px"
+                            />
+                            <Text
+                                fontSize={{ base: "24px", md: "32px" }}
+                                fontWeight={400}
+                                textAlign="center"
+                            >
+                                Please wait while we process and reserve your table.
+                            </Text>
+                        </VStack>
+                        : <HStack
+                            w="full"
+                            spacing={4}
                         >
-                            Reserve
-                        </FormCTAButton>
-                    </HStack>
-                </FormStepFrame>
-            </Form>
-        </Formik>
+                            <FormCTAButton
+                                value={stepDetails.stepNum}
+                                onClick={goToPreviousFormStep}
+                            >
+                                Previous
+                            </FormCTAButton>
+                            <FormCTAButton
+                                primary
+                                type="submit"
+                            >
+                                Reserve
+                            </FormCTAButton>
+                        </HStack>
+                }
+            </FormStepFrame>
+        </Box>
+
     )
 }
 

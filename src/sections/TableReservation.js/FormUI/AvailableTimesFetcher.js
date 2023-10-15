@@ -16,8 +16,6 @@ const AvaiableTimesFetcher = ({ renderComponent }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log("Initial", initialValues);
-        console.log("Current", values);
         if (initialValues.reservationTime
             && values.reservationDay === initialValues.reservationDay
             && values.reservationMoment === initialValues.reservationMoment) {

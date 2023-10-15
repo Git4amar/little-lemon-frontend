@@ -5,6 +5,7 @@ import FormElementRegular from "./FormUI/FormElementRegular";
 import NumberInput from "./FormUI/NumberInput"
 import SelectInput from "./FormUI/SelectInput";
 import FormCTAButton from "./FormUI/FormCTAButton";
+import FormCTAButtonWithFormik from "./FormUI/FormCTAButtonWithFormik";
 import TimeSelectRadioInputGroup from "./FormUI/TimeSelectRadioInputGroup.js/index.js";
 import AvailableTimesFetcher from "./FormUI/AvailableTimesFetcher";
 
@@ -78,7 +79,6 @@ const FormStep1 = ({
                 <FormStepFrame
                     stepDetails={stepDetails}
                     formStatus={formStatus}
-                    setFormStatus={setFormStatus}
                     focusLockShards={focusLockShards}
                     handleFormOverlay={handleFormOverlay}
                 >
@@ -132,34 +132,25 @@ const FormStep1 = ({
                             />}
                         />}
                     />
-                    {/* <FormElementRegular
-                        name="reservationTime"
-                        type="radio"
-                        id="reservationTime"
-                        label="Select an available time"
-                        isRequired
-                        inputComponent={inputProps => <TimeSelectRadioInputGroup
-                            {...inputProps}
-                        />}
-                        displayDependsOn="reservationMoment"
-                    /> */}
-                    <FormCTAButton
+                    <FormCTAButtonWithFormik
                         primary
                         type="submit"
                         formStatus={formStatus}
                         setFormStatus={setFormStatus}
                         stepNum={stepDetails.stepNum}
+                        render={(withProps) => <FormCTAButton {...withProps} />}
                     >
                         {formStatus.stepsInvalid.size === 0 ? "Review" : "Next"}
-                    </FormCTAButton>
-                    <FormCTAButton
+                    </FormCTAButtonWithFormik>
+                    <FormCTAButtonWithFormik
                         type="reset"
                         display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
                         formikInitialValues={formikInitialValues}
                         stepNum={stepDetails.stepNum}
+                        render={(withProps) => <FormCTAButton {...withProps} />}
                     >
                         Reset
-                    </FormCTAButton>
+                    </FormCTAButtonWithFormik>
                 </FormStepFrame>
             </Form>
         </Formik>

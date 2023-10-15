@@ -3,13 +3,13 @@ import FormStepHeading from "./FormStepHeading";
 import { FocusOn } from "react-focus-on";
 
 
-const FormStepFrame = ({ children, stepDetails, formStatus, setFormStatus, focusLockShards, handleFormOverlay, ...props }) => {
+const FormStepFrame = ({ children, stepDetails, formStatus, focusLockShards, handleFormOverlay, ...props }) => {
 
     return (
         <FocusOn
             enabled={formStatus.stepInProgress === stepDetails.stepNum}
             shards={focusLockShards}
-            onEscapeKey={handleFormOverlay}
+            onEscapeKey={!formStatus.isSubmitting && handleFormOverlay}
             style={{ height: "100%" }}
         >
             <Box

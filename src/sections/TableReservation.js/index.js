@@ -8,10 +8,9 @@ import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
 import { useEffect, useState, useRef } from "react";
-import { InFocusGuard } from "react-focus-on";
+import { FocusOn, InFocusGuard } from "react-focus-on";
 
 const dayjs = require("dayjs")
-
 
 const TableReservation = ({ handleFormOverlay }) => {
 
@@ -83,6 +82,8 @@ const TableReservation = ({ handleFormOverlay }) => {
     ]
 
     const [formStatus, setFormStatus] = useState({
+        isSubmitting: false,
+        isSubmitted: false,
         totalNumOfSubForms: 4,
         stepInProgress: parseInt(sessionStorage.getItem("formStepInProgress")) || 1,
         previousStep: 1,
@@ -119,6 +120,7 @@ const TableReservation = ({ handleFormOverlay }) => {
     const [formScope, animateForm] = useAnimate();
 
     useEffect(() => {
+        if (formStatus.isSubmitted) return;
         const viewportWidth = window.innerWidth;
         switch (viewportWidth <= 1280) {
             case true:
@@ -203,36 +205,43 @@ const TableReservation = ({ handleFormOverlay }) => {
             variants={variants}
         >
             {/* Header */}
-            <VStack
-                w="full"
-                bg="brand.primary.green"
-            >
+            <InFocusGuard>
                 <VStack
+                    as={motion.div}
                     w="full"
-                    maxW="container.xl"
-                    as="header"
-                    pt={{ base: 2, md: 4 }}
-                    pb={{ base: 4, md: 8, xl: 4 }}
-                    px={{ base: "20px", md: "70px" }}
-                    color="brand.primary.yellow"
-                    spacing={{ base: 0, md: 4, xl: 2 }}
+                    bg="brand.primary.green"
+                    initial={{ height: "max" }}
+                    animate={{
+                        height: formStatus.isSubmitted
+                            ? "100%"
+                            : "max"
+                    }}
                 >
-                    {/* title & form close button */}
-                    <HStack
+                    <VStack
                         w="full"
-                        justify="space-between"
+                        maxW="container.xl"
+                        as="header"
+                        pt={{ base: 2, md: 4 }}
+                        pb={{ base: 4, md: 8, xl: 4 }}
+                        px={{ base: "20px", md: "70px" }}
+                        color="brand.primary.yellow"
+                        spacing={{ base: 0, md: 4, xl: 2 }}
                     >
-                        {/* heading */}
-                        <Heading
-                            as="h2"
-                            fontSize="40px"
-                            fontWeight={400}
-                            lineHeight="none"
+                        {/* title & form close button */}
+                        <HStack
+                            w="full"
+                            justify="space-between"
                         >
-                            Table Reservation
-                        </Heading>
-                        {/* close btn */}
-                        <InFocusGuard>
+                            {/* heading */}
+                            <Heading
+                                as="h2"
+                                fontSize="40px"
+                                fontWeight={400}
+                                lineHeight="none"
+                            >
+                                Table Reservation
+                            </Heading>
+                            {/* close btn */}
                             <HStack
                                 as="button"
                                 // border="1px"
@@ -244,6 +253,8 @@ const TableReservation = ({ handleFormOverlay }) => {
                                 border="2px"
                                 px={2}
                                 borderRadius="16px"
+                                disabled={formStatus.isSubmitting}
+                                cursor={formStatus.isSubmitting && "not-allowed"}
                             >
                                 <Text
                                     fontSize="18px"
@@ -254,86 +265,94 @@ const TableReservation = ({ handleFormOverlay }) => {
                                 </Text>
                                 <ChevronButton />
                             </HStack>
-                        </InFocusGuard>
-                    </HStack>
+                        </HStack>
 
-                    {/* form progress bar */}
-                    <InFocusGuard>
-                        <FormProgressBar
-                            formStatus={formStatus}
-                            goToPreviousFormStep={goToPreviousFormStep}
-                            stepBtnRefs={[step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
-                        />
-                    </InFocusGuard>
+                        {/* form progress bar */}
+                        {
+                            !formStatus.isSubmitted
+                                ? <InFocusGuard>
+                                    <FormProgressBar
+                                        formStatus={formStatus}
+                                        goToPreviousFormStep={goToPreviousFormStep}
+                                        stepBtnRefs={[step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                                    />
+                                </InFocusGuard>
+                                : null
+                        }
+                    </VStack>
                 </VStack>
-            </VStack>
+            </InFocusGuard>
 
             {/* Form  container*/}
-            <Box
-                w="full"
-                maxW="container.xl"
-                h={{ base: "calc(100% - 111px)", md: "calc(100% - 166px)", xl: "calc(100% - 142px)" }}
-                overflow="hidden"
-            >
-                <HStack
-                    as={motion.div}
-                    id="reservation-form-stack"
-                    w="max"
-                    h={{ base: "full" }}
-                    pos="relative"
-                    spacing={0}
-                    align="start"
-                    ref={formScope}
-                    left={{ base: `${-(formStatus.previousStep - 1) * 100}vw`, xl: `${-(formStatus.previousStep - 1) * 1280}px` }}
-                >
-                    <FormStep1
-                        formStatus={formStatus}
-                        setFormStatus={setFormStatus}
-                        formikOnSubmitLogic={formikOnSubmitLogic}
-                        todayDate={todayDate}
-                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
-                        handleFormOverlay={handleFormOverlay}
-                        {...formSteps[0]}
-                    />
-                    <FormStep2
-                        formStatus={formStatus}
-                        setFormStatus={setFormStatus}
-                        formikOnSubmitLogic={formikOnSubmitLogic}
-                        goToPreviousFormStep={goToPreviousFormStep}
-                        seatingOptions={seatingOptions}
-                        occasionOptions={occasionOptions}
-                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
-                        handleFormOverlay={handleFormOverlay}
-                        {...formSteps[1]}
-                    />
-                    <FormStep3
-                        formStatus={formStatus}
-                        setFormStatus={setFormStatus}
-                        formikOnSubmitLogic={formikOnSubmitLogic}
-                        goToPreviousFormStep={goToPreviousFormStep}
-                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
-                        handleFormOverlay={handleFormOverlay}
-                        {...formSteps[2]}
-                    />
-                    <FormStep4
-                        formStatus={formStatus}
-                        setFormStatus={setFormStatus}
-                        formikOnSubmitLogic={formikOnSubmitLogic}
-                        goToPreviousFormStep={goToPreviousFormStep}
-                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
-                        handleFormOverlay={handleFormOverlay}
-                        {...formSteps[3]}
-                    />
-                    <FormStep5
-                        formStatus={formStatus}
-                        setFormStatus={setFormStatus}
-                        goToPreviousFormStep={goToPreviousFormStep}
-                        focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
-                        handleFormOverlay={handleFormOverlay}
-                        {...formSteps[4]}
-                    />
-                </HStack>
-            </Box>
+            {
+                !formStatus.isSubmitted
+                    ? <Box
+                        w="full"
+                        maxW="container.xl"
+                        h={{ base: "calc(100% - 111px)", md: "calc(100% - 166px)", xl: "calc(100% - 142px)" }}
+                        overflow="hidden"
+                    >
+                        <HStack
+                            as={motion.div}
+                            id="reservation-form-stack"
+                            w="max"
+                            h={{ base: "full" }}
+                            pos="relative"
+                            spacing={0}
+                            align="start"
+                            ref={formScope}
+                            left={{ base: `${-(formStatus.previousStep - 1) * 100}vw`, xl: `${-(formStatus.previousStep - 1) * 1280}px` }}
+                        >
+                            <FormStep1
+                                formStatus={formStatus}
+                                setFormStatus={setFormStatus}
+                                formikOnSubmitLogic={formikOnSubmitLogic}
+                                todayDate={todayDate}
+                                focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                                handleFormOverlay={handleFormOverlay}
+                                {...formSteps[0]}
+                            />
+                            <FormStep2
+                                formStatus={formStatus}
+                                setFormStatus={setFormStatus}
+                                formikOnSubmitLogic={formikOnSubmitLogic}
+                                goToPreviousFormStep={goToPreviousFormStep}
+                                seatingOptions={seatingOptions}
+                                occasionOptions={occasionOptions}
+                                focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                                handleFormOverlay={handleFormOverlay}
+                                {...formSteps[1]}
+                            />
+                            <FormStep3
+                                formStatus={formStatus}
+                                setFormStatus={setFormStatus}
+                                formikOnSubmitLogic={formikOnSubmitLogic}
+                                goToPreviousFormStep={goToPreviousFormStep}
+                                focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                                handleFormOverlay={handleFormOverlay}
+                                {...formSteps[2]}
+                            />
+                            <FormStep4
+                                formStatus={formStatus}
+                                setFormStatus={setFormStatus}
+                                formikOnSubmitLogic={formikOnSubmitLogic}
+                                goToPreviousFormStep={goToPreviousFormStep}
+                                focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                                handleFormOverlay={handleFormOverlay}
+                                {...formSteps[3]}
+                            />
+                            <FormStep5
+                                formStatus={formStatus}
+                                setFormStatus={setFormStatus}
+                                goToPreviousFormStep={goToPreviousFormStep}
+                                focusLockShards={[closeBtnRef, step1BtnRef, step2BtnRef, step3BtnRef, step4BtnRef]}
+                                handleFormOverlay={handleFormOverlay}
+                                {...formSteps[4]}
+                            />
+                        </HStack>
+                    </Box>
+                    : null
+            }
         </VStack >
     )
 }

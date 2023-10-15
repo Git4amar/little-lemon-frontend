@@ -2,7 +2,7 @@ import { HStack, IconButton, Text } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
-const ReservationReviewItem = ({ item, desc, goToPreviousFormStep, formStepNum }) => {
+const ReservationReviewItem = ({ item, desc, goToPreviousFormStep, formStepNum, editable }) => {
     return (
         <HStack
             spacing={1}
@@ -29,16 +29,19 @@ const ReservationReviewItem = ({ item, desc, goToPreviousFormStep, formStepNum }
                 <Text>
                     {desc}
                 </Text>
-                <IconButton
-                    aria-label={`Edit ${item}`}
-                    icon={<FontAwesomeIcon
-                        icon={faPenToSquare}
+                {
+                    editable
+                    &&
+                    <IconButton
+                        aria-label={`Edit ${item}`}
+                        icon={<FontAwesomeIcon
+                            icon={faPenToSquare}
+                        />}
+                        isRound
+                        color="brand.primary.green"
+                        variant="link"
+                        onClick={e => goToPreviousFormStep(e, formStepNum)}
                     />}
-                    isRound
-                    color="brand.primary.green"
-                    variant="link"
-                    onClick={e => goToPreviousFormStep(e, formStepNum)}
-                />
             </HStack>
         </HStack >
     )

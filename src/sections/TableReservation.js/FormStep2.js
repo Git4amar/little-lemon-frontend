@@ -5,6 +5,7 @@ import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
 import { ReactComponent as DisabilityIcon } from "../../assets/icons/disability-accommodation-icon.svg"
 import { HStack, Textarea } from "@chakra-ui/react";
 import FormCTAButton from "./FormUI/FormCTAButton";
+import FormCTAButtonWithFormik from "./FormUI/FormCTAButtonWithFormik";
 import RegularRadioOptionGroup from "./FormUI/RegularRadioOptionGroup";
 import FormElementRegular from "./FormUI/FormElementRegular";
 import SelectInput from "./FormUI/SelectInput";
@@ -50,7 +51,6 @@ const FormStep2 = ({
                 <FormStepFrame
                     stepDetails={stepDetails}
                     formStatus={formStatus}
-                    setFormStatus={setFormStatus}
                     focusLockShards={focusLockShards}
                     handleFormOverlay={handleFormOverlay}
                 >
@@ -111,30 +111,33 @@ const FormStep2 = ({
                         w="full"
                         spacing={4}
                     >
-                        <FormCTAButton
+                        <FormCTAButtonWithFormik
                             value={stepDetails.stepNum}
                             onClick={goToPreviousFormStep}
+                            render={(withProps) => <FormCTAButton {...withProps} />}
                         >
                             Previous
-                        </FormCTAButton>
-                        <FormCTAButton
+                        </FormCTAButtonWithFormik>
+                        <FormCTAButtonWithFormik
                             primary
                             type="submit"
                             formStatus={formStatus}
                             setFormStatus={setFormStatus}
                             stepNum={stepDetails.stepNum}
+                            render={(withProps) => <FormCTAButton {...withProps} />}
                         >
                             {formStatus.stepsInvalid.size === 0 ? "Review" : "Next"}
-                        </FormCTAButton>
+                        </FormCTAButtonWithFormik>
                     </HStack>
-                    <FormCTAButton
+                    <FormCTAButtonWithFormik
                         type="reset"
                         display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
                         formikInitialValues={formikInitialValues}
                         stepNum={stepDetails.stepNum}
+                        render={(withProps) => <FormCTAButton {...withProps} />}
                     >
                         Reset
-                    </FormCTAButton>
+                    </FormCTAButtonWithFormik>
                 </FormStepFrame>
             </Form>
         </Formik >

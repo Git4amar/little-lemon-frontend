@@ -52,7 +52,13 @@ const StepIndicator = forwardRef(({ children,
         <Center
             as={motion.button}
             type="button"
-            cursor={isStepComplete && !isStepInProgress ? "pointer" : "auto"}
+            cursor={
+                isStepComplete && !isStepInProgress
+                    ? props.disabled
+                        ? "not-allowed"
+                        : "pointer"
+                    : "auto"
+            }
             boxShadow={isStepComplete && !isStepInProgress ? "0px 4px 4px 0px #33333380" : null}
             borderRadius="8px"
             className="form-step-indicator"

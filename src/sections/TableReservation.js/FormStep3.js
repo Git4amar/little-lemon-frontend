@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormStepFrame from "./FormStepFrame";
 import FormCTAButton from "./FormUI/FormCTAButton";
+import FormCTAButtonWithFormik from "./FormUI/FormCTAButtonWithFormik";
 import FormElementRegular from "./FormUI/FormElementRegular";
 import InputBox from "./FormUI/InputBox";
 import CheckboxOptionRegular from "./FormUI/CheckboxOptionRegular";
@@ -77,7 +78,6 @@ const FormStep3 = ({
                 <FormStepFrame
                     stepDetails={stepDetails}
                     formStatus={formStatus}
-                    setFormStatus={setFormStatus}
                     focusLockShards={focusLockShards}
                     handleFormOverlay={handleFormOverlay}
                 >
@@ -206,30 +206,33 @@ const FormStep3 = ({
                         w="full"
                         spacing={4}
                     >
-                        <FormCTAButton
+                        <FormCTAButtonWithFormik
                             value={stepDetails.stepNum}
                             onClick={goToPreviousFormStep}
+                            render={(withProps) => <FormCTAButton {...withProps} />}
                         >
                             Previous
-                        </FormCTAButton>
-                        <FormCTAButton
+                        </FormCTAButtonWithFormik>
+                        <FormCTAButtonWithFormik
                             primary
                             type="submit"
                             formStatus={formStatus}
                             setFormStatus={setFormStatus}
                             stepNum={stepDetails.stepNum}
+                            render={(withProps) => <FormCTAButton {...withProps} />}
                         >
                             {formStatus.stepsInvalid.size === 0 ? "Review" : "Next"}
-                        </FormCTAButton>
+                        </FormCTAButtonWithFormik>
                     </HStack>
-                    <FormCTAButton
+                    <FormCTAButtonWithFormik
                         type="reset"
                         display={formStatus.stepsCompleted.size === formStatus.totalNumOfSubForms ? "block" : "none"}
                         formikInitialValues={formikInitialValues}
                         stepNum={stepDetails.stepNum}
+                        render={(withProps) => <FormCTAButton {...withProps} />}
                     >
                         Reset
-                    </FormCTAButton>
+                    </FormCTAButtonWithFormik>
                 </FormStepFrame>
             </Form>
         </Formik>

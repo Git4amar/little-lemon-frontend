@@ -34,6 +34,7 @@ const FormProgressBar = ({ formStatus, goToPreviousFormStep, stepBtnRefs }) => {
                 isStepComplete={formStatus.stepsCompleted.has(step) && !formStatus.stepsInvalid.has(step)}
                 goToPreviousFormStep={goToPreviousFormStep}
                 ref={stepBtnRefs[step - 1]}
+                disabled={formStatus.isSubmitting}
             >
                 {step}
             </StepIndicator>)}
