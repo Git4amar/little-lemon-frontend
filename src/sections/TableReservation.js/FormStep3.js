@@ -119,7 +119,7 @@ const FormStep3 = ({
                     <Stack
                         w="full"
                         spacing={4}
-                        direction={{ xl: "row" }}
+                        direction={{ base: "column", xl: "row" }}
                     >
                         <FormElementRegular
                             label="First name"
@@ -155,7 +155,7 @@ const FormStep3 = ({
                     <Stack
                         w="full"
                         spacing={4}
-                        direction={{ xl: "row" }}
+                        direction={{ base: "column", xl: "row" }}
                     >
                         <FormElementRegular
                             label="Email"
