@@ -7,6 +7,7 @@ import FormStep2 from "./FormStep2";
 import FormStep3 from "./FormStep3";
 import FormStep4 from "./FormStep4";
 import FormStep5 from "./FormStep5";
+import SuccessMessage from "./SuccessMessage";
 import { useEffect, useState, useRef } from "react";
 import { InFocusGuard } from "react-focus-on";
 
@@ -283,6 +284,16 @@ const TableReservation = ({ handleFormOverlay }) => {
                                 : null
                         }
                     </VStack>
+                    {
+                        formStatus.isSubmitted
+                        &&
+                        <SuccessMessage
+                            title="Your table is reserved!"
+                            message="You'll receive a confirmation email  shortly."
+                            focusLockShards={[closeBtnRef]}
+                            handleFormOverlay={handleFormOverlay}
+                        />
+                    }
                 </VStack>
             </InFocusGuard>
 

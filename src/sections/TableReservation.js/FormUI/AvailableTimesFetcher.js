@@ -4,8 +4,6 @@ import fetchAPI from "../../../util/fetchAPI";
 import timeSortingFunction from "../../../util/timeSortingFunction";
 import { HStack, Spinner, Text } from "@chakra-ui/react"
 
-const dayjs = require("dayjs");
-
 const AvaiableTimesFetcher = ({ renderComponent }) => {
 
     const { values, initialValues, setFieldValue } = useFormikContext();
@@ -37,6 +35,7 @@ const AvaiableTimesFetcher = ({ renderComponent }) => {
                 }
             )
         }
+        // eslint-disable-next-line
     }, [reservationMomentValue, reservationDayValue])
 
     return options
