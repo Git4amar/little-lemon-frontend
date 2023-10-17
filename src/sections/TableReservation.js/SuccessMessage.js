@@ -81,7 +81,7 @@ const SuccessMessage = ({ title, message, focusLockShards, handleFormOverlay }) 
                     </Text>
                 </Box>
                 <VStack
-                    w={{ base: "full", xl: "75%" }}
+                    w={{ base: "full", xl: "74%" }}
                     spacing={{ base: 4, md: 8 }}
                 >
                     <Box
@@ -151,12 +151,13 @@ const SuccessMessage = ({ title, message, focusLockShards, handleFormOverlay }) 
                 {/* success message */}
                 <Box
                     overflow="hidden"
+                    // border="1px"
                     py={1}
                 >
                     <Text
                         as={motion.p}
-                        transformOrigin="right bottom"
-                        initial={{ transform: "translateY(-110%) rotateZ(15deg)" }}
+                        transformOrigin="left top"
+                        initial={{ transform: "translateY(-110%) rotateZ(-15deg)" }}
                     >
                         {message}
                     </Text>
