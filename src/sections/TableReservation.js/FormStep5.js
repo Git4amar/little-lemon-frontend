@@ -105,6 +105,10 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                             }
                         });
                         sessionStorage.clear();
+                        sessionStorage.setItem(
+                            "previousTableReservation",
+                            `${formData["reservationDay"]}, ${formData["reservationTime"]}`
+                        );
                     },
                     (rejectionError) => {
                         console.log(rejectionError.message);

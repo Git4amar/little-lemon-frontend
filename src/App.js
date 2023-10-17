@@ -30,7 +30,9 @@ function App() {
       default:
         setIsFormOpen(0);
         // reset form values from session
+        const resevationDetail = sessionStorage.getItem("previousTableReservation");
         sessionStorage.clear();
+        resevationDetail && sessionStorage.setItem("previousTableReservation", resevationDetail);
     }
   }
 

@@ -25,7 +25,7 @@ const AvaiableTimesFetcher = ({ renderComponent }) => {
             setOptions(null);
             setError(null);
             setFieldValue("reservationTime", "");
-            fetchAPI(reservationMomentValue).then(
+            fetchAPI(reservationMomentValue, reservationDayValue).then(
                 (result) => {
                     sessionStorage.setItem("availableTimeOptions", JSON.stringify(result));
                     setOptions(timeSortingFunction(result));

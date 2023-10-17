@@ -1,4 +1,4 @@
-const fetchAPI = (reservationMoment) => {
+const fetchAPI = (reservationMoment, reservationDay) => {
 
     //simulate time un-availability by 20% probability
     const probability = Math.floor(Math.random() * 100) + 1;
@@ -40,6 +40,23 @@ const fetchAPI = (reservationMoment) => {
                         newTimeOptions.push(newOption);
                     }
                 }
+        }
+    }
+
+    const dayjs = require("dayjs");
+    dayjs.extend(require("dayjs/plugin/customParseFormat"));
+
+    if (sessionStorage.getItem("previousTableReservation") && newTimeOptions) {
+        const prevReservation = dayjs(sessionStorage.getItem("previousTableReservation"), "YYYY-MM-DD, h:mm a");
+        const prevReservationDay = sessionStorage.getItem("previousTableReservation").split(",")[0];
+        const prevReservationTime = sessionStorage.getItem("previousTableReservation").split(",")[1];
+        if (prevReservationDay === reservationDay) {
+            if (reservationMoment === "Breakfast") {
+                newTimeOptions = newTimeOptions.filter(option => option !== prevReservationTime);
+            }
+            else {
+                newTimeOptions = newTimeOptions.filter(option => option !== dayjs(prevReservation).format("H:mm"));
+            }
         }
     }
 
