@@ -1,5 +1,5 @@
-import { Box, HStack, LinkBox, LinkOverlay, VStack, chakra, shouldForwardProp } from "@chakra-ui/react";
-import { motion, isValidMotionProp, useAnimate } from "framer-motion";
+import { Box, HStack, LinkBox, LinkOverlay, VStack } from "@chakra-ui/react";
+import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
 
 
@@ -10,72 +10,70 @@ const NavItem = ({ children, href, isActive, handleActivation, itemColor = "bran
     const animationTransition = { type: "spring", damping: 15 }
 
     const handleHover = event => {
-        const mouseOverSequence = [
-            [".topline", { x: "-16px" }],
-            [".bottomline", { x: "16px" }, { at: "<" }],
-        ]
-
-        const mouseOutSequence = [
-            [".topline", { x: "-200px" }],
-            [".bottomline", { x: "200px" }, { at: "<" }],
-        ]
-
         switch (event.type) {
-            case "mouseover":
+            case "pointerenter":
             case "focus":
-                animate(mouseOverSequence, animationTransition);
+                animate(".item-top-line, .item-bottom-line", { transform: "scaleX(0.8)" }, animationTransition)
                 break;
             default:
-                animate(mouseOutSequence, animationTransition);
+                animate(".item-top-line, .item-bottom-line", { transform: "scaleX(0)" })
+        }
+    }
+
+    const handleAnimation = async () => {
+        if (isActive) {
+            await animate(".item-top-line, .item-bottom-line", { transform: "scaleX(1)" })
+            await animate(".item-right-line, .item-left-line", { transform: "scaleY(1)" })
+        }
+        else {
+            await animate(".item-right-line, .item-left-line", { transform: "scaleY(0)" })
+            await animate(".item-top-line, .item-bottom-line", { transform: "scaleX(0)" })
         }
     }
 
     useEffect(() => {
-        if (isActive) {
-            const itemTransition = {
-                ease: [1, -1.1, 0.08, 1.14]
-            }
-            const itemActivationAfterAnimation = async () => {
-                await animate(".topline, .bottomline", { x: "0px" }, itemTransition);
-                await animate(".leftline, .rightline", { y: "0px" }, itemTransition);
-            }
-            itemActivationAfterAnimation();
-        }
-    })
-
-    const LineBox = chakra(motion.div, {
-        shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop)
-    })
+        handleAnimation();
+        // eslint-disable-next-line
+    }, [isActive])
 
     return (
         <LinkBox
             w="max"
-            onMouseOver={!isActive ? handleHover : null}
-            onMouseOut={!isActive ? handleHover : null}
+            onPointerEnter={!isActive ? handleHover : null}
+            onPointerLeave={!isActive ? handleHover : null}
             onClick={handleActivation}
         >
-            <VStack spacing={0} overflow="hidden" ref={scope}>
-                <Box w="full" h={0} >
-                    <LineBox
-                        className="topline"
-                        initial={isActive ? { x: "-16px" } : { x: "-200px" }}
+            <VStack
+                spacing={0}
+                ref={scope}
+            >
+                <Box
+                    bg={itemColor}
+                    h="2px"
+                    borderRadius="1px"
+                    w="full"
+                    as={motion.div}
+                    transformOrigin="left center"
+                    initial={{ transform: "scaleX(0)" }}
+                    className="item-top-line"
+                />
+                <HStack
+                    spacing={1}
+                    h="24px"
+                >
+                    <Box
                         bg={itemColor}
-                        w="full"
-                        h="2px"
+                        w="2px"
+                        h="calc(100% - 4px)"
                         borderRadius="1px"
+                        pos="relative"
+                        bottom="-3px"
+                        visibility={isActive ? "visible" : "hidden"}
+                        as={motion.div}
+                        transformOrigin="center bottom"
+                        initial={{ transform: "scaleY(0)" }}
+                        className="item-left-line"
                     />
-                </Box>
-                <HStack h="26px" spacing={1}>
-                    <Box h="full" pt={2}>
-                        <LineBox
-                            className="leftline"
-                            initial={{ y: "20px" }}
-                            bg={itemColor}
-                            w="2px"
-                            h="full"
-                            borderRadius="1px"
-                        />
-                    </Box>
                     <LinkOverlay
                         fontWeight="medium"
                         lineHeight="none"
@@ -86,27 +84,30 @@ const NavItem = ({ children, href, isActive, handleActivation, itemColor = "bran
                     >
                         {children}
                     </LinkOverlay>
-                    <Box h="full" pb={2}>
-                        <LineBox
-                            className="rightline"
-                            initial={{ y: "-20px" }}
-                            bg={itemColor}
-                            w="2px"
-                            h="full"
-                            borderRadius="1px"
-                        />
-                    </Box>
-                </HStack>
-                <Box w="full" h={0}>
-                    <LineBox
-                        className="bottomline"
-                        initial={isActive ? { x: "16px", y: "-2px" } : { x: "200px", y: "-2px" }}
+                    <Box
                         bg={itemColor}
-                        w="full"
-                        h="2px"
+                        w="2px"
+                        h="calc(100% - 4px)"
                         borderRadius="1px"
+                        pos="relative"
+                        top="-3px"
+                        visibility={isActive ? "visible" : "hidden"}
+                        as={motion.div}
+                        transformOrigin="center top"
+                        initial={{ transform: "scaleY(0)" }}
+                        className="item-right-line"
                     />
-                </Box>
+                </HStack>
+                <Box
+                    bg={itemColor}
+                    h="2px"
+                    borderRadius="1px"
+                    w="full"
+                    as={motion.div}
+                    transformOrigin="right center"
+                    initial={{ transform: "scaleX(0)" }}
+                    className="item-bottom-line"
+                />
             </VStack>
         </LinkBox>
     )
