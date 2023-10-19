@@ -185,7 +185,7 @@ const FormStep5 = ({ stepDetails, formStatus, setFormStatus, goToPreviousFormSte
                                 color="brand.primary.green"
                                 emptyColor="brand.secondary.brightGray"
                                 speed={1.74 / 2 + "s"}
-                                thickness="8px"
+                                thickness="4px"
                             />
                             <Text
                                 fontSize={{ base: "24px", md: "32px" }}

@@ -251,7 +251,6 @@ const TableReservation = ({ handleFormOverlay }) => {
                                 // border="1px"
                                 ref={closeBtnRef}
                                 onClick={handleFormOverlay}
-                                aria-label="form close button"
                                 id="form-close-btn"
                                 spacing={0}
                                 border="2px"
@@ -259,6 +258,8 @@ const TableReservation = ({ handleFormOverlay }) => {
                                 borderRadius="16px"
                                 disabled={formStatus.isSubmitting}
                                 cursor={formStatus.isSubmitting && "not-allowed"}
+                                aria-labelledby="Close Table Reservation"
+                                role="button"
                             >
                                 <Text
                                     fontSize="18px"
