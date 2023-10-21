@@ -1,11 +1,4 @@
 # Little Lemon Restaurant - Responsive Web Application
 
-## Client's business concern
+[Figma Design Prototype](https://www.figma.com/proto/375JaMjhDIKRdLSqr3V7nN/Little-Lemon-Web-App?page-id=648%3A483&type=design&node-id=648-3076&viewport=1019%2C436%2C0.09&t=nj017ydHDpZ4dr9I-1&scaling=scale-down&starting-point-node-id=648%3A3076&mode=design)
 
-The owners of Little Lemon have learned that their customers are frustrated, that they can't easily reserve a table on their website. They want to resolve this issue so that they can plan staff and supplies, not solely rely on walk-ins, and give their diners a great experience.
-
-## My Role in resolving Little Lemon's concerns
-
-### Step 1
-
-I start helping the owners of Little Lemon achieve this goal by applying the principles of UX UI, user experience and user interface, to the current website's functionality for reserving a table.
