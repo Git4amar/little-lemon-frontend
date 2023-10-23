@@ -1,6 +1,6 @@
 # Little Lemon Restaurant - Design and Development Project
 
-[TO DO github pages deployment link]
+[Deployed Website](https://git4amar.github.io/little-lemon-frontend)
 ## Client's business needs
 
 The owners of Little Lemon want a responsive web application with a Table Reservation (Call to Action) feature. In addition, they want to include special dishes, customer testimonials, and a brief introduction.
@@ -23,9 +23,9 @@ Developed the website's front-end functionality using the following technologies
 - HTML5
 - CSS3
 - JavaScript (ES6)
-- Node.js
-- JSX
 - React
+- JSX
+- Node.js
 - [Chakra UI](https://chakra-ui.com/)
 - [Formik (in conjuction with Yup)](https://formik.org/) for Client-side validation
 - [Framer Motion](https://www.framer.com/motion/) for micro-interactions and animations

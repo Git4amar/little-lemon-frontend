@@ -1,4 +1,5 @@
 {
+  "homepage": "https://git4amar.github.io/little-lemon-frontend",
   "name": "little-lemon-table-reservation",
   "version": "0.1.0",
   "private": true,
@@ -23,6 +24,7 @@
     "email-validator": "^2.0.4",
     "formik": "^2.4.3",
     "framer-motion": "^10.15.1",
+    "gh-pages": "^6.0.0",
     "libphonenumber-js": "^1.10.44",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
@@ -34,6 +36,8 @@
     "yup": "^1.2.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
