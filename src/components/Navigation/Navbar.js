@@ -18,7 +18,7 @@ const Navbar = ({ darkBg = true, scrollActivationLocked = false, setMenuIsOpen =
         setMenuIsOpen && setMenuIsOpen(false);
         isScrollActivationLocked.current = true;
         event.preventDefault();
-        const sectionId = event.target.href.split("/").slice(-1)[0];
+        const sectionId = event.target.getAttribute("href");
         document.querySelector(sectionId).scrollIntoView({
             behavior: "smooth",
         });
