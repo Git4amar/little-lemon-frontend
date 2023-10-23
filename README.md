@@ -34,4 +34,4 @@ Developed the website's front-end functionality using the following technologies
 Next Steps (pending):
 - Architect a simple solution to supprt website's back-end functionality on Cloud (preferrably AWS)
 - Design schemas and setup a database
-- Devlope and implement back-end code
+- Devlop and implement back-end code
