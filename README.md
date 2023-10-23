@@ -1,6 +1,8 @@
 # Little Lemon Restaurant - Design and Development Project
 
 [Deployed Website](https://git4amar.github.io/little-lemon-frontend)
+
+Note: Website uses client-side validation of credit cards. Use a card-number from [https://developers.bluesnap.com/reference/test-credit-cards](https://developers.bluesnap.com/reference/test-credit-cards) to simulate one, and test functionality.
 ## Client's business needs
 
 The owners of Little Lemon want a responsive web application with a Table Reservation (Call to Action) feature. In addition, they want to include special dishes, customer testimonials, and a brief introduction.
