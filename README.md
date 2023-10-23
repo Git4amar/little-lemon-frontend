@@ -5,7 +5,7 @@
 
 The owners of Little Lemon want a responsive web application with a Table Reservation (Call to Action) feature. In addition, they want to include special dishes, customer testimonials, and a brief introduction.
 
-## Development Lifecycle
+## Project
 
 ### Design
 Wireframed, designed and prototyped the website in Figma.
