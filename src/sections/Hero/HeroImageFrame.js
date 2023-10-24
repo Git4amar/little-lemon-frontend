@@ -33,7 +33,7 @@ const HeroImageFrame = forwardRef((props, ref) => {
                     h="full"
                     borderRadius="16px"
                     style={{ backfaceVisibility: "hidden" }}
-                    src={require("../../assets/images/restaurant/restaurant.jpg")}
+                    src={require("../../assets/images/restaurant/restaurant.webp")}
                     fit="cover"
                     alt="Restaurtant's image"
                 />
@@ -45,7 +45,7 @@ const HeroImageFrame = forwardRef((props, ref) => {
                     borderRadius="16px"
                     style={{ backfaceVisibility: "hidden" }}
                     transform={"rotateX(180deg)"}
-                    src={require("../../assets/images/restaurant/restaurantfood.jpg")}
+                    src={require("../../assets/images/restaurant/restaurantfood.webp")}
                     fit="cover"
                     alt="Restaurtant's food image"
                     boxShadow="16px 16px 8px 0px #333333B3"

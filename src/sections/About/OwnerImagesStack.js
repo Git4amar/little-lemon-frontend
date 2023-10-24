@@ -64,7 +64,7 @@ const OwnerImagesStack = forwardRef(({ ...props }, ref) => {
         >
             {/* image 1 */}
             <OwnerImageFrame
-                src={() => require("../../assets/images/restaurant/owner-image-A.jpg")}
+                src={() => require("../../assets/images/restaurant/owner-image-A.webp")}
                 alt={"An image of Adrian and Mario"}
                 ratio={9 / 16}
                 justify="end"
@@ -74,7 +74,7 @@ const OwnerImagesStack = forwardRef(({ ...props }, ref) => {
             {/* image 2 */}
             <OwnerImageFrame
                 ref={scope}
-                src={() => require("../../assets/images/restaurant/owner-image-C.jpg")}
+                src={() => require("../../assets/images/restaurant/owner-image-C.webp")}
                 alt={"An image of Adrian and Mario"}
                 ratio={9 / 24}
                 align={{ base: "47% 0px", md: "47% 0px", xl: "47% 0px" }}
@@ -84,7 +84,7 @@ const OwnerImagesStack = forwardRef(({ ...props }, ref) => {
             />
             {/* image 3 */}
             <OwnerImageFrame
-                src={() => require("../../assets/images/restaurant/owner-image-B.jpg")}
+                src={() => require("../../assets/images/restaurant/owner-image-B.webp")}
                 alt={"An image of Adrian and Mario"}
                 ratio={9 / 16}
                 align="70% top"

@@ -118,7 +118,7 @@ const SuccessMessage = ({ title, message, focusLockShards, handleFormOverlay }) 
                             <Image
                                 as={motion.img}
                                 alt="Image for a successful Table Reservation"
-                                src={require("../../assets/images/success-img.jpg")}
+                                src={require("../../assets/images/misc/success-img.webp")}
                                 fit="scale-down"
                                 borderRadius="16px"
                                 initial={{ transform: "scale(0)" }}

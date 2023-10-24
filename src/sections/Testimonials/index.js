@@ -11,37 +11,37 @@ const Testimonials = ({ ...props }) => {
     const testimonials = [
         {
             reviewer: "Colleen",
-            imgSrc: () => require("../../assets/testimonial-customers/colleen.png"),
+            imgSrc: () => require("../../assets/images/customers/colleen.webp"),
             rating: 5,
             review: "I visited this restaurant in Chicago recently and it was amazing! The food was delicious and the service was outstanding. I highly recommend it for anyone looking for a great dining experience in the Windy City!"
         },
         {
             reviewer: "Serenity",
-            imgSrc: () => require("../../assets/testimonial-customers/serenity.png"),
+            imgSrc: () => require("../../assets/images/customers/serenity.webp"),
             rating: 4,
             review: "This restaurant was great! The food was delicious and the service was friendly. I would definitely recommend it to anyone looking for a great dining experience."
         },
         {
             reviewer: "Jacob",
-            imgSrc: () => require("../../assets/testimonial-customers/jacob.png"),
+            imgSrc: () => require("../../assets/images/customers/jacob.webp"),
             rating: 5,
             review: "I had an amazing experience at this restaurant - the food was delicious and the service was outstanding! I highly recommend it."
         },
         {
             reviewer: "Courtney",
-            imgSrc: () => require("../../assets/testimonial-customers/courtney.png"),
+            imgSrc: () => require("../../assets/images/customers/courtney.webp"),
             rating: 3,
             review: "I would definitely recommend it to anyone looking for a delicious Mediterranean meal in the city"
         },
         {
             reviewer: "Cody",
-            imgSrc: () => require("../../assets/testimonial-customers/cody.png"),
+            imgSrc: () => require("../../assets/images/customers/cody.webp"),
             rating: 5,
             review: "This Mediterranean restaurant in Chicago is a must-visit! The food is fresh and flavorful, and the atmosphere is warm and inviting. I highly recommend it!"
         },
         {
             reviewer: "James",
-            imgSrc: () => require("../../assets/testimonial-customers/james.png"),
+            imgSrc: () => require("../../assets/images/customers/james.webp"),
             rating: 4,
             review: "Great Mediterranean food and amazing atmosphere! I highly recommend this restaurant!"
         },

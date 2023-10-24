@@ -14,31 +14,43 @@ const Specials = ({ ...props }) => {
         {
             title: "Greek Salad",
             price: "$ 12.99",
-            imgSrc: () => require("../../assets/images/specials/greek-salad.jpg"),
+            imgSrc: useBreakpointValue({
+                base: () => require("../../assets/images/specials/mobile/greek-salad.webp"),
+                md: () => require("../../assets/images/specials/greek-salad.webp")
+            }),
             desc: "Our salad is made with fresh tomatoes, cucumber, feta cheese, olives, and a homemade Greek dressing. It's the perfect light meal to enjoy any time of the day."
         },
         {
             title: "Bruschetta",
             price: "$ 5.99",
-            imgSrc: () => require("../../assets/images/specials/bruschetta.png"),
+            imgSrc: useBreakpointValue({
+                base: () => require("../../assets/images/specials/mobile/bruschetta.webp"),
+                md: () => require("../../assets/images/specials/bruschetta.webp")
+            }),
             desc: "Treat yourself to the most delicious Bruschetta in town! Our Bruschetta is made with fresh tomatoes, basil, and garlic, topped with olive oil and Parmesan cheese."
         },
         {
             title: "Lemon Dessert",
             price: "$ 5.00",
-            imgSrc: () => require("../../assets/images/specials/lemon-dessert.jpg"),
+            imgSrc: () => require("../../assets/images/specials/lemon-dessert.webp"),
             desc: "Buttery graham cracker crust that is filled with a zesty lemon custard. The top of the dessert is finished with a sweetened whipped cream and lemon zest for a bright and flavorful finish."
         },
         {
             title: "Lamb Chops",
             price: "$ 15.99",
-            imgSrc: () => require("../../assets/images/specials/lamb-chops.jpeg"),
+            imgSrc: useBreakpointValue({
+                base: () => require("../../assets/images/specials/mobile/lamb-chops.webp"),
+                md: () => require("../../assets/images/specials/lamb-chops.webp")
+            }),
             desc: "Treat yourself to the ultimate dining experience with our delicious lamb chops! Our succulent, juicy chops are made with the finest ingredients and cooked to perfection."
         },
         {
             title: "Mushroom Pitas",
             price: "$ 10.95",
-            imgSrc: () => require("../../assets/images/specials/mushroom-pitas.jpeg"),
+            imgSrc: useBreakpointValue({
+                base: () => require("../../assets/images/specials/mobile/mushroom-pitas.webp"),
+                md: () => require("../../assets/images/specials/mushroom-pitas.webp")
+            }),
             desc: "Our freshly-baked pita bread is stuffed with your choice of sautéed mushrooms, feta cheese, and a medley of herbs and spices. Enjoy a tasty and healthy meal that is packed with flavor."
         },
     ]

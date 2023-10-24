@@ -12,9 +12,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@lottiefiles/lottie-interactivity": "^1.6.2",
-    "@lottiefiles/lottie-player": "^2.0.2",
-    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@studio-freight/lenis": "^1.0.26",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -62,6 +59,8 @@
     ]
   },
   "devDependencies": {
+    "imagemin": "^8.0.1",
+    "imagemin-webp": "^8.0.0",
     "jest-canvas-mock": "^2.5.2",
     "jest-localstorage-mock": "^2.4.26"
   },

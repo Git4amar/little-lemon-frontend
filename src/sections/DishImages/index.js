@@ -527,61 +527,61 @@ const DishImages = () => {
       <DishImageBox
         imagePosProps={renderState ? image1Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_1.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_1.webp")}
         ref={img1Ref}
       />
       <DishImageBox
         imagePosProps={renderState ? image1bProps : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_1b.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_1b.webp")}
         ref={img1bRef}
       />
       <DishImageBox
         imagePosProps={renderState ? image2Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_2.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_2.webp")}
         ref={img2Ref}
         transform={renderState ? `translate(${img2tX.current}px, ${img2tY.current}px) rotateZ(${img2rZ.current}deg)` : null}
       />
       <DishImageBox
         imagePosProps={renderState ? image2bProps : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_2b.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_2b.webp")}
         ref={img2bRef}
         transform={renderState ? `translate(${img2btX.current}px, ${img2btY.current}px) rotateZ(${img2brZ.current}deg)` : null}
       />
       <DishImageBox
         imagePosProps={renderState ? image3Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_3.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_3.webp")}
         ref={img3Ref}
         transform={`translate(${img3tX_p1.current}px, 0px) rotateZ(${img3rZ.current}deg)`}
       />
       <DishImageBox
         imagePosProps={renderState ? image4Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_4.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_4.webp")}
         ref={img4Ref}
         transform={`translate(${img4tX_p1.current}px, 0px) rotateZ(${img4rZ.current}deg)`}
       />
       <DishImageBox
         imagePosProps={renderState ? image5Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_5.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_5.webp")}
         ref={img5Ref}
         transform={`rotateZ(${img5rZ.current}deg)`}
       />
       <DishImageBox
         imagePosProps={renderState ? image6Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_6.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_6.webp")}
         ref={img6Ref}
         transform={`translateY(${img6tY.current}px) scale(${img6Scale.current})`}
       />
       <DishImageBox
         imagePosProps={renderState ? image7Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/dish-images/dish_7.png")}
+        imgSrc={() => require("../../assets/images/dishes/dish_7.webp")}
         ref={img7Ref}
       />
     </>
