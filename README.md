@@ -29,7 +29,7 @@ Developed the website's front-end functionality using the following technologies
 - JSX
 - Node.js
 - [Chakra UI](https://chakra-ui.com/)
-- [Formik (in conjuction with Yup)](https://formik.org/) for Client-side validation
+- [Formik (in conjunction with Yup)](https://formik.org/) for Client-side validation
 - [Framer Motion](https://www.framer.com/motion/) for micro-interactions and animations
 - [LottieFiles](https://lottiefiles.com/)
 
