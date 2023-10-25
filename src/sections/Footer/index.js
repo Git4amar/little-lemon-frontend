@@ -40,7 +40,8 @@ const Footer = ({ ...props }) => {
     }
     const handleClick = event => {
         event.preventDefault();
-        const sectionId = event.target.href.split("/").slice(-1)[0];
+        // const sectionId = event.target.href.split("/").slice(-1)[0];
+        const sectionId = event.target.getAttribute("href");
         document.querySelector(sectionId).scrollIntoView({
             behavior: "smooth",
         });
