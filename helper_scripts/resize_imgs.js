@@ -2,7 +2,7 @@ import imagemin from 'imagemin';
 import imageminWebp from 'imagemin-webp';
 
 const imagesToResize = [
-    // mobile versions
+    // mobile version specials dishes
     {
         name: "greek-salad",
         path: "images/compressed/specials/greek-salad.webp",
@@ -28,7 +28,7 @@ const imagesToResize = [
         destination: "images/compressed/specials/mobile/"
     },
 
-    // desktop versions
+    // desktop versions restaurant images
     {
         name: "owner-image-A",
         path: "images/compressed/restaurant/owner-image-A.webp",
@@ -55,10 +55,72 @@ const imagesToResize = [
     },
     {
         name: "restaurantfood",
-        path: "src/assets/images/restaurant/restaurantfood.webp",
+        path: "images/compressed/restaurant/restaurantfood.webp",
         resizeTo: { width: 466, height: 704 },
         destination: "images/compressed/restaurant/"
     },
+    {
+        name: "restaurantfood",
+        path: "images/compressed/restaurant/restaurantfood.webp",
+        resizeTo: { width: 466, height: 704 },
+        destination: "images/compressed/restaurant/"
+    },
+
+    // desktop verions dishes images
+    // {
+    //     name: "dish_1",
+    //     path: "images/compressed/dishes/dish_1.webp",
+    //     resizeTo: { width: 256, height: 229 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_1b",
+    //     path: "images/compressed/dishes/dish_1b.webp",
+    //     resizeTo: { width: 256, height: 190 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_2",
+    //     path: "images/compressed/dishes/dish_2.webp",
+    //     resizeTo: { width: 840, height: 777 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_2b",
+    //     path: "images/compressed/dishes/dish_2b.webp",
+    //     resizeTo: { width: 810, height: 839 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_3",
+    //     path: "images/compressed/dishes/dish_3.webp",
+    //     resizeTo: { width: 392, height: 392 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_4",
+    //     path: "images/compressed/dishes/dish_4.webp",
+    //     resizeTo: { width: 632, height: 632 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_5",
+    //     path: "images/compressed/dishes/dish_5.webp",
+    //     resizeTo: { width: 359, height: 345 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_6",
+    //     path: "images/compressed/dishes/dish_6.webp",
+    //     resizeTo: { width: 256, height: 167 },
+    //     destination: "images/compressed/dishes/"
+    // },
+    // {
+    //     name: "dish_7",
+    //     path: "images/compressed/dishes/dish_7.webp",
+    //     resizeTo: { width: 128, height: 128 },
+    //     destination: "images/compressed/dishes/"
+    // },
 ]
 
 const resizeImages = async () => {

@@ -1,7 +1,12 @@
 import { forwardRef } from "react";
 import { Center, Image } from "@chakra-ui/react";
 
-const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => null, ...props }, ref) => {
+const DishImageBox = forwardRef(({ imgSrc, renderState, srcSet, imagePosProps = () => null, ...props }, ref) => {
+
+    // useEffect(() => {
+    //     if (!renderState || imagePosProps().display === "none") return;
+    //     console.log(ref.current, imagePosProps().h);
+    // });
 
     return (
         <Center
@@ -20,6 +25,7 @@ const DishImageBox = forwardRef(({ imgSrc, renderState, imagePosProps = () => nu
                 src={imgSrc()}
                 alt="An image of a dish"
                 h="full"
+                w="full"
                 fit="scale-down"
                 display={renderState ? "block" : "none"}
                 {...props}

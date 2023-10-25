@@ -81,7 +81,7 @@ function App() {
           </AnimatePresence>
         </Box>
         {/* extra dish images */}
-        <DishImages />
+        {/* <DishImages /> */}
       </Box>
       <Footer />
     </ChakraProvider>

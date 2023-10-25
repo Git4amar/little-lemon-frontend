@@ -359,13 +359,13 @@ const DishImages = () => {
   const img2tX = useTransform(
     img2Scroll.scrollYProgress,
     [0, 1],
-    [viewPortRef.current.width / 8, -viewPortRef.current.width / 16],
+    [viewPortRef.current.width / 8, -viewPortRef.current.width / 32],
     { ease: easeInOut }
   );
   const img2tY = useTransform(
     img2Scroll.scrollYProgress,
     [0, 1],
-    [-viewPortRef.current.height / 16, viewPortRef.current.height / 16],
+    [-viewPortRef.current.height / 16, viewPortRef.current.height / 32],
     { ease: easeInOut }
   );
   useAnimationFrame(() => {
@@ -389,13 +389,13 @@ const DishImages = () => {
   const img2btX = useTransform(
     img2bScroll.scrollYProgress,
     [0, 1],
-    [-viewPortRef.current.width / 8, viewPortRef.current.width / 16],
+    [-viewPortRef.current.width / 8, viewPortRef.current.width / 32],
     { ease: easeInOut }
   );
   const img2btY = useTransform(
     img2bScroll.scrollYProgress,
     [0, 1],
-    [-viewPortRef.current.height / 16, viewPortRef.current.height / 16],
+    [-viewPortRef.current.height / 16, viewPortRef.current.height / 32],
     { ease: easeInOut }
   );
   useAnimationFrame(() => {
@@ -527,7 +527,7 @@ const DishImages = () => {
       <DishImageBox
         imagePosProps={renderState ? image1Props : () => null}
         renderState={renderState}
-        imgSrc={() => require("../../assets/images/dishes/dish_1.webp")}
+        imgSrc={() => require("../../assets/images/dishes/dish_1_1340w.webp")}
         ref={img1Ref}
       />
       <DishImageBox
