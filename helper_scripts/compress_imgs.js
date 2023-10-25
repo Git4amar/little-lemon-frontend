@@ -3,7 +3,6 @@ import imageminWebp from 'imagemin-webp';
 
 const imageCategories = [
     "customers",
-    "dishes",
     "misc",
     "restaurant",
     "specials"

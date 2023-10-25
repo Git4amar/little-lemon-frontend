@@ -13,15 +13,11 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@studio-freight/lenis": "^1.0.26",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "credit-card-validator": "^1.0.8",
     "dayjs": "^1.11.9",
     "email-validator": "^2.0.4",
     "formik": "^2.4.3",
     "framer-motion": "^10.15.1",
-    "gh-pages": "^6.0.0",
     "libphonenumber-js": "^1.10.44",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
@@ -62,7 +58,11 @@
     "imagemin": "^8.0.1",
     "imagemin-webp": "^8.0.0",
     "jest-canvas-mock": "^2.5.2",
-    "jest-localstorage-mock": "^2.4.26"
+    "jest-localstorage-mock": "^2.4.26",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "gh-pages": "^6.0.0"
   },
   "jest": {
     "resetMocks": false

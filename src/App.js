@@ -14,7 +14,7 @@ import StickyReservationButton from './components/Buttons/StickyReservationButto
 import TableReservation from './sections/TableReservation.js';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, useAnimationFrame } from 'framer-motion';
-import DishImages from './sections/DishImages';
+// import DishImages from './sections/DishImages';
 import Lenis from "@studio-freight/lenis"
 
 
