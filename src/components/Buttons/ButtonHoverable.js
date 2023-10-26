@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { motion, useAnimate } from "framer-motion";
 import chakraPropFilter from "../../util/chakraPropFilter";
 
-const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
+const ButtonHoverable = ({ children, darkBg = true, mixers, ...props }) => {
 
     const [scope, animate] = useAnimate();
 
@@ -18,7 +18,11 @@ const ButtonHoverable = ({ children, darkBg = true, ...props }) => {
     ]
 
     const handleHover = async (e) => {
-        // console.log(e.target, e.type);
+        if (mixers) {
+            for (let mixer of mixers) {
+                mixer(e);
+            }
+        }
         if (e.type === "pointerenter" || e.type === "focus") {
             darkBg && animate(".buttonHoverBg", { visibility: "visible" })
             await animate(hoverEnterSequence, { ease: "easeInOut", duration: 0.435 });

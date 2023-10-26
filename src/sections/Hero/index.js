@@ -57,7 +57,7 @@ const Hero = ({ handleFormOverlay, ...props }) => {
     const [scope, animate] = useAnimate();
 
     const handleHeroPicFlip = async (e) => {
-        if (e.type === "mouseenter" || e.type === "focus") {
+        if (e.type === "pointerenter" || e.type === "focus") {
             animate(
                 "#heroPicflipBoxInner",
                 { transform: "rotateX(180deg) translate(-60%, 65%) scale(0.8)" },
@@ -202,10 +202,11 @@ const Hero = ({ handleFormOverlay, ...props }) => {
                             Reserve your table
                         </ButtonRegular>,
                         xl: <ButtonHoverable
-                            onMouseEnter={handleHeroPicFlip}
-                            onMouseLeave={handleHeroPicFlip}
-                            onFocus={handleHeroPicFlip}
-                            onBlur={handleHeroPicFlip}
+                            mixers={[handleHeroPicFlip]}
+                            // onMouseEnter={handleHeroPicFlip}
+                            // onMouseLeave={handleHeroPicFlip}
+                            // onFocus={handleHeroPicFlip}
+                            // onBlur={handleHeroPicFlip}
                             w="full"
                             onClick={handleFormOverlay}
                             data-action-to-form="formOpen"
