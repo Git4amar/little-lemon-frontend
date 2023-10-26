@@ -41,12 +41,14 @@ const OrderDelivery = () => {
             onFocus={handleOrderFocus}
             onTouchStart={handleOrderFocus}
             onBlur={handleOrderFocus}
+            onTouchCancel={handleOrderFocus}
             onTouchEnd={handleOrderFocus}
             onMouseEnter={handleOrderFocus}
             onMouseLeave={handleOrderFocus}
             tabIndex={0}
             className="deliveryStack"
             ref={scope}
+            pb={1}
         >
             <Text
                 fontSize="18px"

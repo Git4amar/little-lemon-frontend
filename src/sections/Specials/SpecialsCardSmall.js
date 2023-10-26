@@ -13,7 +13,7 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
             [".touchGesture", { opacity: 0 }, { at: "<" }],
             [".imageMask", { opacity: 0.8 }, { at: "<" }],
             [".dishImage", { transform: "scale(1.1)" }, { at: "<" }],
-            [scope.current, { boxShadow: "0" }, { at: "<" }]
+            // [scope.current, { boxShadow: "0" }, { at: "<" }]
         ]
 
         const imgBlurSeq = [
@@ -21,7 +21,7 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
             [".dishDesc", { bottom: "-50px" }, { at: "<" }],
             [".imageMask, .dishDesc", { opacity: 0 }, { at: "<" }],
             [".touchGesture", { opacity: 1 }, { at: "-0.2" }],
-            [scope.current, { boxShadow: "0px 4px 4px 0px #33333380" }, { at: "<" }]
+            // [scope.current, { boxShadow: "0px 4px 4px 0px #33333380" }, { at: "<" }]
         ]
 
         if (e.type === "touchstart" || e.type === "focus") {
@@ -106,7 +106,7 @@ const SpecialsCardSmall = ({ title, desc, price, imgSrc }) => {
                         pos="relative"
                         bottom="-50px"
                         initial={{ opacity: 0 }}
-                        className="dishDesc"
+                        className="dishDesc prevent-text-select"
                     >
                         {desc}
                     </Text>

@@ -87,6 +87,7 @@ const Hero = ({ handleFormOverlay, ...props }) => {
             pos="relative"
             ref={heroBgScope}
             bg="brand.secondary.brightGray"
+            maxH={{ base: 568, md: 1133, xl: "896px" }}
             {...props}
         >
             {/* Hero Section BG */}
@@ -102,7 +103,7 @@ const Hero = ({ handleFormOverlay, ...props }) => {
             {/* Scroll Indicator */}
             <Center
                 pos="absolute"
-                top={{ base: "75vh" }}
+                top={{ base: "90%", md: "80%", xl: "85%" }}
                 w="full"
             >
                 <ScrollIndicator />
