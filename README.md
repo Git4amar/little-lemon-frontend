@@ -5,7 +5,7 @@
 Note: Website uses client-side validation of credit cards. Use a card-number from [https://developers.bluesnap.com/reference/test-credit-cards](https://developers.bluesnap.com/reference/test-credit-cards) to simulate one, and test functionality.
 ## Client's business needs
 
-The owners of Little Lemon want a responsive web application with a Table Reservation (Call to Action) feature. In addition, they want to include special dishes, customer testimonials, and a brief introduction.
+The owners of Little Lemon want a responsive web application with a Table Reservation (Call to Action) feature. In addition, they want to include sections for special dishes, customer testimonials, and a brief introduction.
 
 ## Project
 
@@ -34,6 +34,6 @@ Developed the website's front-end functionality using the following technologies
 - [LottieFiles](https://lottiefiles.com/)
 
 Next Steps (pending):
-- Architect a simple solution to supprt website's back-end functionality on Cloud (preferrably AWS)
+- Architect a simple solution to support website's back-end functionality on Cloud (preferrably AWS)
 - Design schemas and setup a database
-- Devlop and implement back-end code
+- Develop and implement back-end code
