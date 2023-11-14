@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/little-lemon-frontend/static/css/main.e2f41533.css",
-    "main.js": "/little-lemon-frontend/static/js/main.21d38f33.js",
+    "main.css": "/little-lemon-frontend/static/css/main.aefb06b2.css",
+    "main.js": "/little-lemon-frontend/static/js/main.db387af0.js",
     "static/js/787.ac67da0b.chunk.js": "/little-lemon-frontend/static/js/787.ac67da0b.chunk.js",
     "static/media/greek-salad.webp": "/little-lemon-frontend/static/media/greek-salad.05b247fbd72bd009fe12.webp",
     "static/media/success-img.webp": "/little-lemon-frontend/static/media/success-img.517d47303d39b144926e.webp",
@@ -34,12 +34,12 @@
     "static/media/star-liked.svg": "/little-lemon-frontend/static/media/star-liked.25645205a63ddac331bced10fbd0eaa9.svg",
     "static/media/label-helper-info-hover.svg": "/little-lemon-frontend/static/media/label-helper-info-hover.9cc0da0843a7d64cd43ebf532261521f.svg",
     "static/media/occasion.svg": "/little-lemon-frontend/static/media/occasion.35586c884c4e277ecaca0237a01a4869.svg",
-    "main.e2f41533.css.map": "/little-lemon-frontend/static/css/main.e2f41533.css.map",
-    "main.21d38f33.js.map": "/little-lemon-frontend/static/js/main.21d38f33.js.map",
+    "main.aefb06b2.css.map": "/little-lemon-frontend/static/css/main.aefb06b2.css.map",
+    "main.db387af0.js.map": "/little-lemon-frontend/static/js/main.db387af0.js.map",
     "787.ac67da0b.chunk.js.map": "/little-lemon-frontend/static/js/787.ac67da0b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e2f41533.css",
-    "static/js/main.21d38f33.js"
+    "static/css/main.aefb06b2.css",
+    "static/js/main.db387af0.js"
   ]
 }
